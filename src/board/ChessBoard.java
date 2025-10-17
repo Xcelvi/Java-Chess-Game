@@ -1,5 +1,7 @@
 package board;
 
+import java.util.Arrays;
+
 public class ChessBoard {
     private String[][] board = new  String[8][8];
 
@@ -10,7 +12,8 @@ public class ChessBoard {
     private void initializeBoard() {
         // initialize pawns
         for (int i = 0; i < 8; i++){
-            board[i][1] = "P";
+            board[1][i] = "P";
+            board[6][i] = "P";
         }
         //initialize rooks
         board[0][0] = board[0][7] = "R";
@@ -27,5 +30,30 @@ public class ChessBoard {
         // initialize king
         board[0][4] = "K";
         board[7][4] = "K";
+        // fill empty squares
+
+        for (int i = 2; i < 6; i++){
+            for (int j = 0; j < 8; j++){
+                board[i][j] = "-";
+            }
+        }
+    }
+
+
+
+    public void printBoard() {
+        for (int i = 0; i < 8; i++){
+            for (int j = 0; j < 8; j++){
+                System.out.print(board[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "ChessBoard{" +
+                "board=" + Arrays.toString(board) +
+                '}';
     }
 }

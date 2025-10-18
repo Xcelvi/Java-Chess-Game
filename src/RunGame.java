@@ -4,9 +4,10 @@ import java.util.Scanner;
 
 public class RunGame {
     public static void main(String[] args) {
+
+        //Initializes and prints the chess board, and begins the game
         ChessBoard board = new ChessBoard();
         board.initializeBoard();
-        board.printBoard();
 
         Scanner sc = new Scanner(System.in);
         do {
@@ -29,6 +30,7 @@ public class RunGame {
         } while (true);
     }
 
+    // Below is taking user inputs and converting it into usable row / columns in my 2d array
     private static int rowInput(String rowInput) {
         int rowValue = -1;
         switch (rowInput) {

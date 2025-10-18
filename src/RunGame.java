@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class RunGame {
     public static void main(String[] args) {
         ChessBoard board = new ChessBoard();
+        board.initializeBoard();
         board.printBoard();
 
         Scanner sc = new Scanner(System.in);
@@ -17,14 +18,14 @@ public class RunGame {
 
             String pieceRowString = move.charAt(0) + "";
             int pieceRow = rowInput(pieceRowString);
-            int pieceColumn = Integer.parseInt(move.charAt(1) + "");
-            System.out.println("Piece row " + pieceRow + " Piece column " + pieceColumn + "\n");
+            int pieceColumn = colInput(move.charAt(1) + "");
+
 
             String moveRowString = move.charAt(3) + "";
             int moveRow = rowInput(moveRowString);
-            int movenColumn = Integer.parseInt(move.charAt(4) + "");
-            System.out.println("Move row " + moveRow + " Move column " + movenColumn);
-
+            int movenColumn = colInput(move.charAt(4) + "");
+            System.out.println("PieceRow: " + pieceRow + " PieceColumn: " + pieceColumn + " Move: " + moveRow + " Move: " + movenColumn);
+            board.movePiece(pieceColumn, pieceRow, movenColumn, moveRow);
         } while (true);
     }
 
@@ -44,6 +45,24 @@ public class RunGame {
                 break;
         }
         return rowValue;
+    }
+    private static int colInput(String colInput) {
+        int colValue  = Integer.parseInt(colInput);
+        switch (colValue) {
+            case 8 : colValue = 0; break;
+            case 7 : colValue = 1; break;
+            case 6 : colValue = 2; break;
+            case 5 : colValue = 3; break;
+            case 4 :
+                break;
+            case 3 : colValue = 5; break;
+            case 2 : colValue = 6; break;
+            case 1 : colValue = 7; break;
+            default:
+                System.out.println("Invalid input");
+                break;
+        }
+        return colValue;
     }
 
 

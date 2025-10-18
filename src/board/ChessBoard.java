@@ -4,12 +4,15 @@ import java.util.Arrays;
 
 public class ChessBoard {
     private String[][] board = new  String[8][8];
+    private int rowPiece;
+    private int colPiece;
+    private int rowLocation;
+    private int colLocation;
 
     public ChessBoard() {
-        initializeBoard();
     }
 
-    private void initializeBoard() {
+    public void initializeBoard() {
         // initialize pawns
         for (int i = 0; i < 8; i++){
             board[1][i] = "P";
@@ -39,7 +42,14 @@ public class ChessBoard {
         }
     }
 
+    public void movePiece(int rowPiece, int colPiece, int rowLocation, int colLocation) {
+        System.out.println("Which piece:" + board[rowPiece][colPiece]);
+        System.out.println("Piece in location:" + board[rowLocation][colLocation]);
+        board[rowLocation][colLocation] = board[rowPiece][colPiece];
 
+        System.out.println("Updated:" + board[rowPiece][colPiece]);
+        printBoard();
+    }
 
     public void printBoard() {
         for (int i = 0; i < 8; i++){

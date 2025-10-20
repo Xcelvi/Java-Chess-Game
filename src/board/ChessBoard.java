@@ -5,8 +5,7 @@ import java.util.Arrays;
 public class ChessBoard {
     private String[][] board = new  String[8][8];
 
-    public ChessBoard() {
-    }
+
     //loops over to initialize entire chess board
     public void initializeBoard() {
         // initialize pawns
@@ -48,13 +47,17 @@ public class ChessBoard {
         printBoard();
     }
 
-    public void printBoard() {
+    protected void printBoard() {
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
                 System.out.print(board[i][j] + " ");
             }
             System.out.println();
         }
+    }
+
+    public String[][] getBoard() {
+        return board;
     }
 
     @Override

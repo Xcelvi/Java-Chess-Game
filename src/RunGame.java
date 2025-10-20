@@ -1,4 +1,6 @@
 import board.ChessBoard;
+import pieces.Pieces;
+import pieces.white.WhitePawn;
 
 import java.util.Scanner;
 

@@ -43,17 +43,13 @@ public class ChessBoard {
     public void movePiece(int colPiece, int rowPiece, int colLocation, int rowLocation) {
         String pieceName = board[rowPiece][colPiece];
         Pieces piece = Pieces.getPiece(pieceName, colPiece, rowPiece);
-        System.out.println("Piece row " + rowPiece);
-        System.out.println("Piece col " + colPiece);
-        System.out.println("Piece rowLocation " + rowLocation);
-        System.out.println("Piece colLocation " + colLocation);
         if (piece.isValidMove(colLocation, rowLocation)) {
-            System.out.println("Which piece:" + board[rowPiece][colPiece]);
-            System.out.println("Piece in location:" + board[rowLocation][colLocation]);
+            System.out.println();
+            System.out.println();
             board[rowLocation][colLocation] = board[rowPiece][colPiece];
             board[rowPiece][colPiece] = "-";
         } else{
-            System.out.println("Invalid move, please try again" + " Net move: " + (rowPiece - rowLocation));
+            System.out.println("Invalid move, please try again");
         }
         printBoard();
     }

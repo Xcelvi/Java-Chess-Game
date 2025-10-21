@@ -22,7 +22,6 @@ public class WhitePawn extends Pieces {
         }if (rowLocation - targetRow == 1){
                     return true;
                 } else {
-            System.out.println("Row loc " + rowLocation + " Row dest " + targetRow);
             return false;
         }
     }

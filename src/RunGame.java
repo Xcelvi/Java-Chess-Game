@@ -24,10 +24,6 @@ public class RunGame {
 
             int moveRow = rowInput(move.charAt(4) + "");
             int movenColumn = colInput(move.charAt(3) + "");
-            System.out.println("piece row " + pieceRow);
-            System.out.println("piece col " + pieceColumn);
-            System.out.println("move row " + moveRow);
-            System.out.println("move col " + movenColumn);
             board.movePiece(pieceColumn, pieceRow, movenColumn, moveRow);
         } while (true);
     }

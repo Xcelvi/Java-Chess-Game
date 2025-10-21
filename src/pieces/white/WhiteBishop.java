@@ -3,12 +3,17 @@ package pieces.white;
 import pieces.Pieces;
 
 public class WhiteBishop extends Pieces {
-    private void moveWhiteBishop(){
+    int row;
+    int col;
 
+    public WhiteBishop(int row, int col) {
+        super(row, col);
     }
 
+
+
     @Override
-    public boolean isValidMove(int pieceRow, int pieceCol, int targetRow, int targetCol, String pieceType){
+    public boolean isValidMove(int targetRow, int targetCol){
         return true;
     }
 }

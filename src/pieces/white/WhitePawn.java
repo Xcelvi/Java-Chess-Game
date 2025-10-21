@@ -3,12 +3,27 @@ package pieces.white;
 import pieces.Pieces;
 
 public class WhitePawn extends Pieces {
-    private void moveWhitePawn(){
-
+    public WhitePawn(int col, int row) {
+        super(col, row);
     }
 
+
     @Override
-    public boolean isValidMove(int pieceRow, int pieceCol, int targetRow, int targetCol, String pieceType){
-        return true;
+    public boolean isValidMove(int targetCol, int targetRow) {
+        int colLocation = getCol();
+        int rowLocation = getRow();
+
+        if (rowLocation == 6){
+            if (colLocation - targetCol == 0){
+                if (rowLocation - targetRow == 1 || rowLocation - targetRow == 2){
+                    return true;
+                }
+            }
+        }if (rowLocation - targetRow == 1){
+                    return true;
+                } else {
+            System.out.println("Row loc " + rowLocation + " Row dest " + targetRow);
+            return false;
+        }
     }
 }

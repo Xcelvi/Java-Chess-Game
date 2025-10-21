@@ -1,5 +1,7 @@
 package board;
 
+import pieces.Pieces;
+
 import java.util.Arrays;
 
 public class ChessBoard {
@@ -10,8 +12,8 @@ public class ChessBoard {
     public void initializeBoard() {
         // initialize pawns
         for (int i = 0; i < 8; i++){
-            board[1][i] = "P";
-            board[6][i] = "P";
+            board[1][i] = "BlackPawn";
+            board[6][i] = "WhitePawn";
         }
         //initialize rooks
         board[0][0] = board[0][7] = "R";
@@ -38,12 +40,21 @@ public class ChessBoard {
         printBoard();
     }
     //takes input and updates the chess board
-    public void movePiece(int rowPiece, int colPiece, int rowLocation, int colLocation) {
-        System.out.println("Which piece:" + board[rowPiece][colPiece]);
-        System.out.println("Piece in location:" + board[rowLocation][colLocation]);
-        board[rowLocation][colLocation] = board[rowPiece][colPiece];
-
-        System.out.println("Updated:" + board[rowPiece][colPiece]);
+    public void movePiece(int colPiece, int rowPiece, int colLocation, int rowLocation) {
+        String pieceName = board[rowPiece][colPiece];
+        Pieces piece = Pieces.getPiece(pieceName, colPiece, rowPiece);
+        System.out.println("Piece row " + rowPiece);
+        System.out.println("Piece col " + colPiece);
+        System.out.println("Piece rowLocation " + rowLocation);
+        System.out.println("Piece colLocation " + colLocation);
+        if (piece.isValidMove(colLocation, rowLocation)) {
+            System.out.println("Which piece:" + board[rowPiece][colPiece]);
+            System.out.println("Piece in location:" + board[rowLocation][colLocation]);
+            board[rowLocation][colLocation] = board[rowPiece][colPiece];
+            board[rowPiece][colPiece] = "-";
+        } else{
+            System.out.println("Invalid move, please try again" + " Net move: " + (rowPiece - rowLocation));
+        }
         printBoard();
     }
 

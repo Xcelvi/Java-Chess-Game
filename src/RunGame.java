@@ -19,54 +19,54 @@ public class RunGame {
                 break;
             }
 
-            String pieceRowString = move.charAt(0) + "";
-            int pieceRow = rowInput(pieceRowString);
-            int pieceColumn = colInput(move.charAt(1) + "");
+            int pieceRow = rowInput(move.charAt(1) + "");
+            int pieceColumn = colInput(move.charAt(0) + "");
 
-
-            String moveRowString = move.charAt(3) + "";
-            int moveRow = rowInput(moveRowString);
-            int movenColumn = colInput(move.charAt(4) + "");
-            System.out.println("PieceRow: " + pieceRow + " PieceColumn: " + pieceColumn + " Move: " + moveRow + " Move: " + movenColumn);
+            int moveRow = rowInput(move.charAt(4) + "");
+            int movenColumn = colInput(move.charAt(3) + "");
+            System.out.println("piece row " + pieceRow);
+            System.out.println("piece col " + pieceColumn);
+            System.out.println("move row " + moveRow);
+            System.out.println("move col " + movenColumn);
             board.movePiece(pieceColumn, pieceRow, movenColumn, moveRow);
         } while (true);
     }
 
     // Below is taking user inputs and converting it into usable row / columns in my 2d array
-    private static int rowInput(String rowInput) {
-        int rowValue = -1;
-        switch (rowInput) {
-            case "A" : rowValue = 0; break;
-            case "B" : rowValue = 1; break;
-            case "C" : rowValue = 2; break;
-            case "D" : rowValue = 3; break;
-            case "E" : rowValue = 4; break;
-            case "F" : rowValue = 5; break;
-            case "G" : rowValue = 6; break;
-            case "H" : rowValue = 7; break;
-            default:
-                System.out.println("Invalid input");
-                break;
-        }
-        return rowValue;
-    }
     private static int colInput(String colInput) {
-        int colValue  = Integer.parseInt(colInput);
-        switch (colValue) {
-            case 8 : colValue = 0; break;
-            case 7 : colValue = 1; break;
-            case 6 : colValue = 2; break;
-            case 5 : colValue = 3; break;
-            case 4 :
-                break;
-            case 3 : colValue = 5; break;
-            case 2 : colValue = 6; break;
-            case 1 : colValue = 7; break;
+        int colValue = -1;
+        switch (colInput) {
+            case "A" : colValue = 0; break;
+            case "B" : colValue = 1; break;
+            case "C" : colValue = 2; break;
+            case "D" : colValue = 3; break;
+            case "E" : colValue = 4; break;
+            case "F" : colValue = 5; break;
+            case "G" : colValue = 6; break;
+            case "H" : colValue = 7; break;
             default:
                 System.out.println("Invalid input");
                 break;
         }
         return colValue;
+    }
+    private static int rowInput(String rowInput) {
+        int rowValue  = Integer.parseInt(rowInput);
+        switch (rowValue) {
+            case 8 : rowValue = 0; break;
+            case 7 : rowValue = 1; break;
+            case 6 : rowValue = 2; break;
+            case 5 : rowValue = 3; break;
+            case 4 :
+                break;
+            case 3 : rowValue = 5; break;
+            case 2 : rowValue = 6; break;
+            case 1 : rowValue = 7; break;
+            default:
+                System.out.println("Invalid input");
+                break;
+        }
+        return rowValue;
     }
 
 

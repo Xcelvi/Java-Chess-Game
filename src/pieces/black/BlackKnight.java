@@ -2,8 +2,8 @@ package pieces.black;
 
 import pieces.Pieces;
 
-public class BlackBishop extends Pieces {
-    public BlackBishop(int col, int row) {
+public class BlackKnight extends Pieces {
+    public BlackKnight(int col, int row) {
         super(col, row);
     }
 

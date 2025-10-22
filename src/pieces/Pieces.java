@@ -1,7 +1,7 @@
 package pieces;
 
-import pieces.white.WhiteBishop;
-import pieces.white.WhitePawn;
+import pieces.black.*;
+import pieces.white.*;
 
 public abstract class Pieces {
     private int col;
@@ -16,6 +16,16 @@ public abstract class Pieces {
         return switch (pieceName){
             case "WhitePawn" -> new  WhitePawn(col, row);
             case "WhiteBishop" -> new WhiteBishop(col, row);
+            case "WhiteRook" -> new WhiteRook(col, row);
+            case "WhiteKing" -> new WhiteKing(col, row);
+            case "WhiteQueen" -> new WhiteQueen(col, row);
+            case "WhiteKnight" -> new WhiteKnight(col, row);
+            case "BlackPawn" -> new BlackPawn(col, row);
+            case "BlackBishop" -> new BlackBishop(col, row);
+            case "BlackRook" -> new BlackRook(col, row);
+            case "BlackKing" -> new BlackKing(col, row);
+            case "BlackQueen" -> new BlackQueen(col, row);
+            case "BlackKnight" -> new BlackKnight(col, row);
             default -> throw new IllegalStateException("Unexpected value: " + pieceName);
         };
     }

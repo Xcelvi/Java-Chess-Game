@@ -19,10 +19,7 @@ public class WhitePawn extends Pieces {
                     return true;
                 }
             }
-        }if (rowLocation - targetRow == 1){
-                    return true;
-                } else {
-            return false;
         }
+        return rowLocation - targetRow == 1;
     }
 }

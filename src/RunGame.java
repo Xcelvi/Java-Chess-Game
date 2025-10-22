@@ -18,13 +18,16 @@ public class RunGame {
             if (move.equals("end")) {
                 break;
             }
+            try {
+                int pieceRow = rowInput(move.charAt(1) + "");
+                int pieceColumn = colInput(move.charAt(0) + "");
 
-            int pieceRow = rowInput(move.charAt(1) + "");
-            int pieceColumn = colInput(move.charAt(0) + "");
-
-            int moveRow = rowInput(move.charAt(4) + "");
-            int movenColumn = colInput(move.charAt(3) + "");
-            board.movePiece(pieceColumn, pieceRow, movenColumn, moveRow);
+                int moveRow = rowInput(move.charAt(4) + "");
+                int movenColumn = colInput(move.charAt(3) + "");
+                board.movePiece(pieceColumn, pieceRow, movenColumn, moveRow);
+            } finally{
+                continue;
+            }
         } while (true);
     }
 

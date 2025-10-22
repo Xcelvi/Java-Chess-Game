@@ -6,8 +6,6 @@ import java.util.Arrays;
 
 public class ChessBoard {
     private String[][] board = new  String[8][8];
-
-
     //loops over to initialize entire chess board
     public void initializeBoard() {
         // initialize pawns
@@ -50,7 +48,7 @@ public class ChessBoard {
             System.out.println("Invalid move");
             return;
         }
-        Pieces piece = Pieces.getPiece(pieceName, colPiece, rowPiece);
+        Pieces piece = Pieces.getPiece(pieceName, colPiece, rowPiece, board);
         if (piece.isValidMove(colLocation, rowLocation)) {
             System.out.println();
             System.out.println();
@@ -69,10 +67,6 @@ public class ChessBoard {
             }
             System.out.println();
         }
-    }
-
-    public String[][] getBoard() {
-        return board;
     }
 
     @Override

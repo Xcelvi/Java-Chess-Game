@@ -1,10 +1,7 @@
 package pieces.white;
 
-import board.ChessBoard;
 import pieces.Pieces;
 
-import java.util.Arrays;
-import java.util.Objects;
 
 public class WhiteBishop extends Pieces {
     public WhiteBishop(int col, int row, String[][] board) {

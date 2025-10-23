@@ -4,6 +4,7 @@ import board.ChessBoard;
 import pieces.Pieces;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class WhiteBishop extends Pieces {
     public WhiteBishop(int col, int row, String[][] board) {
@@ -11,82 +12,30 @@ public class WhiteBishop extends Pieces {
     }
 
     //Fix this
-
     @Override
-    public boolean isValidMove(int targetRow, int targetCol){
+    public boolean isValidMove(int targetCol, int targetRow){
         int colLocation = getCol();
         int rowLocation = getRow();
-        System.out.print("How the board lookin" + Arrays.deepToString(board));
-        String[][] tempBoard = board.clone();
-        String[][] tempBoard2 = board.clone();
-        boolean left = false, right = false, up = false, down = false;
 
-        if (rowLocation - targetRow > 0) {
-            up = true;
-        } else if (rowLocation - targetRow < 0) {
-            down = true;
-        } else{
-            return false;
+        int colDiff = Math.abs(colLocation - targetCol);
+        int rowDiff = Math.abs(rowLocation - targetRow);
+
+        if (colDiff != rowDiff)  return false;
+
+        int colStep = (targetCol > colLocation) ? 1 : -1;
+        int rowStep = (targetRow > rowLocation) ? 1 : -1;
+
+        colLocation += colStep;
+        rowLocation += rowStep;
+
+        while (colLocation != targetCol && rowLocation != targetRow ){
+            if (!board[rowLocation][colLocation].contains("-")){
+                System.out.println("Boardsky: " + board[rowLocation][colLocation]);
+                return false;
+            }
+            colLocation = colLocation + colStep;
+            rowLocation = rowLocation + rowStep;
         }
-        tempBoard2[rowLocation][colLocation] = "----------";
-        tempBoard2[targetRow][targetCol] = "WhiteBishop";
-        if(colLocation - targetCol > 0) {
-            right = true;
-        } else if (colLocation - targetCol < 0) {
-            left = true;
-        }else {
-            return false;
-        }
-        System.out.println("Did rowloc - target and stuff");
-        if (left && down){
-            while (tempBoard != tempBoard2) {
-                System.out.println("got to movement step left down");
-                if (tempBoard[rowLocation - 1][colLocation + 1].contains("-")) {
-                    tempBoard[rowLocation - 1][colLocation + 1] = "WhiteBishop";
-                    tempBoard[rowLocation][colLocation] = "----------";
-                } else {
-                    return false;
-                }
-            }
-        } else if (left && up){
-            while (tempBoard != tempBoard2) {
-                System.out.println("got to movement step left up");
-                System.out.println("Temp board" + tempBoard[rowLocation - 1][colLocation -1]);
-                if (tempBoard[rowLocation - 1][colLocation - 1].contains("-")) {
-                    tempBoard[rowLocation - 1][colLocation - 1] = "WhiteBishop";
-                    tempBoard[rowLocation][colLocation] = "----------";
-                } else {
-                    return false;
-                }
-            }
-
-        } else if (right && down){
-            while (tempBoard != tempBoard2) {
-                System.out.println("got to movement step right down");
-                if (tempBoard[rowLocation + 1][colLocation + 1].contains("-")) {
-                    System.out.println("got to movement step");
-                    tempBoard[rowLocation + 1][colLocation + 1] = "WhiteBishop";
-                    tempBoard[rowLocation][colLocation] = "----------";
-                } else {
-                    return false;
-                }
-            }
-
-        } else if (right && up){
-            while (tempBoard != tempBoard2) {
-                System.out.println("got to movement step right up");
-                if (tempBoard[rowLocation + 1][colLocation - 1].contains("-")) {
-                    System.out.println("got to movement step");
-                    tempBoard[rowLocation + 1][colLocation - 1] = "WhiteBishop";
-                    tempBoard[rowLocation][colLocation] = "----------";
-                } else {
-                    return false;
-                }
-            }
-
-        } else {
-            return false;
-        }
-        return true;
+        return !board[rowLocation][colLocation].contains("White");
     }
 }

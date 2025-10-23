@@ -28,7 +28,7 @@ public abstract class Pieces extends ChessBoard {
             case "WhiteQueen" -> new WhiteQueen(col, row);
             case "WhiteKnight" -> new WhiteKnight(col, row);
             case "BlackPawn" -> new BlackPawn(col, row);
-            case "BlackBishop" -> new BlackBishop(col, row);
+            case "BlackBishop" -> new BlackBishop(col, row, board);
             case "BlackRook" -> new BlackRook(col, row);
             case "BlackKing" -> new BlackKing(col, row);
             case "BlackQueen" -> new BlackQueen(col, row);

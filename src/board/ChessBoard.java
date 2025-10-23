@@ -11,12 +11,12 @@ public class ChessBoard {
         // initialize pawns
         for (int i = 0; i < 8; i++){
             board[1][i] = "BlackPawn";
-            board[6][i] = "WhitePawn";
+            board[6][i] = "----------";
         }
         //initialize rooks
         board[0][0] = "BlackRook";
-        board[0][7] = "WhiteRook";
-        board[7][0] = "BlackRook";
+        board[0][7] = "BlackRook";
+        board[7][0] = "WhiteRook";
         board[7][7] = "WhiteRook";
         //initialize knights
         board[0][1] = "BlackKnight";

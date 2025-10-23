@@ -9,8 +9,20 @@ public class BlackKing extends Pieces {
 
     @Override
     public boolean isValidMove(int targetCol, int targetRow){
+        int colLocation = getCol();
+        int rowLocation = getRow();
 
-        return true;
+        int colDiff = Math.abs(colLocation - targetCol);
+        int rowDiff = Math.abs(rowLocation - targetRow);
+
+        if (colDiff == 1 && rowDiff ==1){
+            return diagonalMoveBlack(targetCol, targetRow);
+        } if (colDiff == 1 && rowDiff == 0){
+            return horizontalVerticalMoveBlack(targetCol, targetRow);
+        } else if  (colDiff == 0 && rowDiff == 1){
+            return horizontalVerticalMoveBlack(targetCol, targetRow);
+        }
+        return false;
     }
 
 }

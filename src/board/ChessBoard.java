@@ -10,7 +10,7 @@ public class ChessBoard {
     public void initializeBoard() {
         // initialize pawns
         for (int i = 0; i < 8; i++){
-            board[1][i] = "BlackPawn";
+            board[1][i] = "----------";
             board[6][i] = "----------";
         }
         //initialize rooks

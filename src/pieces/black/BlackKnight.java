@@ -8,7 +8,7 @@ public class BlackKnight extends Pieces {
     }
 
     @Override
-    public boolean isValidMove(int targetRow, int targetCol){
+    public boolean isValidMove(int targetCol, int targetRow){
 
         return true;
     }

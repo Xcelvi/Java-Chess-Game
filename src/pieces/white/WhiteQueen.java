@@ -17,7 +17,7 @@ public class WhiteQueen extends Pieces {
         int colDiff = Math.abs(colLocation - targetCol);
         int rowDiff = Math.abs(rowLocation - targetRow);
         System.out.println("In Queen");
-        if (colDiff == rowDiff)  return diagnolMoveWhite(targetCol, targetRow);
+        if (colDiff == rowDiff)  return diagonalMoveWhite(targetCol, targetRow);
         System.out.println("In Queen rook");
         return horizontalVerticalMoveWhite(targetCol, targetRow);
     }

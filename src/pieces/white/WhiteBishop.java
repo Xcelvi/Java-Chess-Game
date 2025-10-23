@@ -11,6 +11,6 @@ public class WhiteBishop extends Pieces {
     //Fix this
     @Override
     public boolean isValidMove(int targetCol, int targetRow) {
-        return diagnolMoveWhite(targetCol, targetRow);
+        return diagonalMoveWhite(targetCol, targetRow);
     }
 }

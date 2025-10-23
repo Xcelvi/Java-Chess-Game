@@ -18,7 +18,7 @@ public abstract class Pieces extends ChessBoard {
         this.row = row;
     }
 
-
+    //Initiates polymorphism for pieces
     public static Pieces getPiece(String pieceName, int col, int row, String[][] board) {
         return switch (pieceName){
             case "WhitePawn" -> new  WhitePawn(col, row);
@@ -46,8 +46,8 @@ public abstract class Pieces extends ChessBoard {
     }
 
     public abstract boolean isValidMove(int targetCol, int targetRow);
-
-    public boolean diagnolMoveWhite(int targetCol, int targetRow){
+    //Implements diagonal movements for bishop / queen of white
+    public boolean diagonalMoveWhite(int targetCol, int targetRow){
         int colLocation = getCol();
         int rowLocation = getRow();
 
@@ -72,6 +72,7 @@ public abstract class Pieces extends ChessBoard {
         }
         return !board[rowLocation][colLocation].contains("White");
     }
+    //Implements Vertical and horizontal movements for rook/ queen of white
     public boolean horizontalVerticalMoveWhite(int targetCol, int targetRow) {
         int colLocation = getCol();
         int rowLocation = getRow();
@@ -102,7 +103,8 @@ public abstract class Pieces extends ChessBoard {
         }
         return !board[rowLocation][colLocation].contains("White");
     }
-    public boolean diagnolMoveBlack(int targetCol, int targetRow){
+    //Implements diagonal movements for bishop / queen of white
+    public boolean diagonalMoveBlack(int targetCol, int targetRow){
         int colLocation = getCol();
         int rowLocation = getRow();
 
@@ -127,6 +129,7 @@ public abstract class Pieces extends ChessBoard {
         }
         return !board[rowLocation][colLocation].contains("Black");
     }
+    //Implements Vertical and horizontal movements for rook/ queen of Black
     public boolean horizontalVerticalMoveBlack(int targetCol, int targetRow) {
         int colLocation = getCol();
         int rowLocation = getRow();

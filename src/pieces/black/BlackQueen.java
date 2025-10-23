@@ -14,7 +14,7 @@ public class BlackQueen extends Pieces {
 
         int colDiff = Math.abs(colLocation - targetCol);
         int rowDiff = Math.abs(rowLocation - targetRow);
-        if (colDiff == rowDiff)  return diagnolMoveBlack(targetCol, targetRow);
+        if (colDiff == rowDiff)  return diagonalMoveBlack(targetCol, targetRow);
         return horizontalVerticalMoveBlack(targetCol, targetRow);
     }
 }

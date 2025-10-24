@@ -68,11 +68,4 @@ public class ChessBoard {
             System.out.println();
         }
     }
-
-    @Override
-    public String toString() {
-        return "ChessBoard{" +
-                "board=" + Arrays.toString(board) +
-                '}';
-    }
 }

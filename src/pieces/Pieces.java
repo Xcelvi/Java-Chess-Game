@@ -26,13 +26,13 @@ public abstract class Pieces extends ChessBoard {
             case "WhiteRook" -> new WhiteRook(col, row, board);
             case "WhiteKing" -> new WhiteKing(col, row, board);
             case "WhiteQueen" -> new WhiteQueen(col, row, board);
-            case "WhiteKnight" -> new WhiteKnight(col, row);
+            case "WhiteKnight" -> new WhiteKnight(col, row, board);
             case "BlackPawn" -> new BlackPawn(col, row);
             case "BlackBishop" -> new BlackBishop(col, row, board);
             case "BlackRook" -> new BlackRook(col, row, board);
             case "BlackKing" -> new BlackKing(col, row);
             case "BlackQueen" -> new BlackQueen(col, row, board);
-            case "BlackKnight" -> new BlackKnight(col, row);
+            case "BlackKnight" -> new BlackKnight(col, row, board);
             default -> throw new IllegalStateException("Unexpected value: " + pieceName);
         };
     }
@@ -161,5 +161,3 @@ public abstract class Pieces extends ChessBoard {
         return !board[rowLocation][colLocation].contains("Black");
     }
 }
-
-

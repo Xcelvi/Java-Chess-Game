@@ -3,8 +3,8 @@ package pieces.white;
 import pieces.Pieces;
 
 public class WhitePawn extends Pieces {
-    public WhitePawn(int col, int row) {
-        super(col, row);
+    public WhitePawn(int col, int row, String[][] board) {
+        super(col, row, board);
     }
 
 

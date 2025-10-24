@@ -3,8 +3,8 @@ package pieces.black;
 import pieces.Pieces;
 
 public class BlackPawn extends Pieces {
-    public BlackPawn(int col, int row) {
-        super(col, row);
+    public BlackPawn(int col, int row, String[][] board) {
+        super(col, row, board);
     }
 
     @Override

@@ -3,8 +3,7 @@ package pieces.black;
 import pieces.Pieces;
 
 public class BlackRook extends Pieces {
-    boolean hasMoved= false;
-    public BlackRook(int col, int row,  String[][] board) {
+    public BlackRook(int col, int row, String[][] board) {
         super(col, row, board);
     }
 
@@ -12,13 +11,7 @@ public class BlackRook extends Pieces {
 
     @Override
     public boolean isValidMove(int targetCol, int targetRow) {
-        if (horizontalVerticalMoveBlack(targetCol, targetRow)) {
-            hasMoved = true;
-            return true;
-        }
-        return false;
+        return horizontalVerticalMoveBlack(targetCol, targetRow);
     }
-    public boolean getHasMoved() {
-        return hasMoved;
-    }
+
 }

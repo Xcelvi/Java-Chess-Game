@@ -2,7 +2,6 @@ package board;
 
 import pieces.Pieces;
 
-import java.util.Arrays;
 
 public class ChessBoard {
     private String[][] board = new  String[8][8];
@@ -14,10 +13,10 @@ public class ChessBoard {
             board[6][i] = "----------";
         }
         //initialize rooks
-        board[0][0] = "BlackRook";
-        board[0][7] = "BlackRook";
-        board[7][0] = "WhiteRook";
-        board[7][7] = "WhiteRook";
+        board[0][0] = "BlackRookL";
+        board[0][7] = "BlackRookR";
+        board[7][0] = "WhiteRookL";
+        board[7][7] = "WhiteRookR";
         //initialize knights
         board[0][1] = "BlackKnight";
         board[0][6] = "BlackKnight";

@@ -6,7 +6,7 @@ import pieces.Vision;
 import java.util.ArrayList;
 
 public class BlackKnight extends Pieces implements Vision {
-    public BlackKnight(int col, int row, String[][] board) {
+    public BlackKnight(int col, int row, Pieces[][] board) {
         super(col, row, board);
     }
 
@@ -15,7 +15,7 @@ public class BlackKnight extends Pieces implements Vision {
         int colLocation = getCol();
         int rowLocation = getRow();
         System.out.println("In black knight");
-        if (board[targetRow][targetCol].contains("Black")){
+        if (board[targetRow][targetCol].getClass().getSimpleName().contains("Black")){
             return false;
         }
         int colDiff = Math.abs(colLocation - targetCol);
@@ -26,13 +26,31 @@ public class BlackKnight extends Pieces implements Vision {
         }else return colDiff == 1 && rowDiff == 2;
     }
 
-    @Override
-    public ArrayList<String> getPieceVision(int col, int row) {
-        return null;
-    }
 
     @Override
-    public ArrayList<String> getPieceFullVision(int col, int row) {
-        return null;
+    public ArrayList<String> getPieceFullVision(int targetCol, int targetRow) {
+        ArrayList<String> pieceVision = new ArrayList<>();
+        int[][] knightMoves = {
+                {-2, -1}, {-2, +1},
+                {-1, +2}, {+1, +2},
+                {+2, +1}, {+2, -1},
+                {-1, -2}, {+1, -2}
+        };
+
+        for (int[] move : knightMoves) {
+            int tempColLocation = targetCol;
+            int tempRowLocation = targetRow;
+            tempColLocation += move[0];
+            tempRowLocation += move[1];
+            // Check board bounds (0–7 if 8×8 board)
+            if (tempColLocation >= 0 && tempRowLocation >= 0 && tempColLocation < 8 && tempRowLocation < 8) {
+                if (board[tempRowLocation][tempColLocation] == null){
+                    pieceVision.add("null");
+                }else {
+                    pieceVision.add(board[tempRowLocation][tempColLocation].getClass().getSimpleName());
+                }
+            }
+        }
+        return pieceVision;
     }
 }

@@ -11,12 +11,12 @@ public class BoardControl extends ChessBoard {
     }
 
     public void setBoardVision(){
-        String[][] board = getBoard();
+        Pieces[][] board = getBoard();
 
         for (int row = 0; row < board.length; row++){
             for(int col = 0; col < board.length; col++){
-                if (!board[row][col].contains("-")) {
-                    Pieces piece = Pieces.getPiece(board[row][col], col, row, board);
+                if (board[row][col] != null) {
+                    Pieces piece = board[row][col];
                     if (piece instanceof Vision) {
                         ((Vision) piece).getPieceFullVision(col, row);
                     }

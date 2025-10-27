@@ -6,7 +6,7 @@ import pieces.Vision;
 import java.util.ArrayList;
 
 public class BlackQueen extends Pieces implements Vision {
-    public BlackQueen(int col, int row, String[][] board) {
+    public BlackQueen(int col, int row, Pieces[][] board) {
         super(col, row, board);
     }
 
@@ -22,13 +22,55 @@ public class BlackQueen extends Pieces implements Vision {
     }
 
     @Override
-    public ArrayList<String> getPieceVision(int col, int row) {
-        return null;
-    }
+    public ArrayList<String> getPieceFullVision(int targetCol, int targetRow) {
+        ArrayList<String> pieceVision = new ArrayList<>();
 
-    @Override
-    public ArrayList<String> getPieceFullVision(int col, int row) {
-        return null;
+        int[][] directions = {{0, -1}, {0, 1}, {1, 0}, {-1, 0}};
+        for (int[] d : directions) {
+            int tempColLocation = targetCol;
+            int tempRowLocation = targetRow;
+            tempColLocation += d[0];
+            tempRowLocation += d[1];
+            while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)){
+                String square;
+                if (board[tempRowLocation][tempColLocation] == null){
+                    square = "null";
+                }else {
+                    square = board[tempRowLocation][tempColLocation].getClass().getSimpleName();
+                }
+                pieceVision.add(square);
+
+                if (board[tempRowLocation][tempColLocation] != null) break;
+
+                tempColLocation += d[0];
+                tempRowLocation += d[1];
+            }
+            pieceVision.add("|");
+        }
+        directions = new int[][]{{1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+        for (int[] d : directions) {
+            int tempColLocation = targetCol;
+            int tempRowLocation = targetRow;
+            tempColLocation += d[0];
+            tempRowLocation += d[1];
+            while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)){
+                String square;
+                if (board[tempRowLocation][tempColLocation] == null){
+                    square = "null";
+                }else {
+                    square = board[tempRowLocation][tempColLocation].getClass().getSimpleName();
+                }
+                pieceVision.add(square);
+
+                if (board[tempRowLocation][tempColLocation] != null) break;
+
+                tempColLocation += d[0];
+                tempRowLocation += d[1];
+            }
+            pieceVision.add("|");
+        }
+
+        return pieceVision;
     }
 
 }

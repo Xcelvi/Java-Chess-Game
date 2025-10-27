@@ -8,38 +8,13 @@ import java.util.Objects;
 public abstract class Pieces {
     private int col;
     private int row;
-    protected String[][] board;
-    public Pieces(int col, int row, String[][] board) {
+    protected boolean hasMoved;
+    protected Pieces[][] board;
+
+    public Pieces(int col, int row, Pieces[][] board) {
         this.col = col;
         this.row = row;
         this.board = board;
-    }
-    public Pieces(int col, int row) {
-        this.col = col;
-        this.row = row;
-    }
-
-    //Initiates polymorphism for pieces
-    public static Pieces getPiece(String pieceName, int col, int row, String[][] board) {
-        return switch (pieceName){
-            case "WhitePawn" -> new  WhitePawn(col, row, board);
-            case "WhiteBishop" -> new WhiteBishop(col, row, board);
-            case "WhiteRook" -> new WhiteRook(col, row, board);
-            case "WhiteRookL" -> new WhiteRookL(col, row, board);
-            case "WhiteRookR" -> new WhiteRookR(col, row, board);
-            case "WhiteKing" -> new WhiteKing(col, row, board);
-            case "WhiteQueen" -> new WhiteQueen(col, row, board);
-            case "WhiteKnight" -> new WhiteKnight(col, row, board);
-            case "BlackPawn" -> new BlackPawn(col, row, board);
-            case "BlackBishop" -> new BlackBishop(col, row, board);
-            case "BlackRook" -> new BlackRook(col, row, board);
-            case "BlackRookL" -> new BlackRookL(col, row, board);
-            case "BlackRookR" -> new BlackRookR(col, row, board);
-            case "BlackKing" -> new BlackKing(col, row, board);
-            case "BlackQueen" -> new BlackQueen(col, row, board);
-            case "BlackKnight" -> new BlackKnight(col, row, board);
-            default -> throw new IllegalStateException("Unexpected value: " + pieceName);
-        };
     }
 
     public int getCol() {
@@ -49,33 +24,43 @@ public abstract class Pieces {
     public int getRow() {
         return row;
     }
+    public boolean getHasMoved() {
+        return hasMoved;
+    }
 
     public abstract boolean isValidMove(int targetCol, int targetRow);
 
     //Implements diagonal movements for bishop / queen of white
-    public boolean diagonalMoveWhite(int targetCol, int targetRow){
+    public boolean diagonalMoveWhite(int targetCol, int targetRow) {
         int colLocation = getCol();
         int rowLocation = getRow();
 
         int colDiff = Math.abs(colLocation - targetCol);
         int rowDiff = Math.abs(rowLocation - targetRow);
 
-        if (colDiff != rowDiff)  return false;
+        if (colDiff != rowDiff) return false;
 
         int colStep = (targetCol > colLocation) ? 1 : -1;
         int rowStep = (targetRow > rowLocation) ? 1 : -1;
 
         colLocation += colStep;
         rowLocation += rowStep;
-
-        while (colLocation != targetCol && rowLocation != targetRow ){
-            if (!board[rowLocation][colLocation].contains("-")){
+        while (colLocation != targetCol && rowLocation != targetRow) {
+            if (board[rowLocation][colLocation] != null) {
                 return false;
             }
             colLocation = colLocation + colStep;
             rowLocation = rowLocation + rowStep;
+            System.out.println("stepping");
         }
-        return !board[rowLocation][colLocation].contains("White");
+        Pieces piece = board[rowLocation][colLocation];
+        return !piece.getClass().getSimpleName().contains("White");
+    }
+    public void setCol(int col) {
+        this.col = col;
+    }
+    public void setRow(int row) {
+        this.row = row;
     }
     //Implements Vertical and horizontal movements for rook/ queen of white
     public boolean horizontalVerticalMoveWhite(int targetCol, int targetRow) {
@@ -88,35 +73,37 @@ public abstract class Pieces {
 
         int colStep = 0, rowStep = 0;
 
-        if (colLocation - targetCol > 0){
+        if (colLocation - targetCol > 0) {
             colStep = -1;
-        } else if (colLocation - targetCol < 0){
+        } else if (colLocation - targetCol < 0) {
             colStep = 1;
-        } else if (rowLocation - targetRow > 0){
+        } else if (rowLocation - targetRow > 0) {
             rowStep = -1;
-        } else if (rowLocation - targetRow < 0){
+        } else if (rowLocation - targetRow < 0) {
             rowStep = 1;
         }
         colLocation += colStep;
         rowLocation += rowStep;
-        while ((colLocation == targetCol && rowLocation != targetRow) || (colLocation != targetCol && rowLocation == targetRow)){
-            if (!board[rowLocation][colLocation].contains("-")){
+        while ((colLocation == targetCol && rowLocation != targetRow) || (colLocation != targetCol && rowLocation == targetRow)) {
+            if (board[rowLocation][colLocation] != null) {
                 return false;
             }
             colLocation = colLocation + colStep;
             rowLocation = rowLocation + rowStep;
         }
-        return !board[rowLocation][colLocation].contains("White");
+        Pieces piece = board[rowLocation][colLocation];
+        return !piece.getClass().getSimpleName().contains("White");
     }
+
     //Implements diagonal movements for bishop / queen of white
-    public boolean diagonalMoveBlack(int targetCol, int targetRow){
+    public boolean diagonalMoveBlack(int targetCol, int targetRow) {
         int colLocation = getCol();
         int rowLocation = getRow();
 
         int colDiff = Math.abs(colLocation - targetCol);
         int rowDiff = Math.abs(rowLocation - targetRow);
 
-        if (colDiff != rowDiff)  return false;
+        if (colDiff != rowDiff) return false;
 
         int colStep = (targetCol > colLocation) ? 1 : -1;
         int rowStep = (targetRow > rowLocation) ? 1 : -1;
@@ -124,15 +111,17 @@ public abstract class Pieces {
         colLocation += colStep;
         rowLocation += rowStep;
 
-        while (colLocation != targetCol && rowLocation != targetRow ){
-            if (!board[rowLocation][colLocation].contains("-")){
+        while (colLocation != targetCol && rowLocation != targetRow) {
+            if (board[rowLocation][colLocation] != null) {
                 return false;
             }
             colLocation = colLocation + colStep;
             rowLocation = rowLocation + rowStep;
         }
-        return !board[rowLocation][colLocation].contains("Black");
+        Pieces piece = board[rowLocation][colLocation];
+        return !piece.getClass().getSimpleName().contains("Black");
     }
+
     //Implements Vertical and horizontal movements for rook/ queen of Black
     public boolean horizontalVerticalMoveBlack(int targetCol, int targetRow) {
         int colLocation = getCol();
@@ -144,28 +133,29 @@ public abstract class Pieces {
 
         int colStep = 0, rowStep = 0;
 
-        if (colLocation - targetCol > 0){
+        if (colLocation - targetCol > 0) {
             colStep = -1;
-        } else if (colLocation - targetCol < 0){
+        } else if (colLocation - targetCol < 0) {
             colStep = 1;
-        } else if (rowLocation - targetRow > 0){
+        } else if (rowLocation - targetRow > 0) {
             rowStep = -1;
-        } else if (rowLocation - targetRow < 0){
+        } else if (rowLocation - targetRow < 0) {
             rowStep = 1;
         }
         colLocation += colStep;
         rowLocation += rowStep;
-        while ((colLocation == targetCol && rowLocation != targetRow) || (colLocation != targetCol && rowLocation == targetRow)){
-            if (!board[rowLocation][colLocation].contains("-")){
+        while ((colLocation == targetCol && rowLocation != targetRow) || (colLocation != targetCol && rowLocation == targetRow)) {
+            if (board[rowLocation][colLocation] != null) {
                 return false;
             }
             colLocation = colLocation + colStep;
             rowLocation = rowLocation + rowStep;
         }
-        return !board[rowLocation][colLocation].contains("Black");
+        Pieces piece = board[rowLocation][colLocation];
+        return !piece.getClass().getSimpleName().contains("Black");
     }
 
-    public boolean isKingInCheckWhite(int colLocation, int rowLocation){
+    public boolean isKingInCheckWhite(int colLocation, int rowLocation) {
         //Check if black knight is there
         int tempColLocation;
         int tempRowLocation;
@@ -182,8 +172,8 @@ public abstract class Pieces {
 
             // Check board bounds (0–7 if 8×8 board)
             if (tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8) {
-                if (Objects.equals(board[tempRowLocation][tempColLocation], "BlackKnight")) {
-                    return true; // Found one, do what you need
+                if (board[tempRowLocation][tempColLocation].getClass().getSimpleName().contains("BlackKnight")) {
+                    return true;
                 }
             }
         }
@@ -194,7 +184,8 @@ public abstract class Pieces {
             tempRowLocation = rowLocation + move[0];
             tempColLocation = colLocation + move[1];
             if (tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8) {
-                if ("BlackPawn".equals(board[tempRowLocation][tempColLocation])) return true;
+                if ((board[tempRowLocation][tempColLocation].getClass().getSimpleName().contains("BlackPawn")))
+                    return true;
             }
         }
 
@@ -209,127 +200,48 @@ public abstract class Pieces {
         for (int[] move : aroundKingMoves) {
             tempRowLocation = rowLocation + move[0];
             tempColLocation = colLocation + move[1];
-            if (tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8){
-                if (Objects.equals(board[tempRowLocation][tempColLocation], "BlackKing")) {
+            if (tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8) {
+                if (Objects.equals(board[tempRowLocation][tempColLocation].getClass().getSimpleName(), "BlackKing")) {
                     return true;
                 }
             }
         }
-        tempColLocation = colLocation;
-        tempRowLocation = rowLocation - 1;
+        int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
         //check if straight up is a rook or a queen
-        while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)) {
-            if (board[tempRowLocation][tempColLocation].contains("White") || board[tempRowLocation][tempColLocation].contains("Black")){
-                    if (board[tempRowLocation][tempColLocation].equals("BlackRook") || board[tempRowLocation][tempColLocation].equals("BlackQueen")) {
+        for (int[] d : directions) {
+            tempColLocation = colLocation + d[0];
+            tempRowLocation = rowLocation + d[1];
+            while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)) {
+                if (board[tempRowLocation][tempColLocation].getClass().getSimpleName().contains("White") || board[tempRowLocation][tempColLocation].getClass().getSimpleName().contains("Black")) {
+                    if (board[tempRowLocation][tempColLocation].getClass().getSimpleName().contains("BlackRook") || board[tempRowLocation][tempColLocation].getClass().getSimpleName().contains("BlackQueen")) {
                         //you are in check
                         return true;
                     }
                     break;
                 }
-            tempColLocation += 0;
-            tempRowLocation -= 1;
-        }
-        tempColLocation = colLocation;
-        tempRowLocation = rowLocation + 1;
-        //check if straight down is a rook or queen
-        while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)){
-            if (board[tempRowLocation][tempColLocation].contains("White") || board[tempRowLocation][tempColLocation].contains("Black")){
-                if (board[tempRowLocation][tempColLocation].equals("BlackRook") || board[tempRowLocation][tempColLocation].equals("BlackQueen")) {
-                    //you are in check
-                    return true;
-                }
-                break;
+                tempColLocation += d[0];
+                tempRowLocation -= d[1];
             }
-            tempColLocation += 0;
-            tempRowLocation += 1;
-        }
-        tempColLocation = colLocation + 1;
-        tempRowLocation = rowLocation;
-        //check if straight right is rook or queen
-        while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)){
-            if (board[tempRowLocation][tempColLocation].contains("White") || board[tempRowLocation][tempColLocation].contains("Black")){
-                if (board[tempRowLocation][tempColLocation].equals("BlackRook") || board[tempRowLocation][tempColLocation].equals("BlackQueen")) {
-                    //you are in check
-                    return true;
+            directions = new int[][]{{1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+            for (int[] c : directions) {
+                tempColLocation = colLocation + c[0];
+                tempRowLocation = rowLocation + c[1];
+                while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)) {
+                    if (board[tempRowLocation][tempColLocation].getClass().getSimpleName().contains("White") || board[tempRowLocation][tempColLocation].getClass().getSimpleName().contains("Black")) {
+                        if (board[tempRowLocation][tempColLocation].getClass().getSimpleName().contains("BlackBishop") || board[tempRowLocation][tempColLocation].getClass().getSimpleName().contains("BlackQueen")) {
+                            //you are in check
+                            return true;
+                        }
+                        break;
+                    }
+                    tempColLocation += c[0];
+                    tempRowLocation -= c[1];
                 }
-                break;
             }
-            tempColLocation += 1;
-            tempRowLocation += 0;
-        }
-        tempColLocation = colLocation - 1;
-        tempRowLocation = rowLocation;
-        //check if straight left is rook or queen
-        while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)){
-            if (board[tempRowLocation][tempColLocation].contains("White") || board[tempRowLocation][tempColLocation].contains("Black")){
-                if (board[tempRowLocation][tempColLocation].equals("BlackRook") || board[tempRowLocation][tempColLocation].equals("BlackQueen")) {
-                    //you are in check
-                    return true;
-                }
-                break;
-            }
-            tempColLocation -= 1;
-            tempRowLocation += 0;
-        }
-        tempColLocation = colLocation + 1;
-        tempRowLocation = rowLocation + 1;
-        //check if diagonal right down is bishop or queen
-        while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)){
-            if (board[tempRowLocation][tempColLocation].contains("White") || board[tempRowLocation][tempColLocation].contains("Black")){
-                if (board[tempRowLocation][tempColLocation].equals("BlackBishop") || board[tempRowLocation][tempColLocation].equals("BlackQueen")) {
-                    //you are in check
-                    return true;
-                }
-                break;
-            }
-            tempColLocation += 1;
-            tempRowLocation += 1;
-        }
-        tempColLocation = colLocation - 1;
-        tempRowLocation = rowLocation + 1;
-        //check if left down is bishop or queen
-        while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)){
-            if (board[tempRowLocation][tempColLocation].contains("White") || board[tempRowLocation][tempColLocation].contains("Black")){
-                if (board[tempRowLocation][tempColLocation].equals("BlackBishop") || board[tempRowLocation][tempColLocation].equals("BlackQueen")) {
-                    //you are in check
-                    return true;
-                }
-                break;
-            }
-            tempColLocation -= 1;
-            tempRowLocation += 1;
-        }
-        tempColLocation = colLocation - 1;
-        tempRowLocation = rowLocation - 1;
-        //check if up left is bishop or queen
-        while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)){
-            if (board[tempRowLocation][tempColLocation].contains("White") || board[tempRowLocation][tempColLocation].contains("Black")){
-                if (board[tempRowLocation][tempColLocation].equals("BlackBishop") || board[tempRowLocation][tempColLocation].equals("BlackQueen")) {
-                    //you are in check
-                    return true;
-                }
-                break;
-            }
-            tempColLocation -= 1;
-            tempRowLocation -= 1;
-        }
-        tempColLocation = colLocation + 1;
-        tempRowLocation = rowLocation - 1;
-        //check if up right is bishop or queen
-        while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)){
-            if (board[tempRowLocation][tempColLocation].contains("White") || board[tempRowLocation][tempColLocation].contains("Black")){
-                if (board[tempRowLocation][tempColLocation].equals("BlackBishop") || board[tempRowLocation][tempColLocation].equals("BlackQueen")) {
-                    //you are in check
-                    return true;
-                }
-                break;
-            }
-            tempColLocation += 1;
-            tempRowLocation -= 1;
         }
         return false;
     }
-    public boolean isKingInCheckBlack(int colLocation, int rowLocation){
+    public boolean isKingInCheckBlack(int colLocation, int rowLocation) {
         //Check if black knight is there
         int tempColLocation;
         int tempRowLocation;
@@ -339,14 +251,15 @@ public abstract class Pieces {
                 {+2, +1}, {+2, -1},
                 {-1, -2}, {+1, -2}
         };
+
         for (int[] move : knightMoves) {
             tempColLocation = colLocation + move[1];
             tempRowLocation = rowLocation + move[0];
 
             // Check board bounds (0–7 if 8×8 board)
             if (tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8) {
-                if (Objects.equals(board[tempRowLocation][tempColLocation], "WhiteKnight")) {
-                    return true; // Found one, do what you need
+                if (board[tempRowLocation][tempColLocation].getClass().getSimpleName().contains("WhiteKnight")) {
+                    return true;
                 }
             }
         }
@@ -357,9 +270,11 @@ public abstract class Pieces {
             tempRowLocation = rowLocation + move[0];
             tempColLocation = colLocation + move[1];
             if (tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8) {
-                if ("WhitePawn".equals(board[tempRowLocation][tempColLocation])) return true;
+                if ((board[tempRowLocation][tempColLocation].getClass().getSimpleName().contains("WhitePawn")))
+                    return true;
             }
         }
+
 
         //Check if moving next to black king
         int[][] aroundKingMoves = {
@@ -371,123 +286,44 @@ public abstract class Pieces {
         for (int[] move : aroundKingMoves) {
             tempRowLocation = rowLocation + move[0];
             tempColLocation = colLocation + move[1];
-            if (tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8){
-                if (Objects.equals(board[tempRowLocation][tempColLocation], "WhiteKing")) {
+            if (tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8) {
+                if (Objects.equals(board[tempRowLocation][tempColLocation].getClass().getSimpleName(), "WhiteKing")) {
                     return true;
                 }
             }
         }
-        tempColLocation = colLocation;
-        tempRowLocation = rowLocation - 1;
+        int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
         //check if straight up is a rook or a queen
-        while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)) {
-            if (board[tempRowLocation][tempColLocation].contains("White") || board[tempRowLocation][tempColLocation].contains("Black")){
-                if (board[tempRowLocation][tempColLocation].equals("WhiteRook") || board[tempRowLocation][tempColLocation].equals("WhiteQueen")) {
-                    //you are in check
-                    return true;
+        for (int[] d : directions) {
+            tempColLocation = colLocation + d[0];
+            tempRowLocation = rowLocation + d[1];
+            while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)) {
+                if (board[tempRowLocation][tempColLocation].getClass().getSimpleName().contains("White") || board[tempRowLocation][tempColLocation].getClass().getSimpleName().contains("Black")) {
+                    if (board[tempRowLocation][tempColLocation].getClass().getSimpleName().contains("WhiteRook") || board[tempRowLocation][tempColLocation].getClass().getSimpleName().contains("WhiteQueen")) {
+                        //you are in check
+                        return true;
+                    }
+                    break;
                 }
-                break;
+                tempColLocation += d[0];
+                tempRowLocation -= d[1];
             }
-            tempColLocation += 0;
-            tempRowLocation -= 1;
-        }
-        tempColLocation = colLocation;
-        tempRowLocation = rowLocation + 1;
-        //check if straight down is a rook or queen
-        while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)){
-            if (board[tempRowLocation][tempColLocation].contains("White") || board[tempRowLocation][tempColLocation].contains("Black")){
-                if (board[tempRowLocation][tempColLocation].equals("WhiteRook") || board[tempRowLocation][tempColLocation].equals("WhiteQueen")) {
-                    //you are in check
-                    return true;
+            directions = new int[][]{{1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+            for (int[] c : directions) {
+                tempColLocation = colLocation + c[0];
+                tempRowLocation = rowLocation + c[1];
+                while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)) {
+                    if (board[tempRowLocation][tempColLocation].getClass().getSimpleName().contains("White") || board[tempRowLocation][tempColLocation].getClass().getSimpleName().contains("Black")) {
+                        if (board[tempRowLocation][tempColLocation].getClass().getSimpleName().contains("WhiteBishop") || board[tempRowLocation][tempColLocation].getClass().getSimpleName().contains("WhiteQueen")) {
+                            //you are in check
+                            return true;
+                        }
+                        break;
+                    }
+                    tempColLocation += c[0];
+                    tempRowLocation -= c[1];
                 }
-                break;
             }
-            tempColLocation += 0;
-            tempRowLocation += 1;
-        }
-        tempColLocation = colLocation + 1;
-        tempRowLocation = rowLocation;
-        //check if straight right is rook or queen
-        while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)){
-            if (board[tempRowLocation][tempColLocation].contains("White") || board[tempRowLocation][tempColLocation].contains("Black")){
-                if (board[tempRowLocation][tempColLocation].equals("WhiteRook") || board[tempRowLocation][tempColLocation].equals("WhiteQueen")) {
-                    //you are in check
-                    return true;
-                }
-                break;
-            }
-            tempColLocation += 1;
-            tempRowLocation += 0;
-        }
-        tempColLocation = colLocation - 1;
-        tempRowLocation = rowLocation;
-        //check if straight left is rook or queen
-        while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)){
-            if (board[tempRowLocation][tempColLocation].contains("White") || board[tempRowLocation][tempColLocation].contains("Black")){
-                if (board[tempRowLocation][tempColLocation].equals("WhiteRook") || board[tempRowLocation][tempColLocation].equals("WhiteQueen")) {
-                    //you are in check
-                    return true;
-                }
-                break;
-            }
-            tempColLocation -= 1;
-            tempRowLocation += 0;
-        }
-        tempColLocation = colLocation + 1;
-        tempRowLocation = rowLocation + 1;
-        //check if diagonal right down is bishop or queen
-        while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)){
-            if (board[tempRowLocation][tempColLocation].contains("White") || board[tempRowLocation][tempColLocation].contains("Black")){
-                if (board[tempRowLocation][tempColLocation].equals("WhiteBishop") || board[tempRowLocation][tempColLocation].equals("WhiteQueen")) {
-                    //you are in check
-                    return true;
-                }
-                break;
-            }
-            tempColLocation += 1;
-            tempRowLocation += 1;
-        }
-        tempColLocation = colLocation - 1;
-        tempRowLocation = rowLocation + 1;
-        //check if left down is bishop or queen
-        while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)){
-            if (board[tempRowLocation][tempColLocation].contains("White") || board[tempRowLocation][tempColLocation].contains("Black")){
-                if (board[tempRowLocation][tempColLocation].equals("WhiteBishop") || board[tempRowLocation][tempColLocation].equals("WhiteQueen")) {
-                    //you are in check
-                    return true;
-                }
-                break;
-            }
-            tempColLocation -= 1;
-            tempRowLocation += 1;
-        }
-        tempColLocation = colLocation - 1;
-        tempRowLocation = rowLocation - 1;
-        //check if up left is bishop or queen
-        while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)){
-            if (board[tempRowLocation][tempColLocation].contains("White") || board[tempRowLocation][tempColLocation].contains("Black")){
-                if (board[tempRowLocation][tempColLocation].equals("WhiteBishop") || board[tempRowLocation][tempColLocation].equals("WhiteQueen")) {
-                    //you are in check
-                    return true;
-                }
-                break;
-            }
-            tempColLocation -= 1;
-            tempRowLocation -= 1;
-        }
-        tempColLocation = colLocation + 1;
-        tempRowLocation = rowLocation - 1;
-        //check if up right is bishop or queen
-        while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)){
-            if (board[tempRowLocation][tempColLocation].contains("White") || board[tempRowLocation][tempColLocation].contains("Black")){
-                if (board[tempRowLocation][tempColLocation].equals("WhiteBishop") || board[tempRowLocation][tempColLocation].equals("WhiteQueen")) {
-                    //you are in check
-                    return true;
-                }
-                break;
-            }
-            tempColLocation += 1;
-            tempRowLocation -= 1;
         }
         return false;
     }

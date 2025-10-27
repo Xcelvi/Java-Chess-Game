@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 
 public class WhiteBishop extends Pieces implements Vision {
-    public WhiteBishop(int col, int row, String[][] board) {
+    public WhiteBishop(int col, int row, Pieces[][] board) {
         super(col, row, board);
     }
 
@@ -18,12 +18,30 @@ public class WhiteBishop extends Pieces implements Vision {
     }
 
     @Override
-    public ArrayList<String> getPieceVision(int targetCol, int targetRow) {
-        return null;
-    }
-
-    @Override
     public ArrayList<String> getPieceFullVision(int targetCol, int targetRow) {
-        return null;
+        ArrayList<String> pieceVision = new ArrayList<>();
+        int[][] directions = {{1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+        for (int[] d : directions) {
+            int tempColLocation = targetCol;
+            int tempRowLocation = targetRow;
+            tempColLocation += d[0];
+            tempRowLocation += d[1];
+            while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)){
+                String square;
+                if (board[tempRowLocation][tempColLocation] == null){
+                    square = "null";
+                }else {
+                    square = board[tempRowLocation][tempColLocation].getClass().getSimpleName();
+                }
+                pieceVision.add(square);
+
+                if (board[tempRowLocation][tempColLocation] != null) break;
+
+                tempColLocation += d[0];
+                tempRowLocation += d[1];
+            }
+            pieceVision.add("|");
+        }
+        return pieceVision;
     }
 }

@@ -1,8 +1,11 @@
 package pieces.black;
 
 import pieces.Pieces;
+import pieces.Vision;
 
-public class BlackKnight extends Pieces {
+import java.util.ArrayList;
+
+public class BlackKnight extends Pieces implements Vision {
     public BlackKnight(int col, int row, String[][] board) {
         super(col, row, board);
     }
@@ -23,4 +26,13 @@ public class BlackKnight extends Pieces {
         }else return colDiff == 1 && rowDiff == 2;
     }
 
+    @Override
+    public ArrayList<String> getPieceVision(int col, int row) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getPieceFullVision(int col, int row) {
+        return null;
+    }
 }

@@ -1,8 +1,11 @@
 package pieces.black;
 
 import pieces.Pieces;
+import pieces.Vision;
 
-public class BlackQueen extends Pieces {
+import java.util.ArrayList;
+
+public class BlackQueen extends Pieces implements Vision {
     public BlackQueen(int col, int row, String[][] board) {
         super(col, row, board);
     }
@@ -17,4 +20,15 @@ public class BlackQueen extends Pieces {
         if (colDiff == rowDiff)  return diagonalMoveBlack(targetCol, targetRow);
         return horizontalVerticalMoveBlack(targetCol, targetRow);
     }
+
+    @Override
+    public ArrayList<String> getPieceVision(int col, int row) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getPieceFullVision(int col, int row) {
+        return null;
+    }
+
 }

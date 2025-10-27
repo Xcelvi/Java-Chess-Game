@@ -2,8 +2,11 @@ package pieces.white;
 
 import pieces.HavePiecesMoved;
 import pieces.Pieces;
+import pieces.Vision;
 
-public class WhiteKing extends Pieces {
+import java.util.ArrayList;
+
+public class WhiteKing extends Pieces implements Vision {
     public WhiteKing(int col, int row, String[][] board) {
         super(col, row, board);
     }
@@ -61,5 +64,15 @@ public class WhiteKing extends Pieces {
             }
         }
         return false;
+    }
+
+    @Override
+    public ArrayList<String> getPieceVision(int col, int row) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getPieceFullVision(int targetCol, int targetRow) {
+        return null;
     }
 }

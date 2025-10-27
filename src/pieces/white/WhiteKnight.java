@@ -1,8 +1,11 @@
 package pieces.white;
 
 import pieces.Pieces;
+import pieces.Vision;
 
-public class WhiteKnight extends Pieces {
+import java.util.ArrayList;
+
+public class WhiteKnight extends Pieces implements Vision {
     public WhiteKnight(int col, int row, String[][] board) {
         super(col, row, board);
     }
@@ -20,5 +23,15 @@ public class WhiteKnight extends Pieces {
         if (colDiff == 2 && rowDiff == 1){
             return true;
         }else return colDiff == 1 && rowDiff == 2;
+    }
+
+    @Override
+    public ArrayList<String> getPieceVision(int col, int row) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getPieceFullVision(int targetCol, int targetRow) {
+        return null;
     }
 }

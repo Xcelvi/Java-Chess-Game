@@ -1,8 +1,11 @@
 package pieces.white;
 
 import pieces.Pieces;
+import pieces.Vision;
 
-public class WhitePawn extends Pieces {
+import java.util.ArrayList;
+
+public class WhitePawn extends Pieces implements Vision {
     public WhitePawn(int col, int row, String[][] board) {
         super(col, row, board);
     }
@@ -21,5 +24,15 @@ public class WhitePawn extends Pieces {
             }
         }
         return rowLocation - targetRow == 1;
+    }
+
+    @Override
+    public ArrayList<String> getPieceVision(int col, int row) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getPieceFullVision(int targetCol, int targetRow) {
+        return null;
     }
 }

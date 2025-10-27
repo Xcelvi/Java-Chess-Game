@@ -1,3 +1,4 @@
+import board.BoardControl;
 import board.ChessBoard;
 import pieces.Pieces;
 import pieces.white.WhitePawn;
@@ -8,10 +9,11 @@ public class RunGame {
     public static void main(String[] args) {
 
         //Initializes and prints the chess board, and begins the game
-        ChessBoard board = new ChessBoard();
+        BoardControl board = new BoardControl();
         board.initializeBoard();
 
         Scanner sc = new Scanner(System.in);
+        int turn = 1;
         do {
             System.out.println("Please enter the coordinates of the piece you would like to move and the move location:");
             String move = sc.nextLine();
@@ -24,7 +26,9 @@ public class RunGame {
 
                 int moveRow = rowInput(move.charAt(4) + "");
                 int movenColumn = colInput(move.charAt(3) + "");
-                board.movePiece(pieceColumn, pieceRow, movenColumn, moveRow);
+                board.movePiece(pieceColumn, pieceRow, movenColumn, moveRow, turn);
+                board.setBoardVision();
+                turn += 1;
             } finally{
                 continue;
             }

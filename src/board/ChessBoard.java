@@ -4,6 +4,7 @@ import pieces.Pieces;
 
 
 public class ChessBoard {
+    private int turn = 1;
     private String[][] board = new  String[8][8];
     //loops over to initialize entire chess board
     public void initializeBoard() {
@@ -41,10 +42,17 @@ public class ChessBoard {
         printBoard();
     }
     //takes input and updates the chess board
-    public void movePiece(int colPiece, int rowPiece, int colLocation, int rowLocation) {
+    public void movePiece(int colPiece, int rowPiece, int colLocation, int rowLocation, int turn) {
         String pieceName = board[rowPiece][colPiece];
         if (pieceName.equals("----------")){
             System.out.println("Invalid move");
+            return;
+        }
+        if (turn % 2 == 0 && pieceName.contains("White")){
+            System.out.println("Invalid move, blacks turn");
+            return;
+        } else if (turn % 2 == 1 && pieceName.contains("Black")){
+            System.out.println("Invalid move, whites turn");
             return;
         }
         Pieces piece = Pieces.getPiece(pieceName, colPiece, rowPiece, board);
@@ -66,5 +74,8 @@ public class ChessBoard {
             }
             System.out.println();
         }
+    }
+    public String[][] getBoard() {
+        return board;
     }
 }

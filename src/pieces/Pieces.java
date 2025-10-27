@@ -1,12 +1,11 @@
 package pieces;
 
-import board.ChessBoard;
 import pieces.black.*;
 import pieces.white.*;
 
 import java.util.Objects;
 
-public abstract class Pieces extends ChessBoard {
+public abstract class Pieces {
     private int col;
     private int row;
     protected String[][] board;
@@ -52,6 +51,7 @@ public abstract class Pieces extends ChessBoard {
     }
 
     public abstract boolean isValidMove(int targetCol, int targetRow);
+
     //Implements diagonal movements for bishop / queen of white
     public boolean diagonalMoveWhite(int targetCol, int targetRow){
         int colLocation = getCol();

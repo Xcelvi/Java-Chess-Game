@@ -1,8 +1,11 @@
 package pieces.black;
 
 import pieces.Pieces;
+import pieces.Vision;
 
-public class BlackPawn extends Pieces {
+import java.util.ArrayList;
+
+public class BlackPawn extends Pieces implements Vision {
     public BlackPawn(int col, int row, String[][] board) {
         super(col, row, board);
     }
@@ -20,5 +23,15 @@ public class BlackPawn extends Pieces {
             }
         }
         return rowLocation - targetRow == -1;
+    }
+
+    @Override
+    public ArrayList<String> getPieceVision(int col, int row) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getPieceFullVision(int col, int row) {
+        return null;
     }
 }

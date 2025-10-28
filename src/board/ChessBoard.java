@@ -20,14 +20,14 @@ public class ChessBoard {
         board[1][5] = new BlackPawn(5, 1, board);
         board[1][6] = new BlackPawn(6, 1, board);
         board[1][7] = new BlackPawn(7, 1, board);
-        board[6][0] = new WhitePawn(0, 6, board);
-        board[6][1] = new WhitePawn(1, 6, board);
-        board[6][2] = new WhitePawn(2, 6, board);
-        board[6][3] = new WhitePawn(3, 6, board);
-        board[6][4] = new WhitePawn(4, 6, board);
-        board[6][5] = new WhitePawn(5, 6, board);
-        board[6][6] = new WhitePawn(6, 6, board);
-        board[6][7] = new WhitePawn(7, 6, board);
+        board[6][0] = new WhitePawn(0, 6, board, this);
+        board[6][1] = new WhitePawn(1, 6, board, this);
+        board[6][2] = new WhitePawn(2, 6, board, this);
+        board[6][3] = new WhitePawn(3, 6, board, this);
+        board[6][4] = new WhitePawn(4, 6, board, this);
+        board[6][5] = new WhitePawn(5, 6, board, this);
+        board[6][6] = new WhitePawn(6, 6, board, this);
+        board[6][7] = new WhitePawn(7, 6, board, this);
 
         board[0][0] = new BlackRook(0, 0, board);
         board[0][7] = new BlackRook(7, 0, board);
@@ -53,6 +53,9 @@ public class ChessBoard {
         printBoard();
     }
     int turn = 1;
+    private int enPassantRow;
+    private int enPassantCol;
+
     //takes input and updates the chess board
     ArrayList<String> moveLog = new ArrayList<>();
     public void movePiece(int colPiece, int rowPiece, int colLocation, int rowLocation, BoardControl boardControl) {
@@ -79,21 +82,43 @@ public class ChessBoard {
             board[rowPiece][colPiece] = null;
 
             if (boardControl.isWhiteInCheck() && turn % 2 == white) {
-                System.out.println("Reset move white");
                 board[rowPiece][colPiece] = board[rowLocation][colLocation];
                 board[rowLocation][colLocation] = temp;
                 return;
             } else if (boardControl.isBlackInCheck() && turn % 2 == black) {
-                System.out.println("Reset move white");
                 board[rowPiece][colPiece] = board[rowLocation][colLocation];
                 board[rowLocation][colLocation] = temp;
                 return;
             }
 
+            if (piece instanceof WhitePawn) {
+                int rowDiff = piece.getRow() - rowLocation;
+                if (rowDiff == 2){
+                    enPassantRow = rowLocation + 1;
+                    enPassantCol = colLocation;
+                } else{
+                    enPassantRow = -1;
+                    enPassantCol = -1;
+                }
+            } else if (piece instanceof BlackPawn) {
+                int rowDiff = piece.getRow() - rowLocation;
+                if (rowDiff == -2){
+                    enPassantRow = rowLocation - 1;
+                    enPassantCol = colLocation;
+                } else{
+                    enPassantRow = -1;
+                    enPassantCol = -1;
+                }
+            } else{
+                enPassantRow = -1;
+                enPassantCol = -1;
+            }
+
             board[rowLocation][colLocation].setCol(colLocation);
             board[rowLocation][colLocation].setRow(rowLocation);
-            moveLog.add(board[rowLocation][colLocation].getClass().getSimpleName()  + colLocation + rowLocation);
-            System.out.println(moveLog);
+            moveLog.add(board[rowLocation][colLocation].getClass().getSimpleName()  + colPiece + rowPiece + colLocation + rowLocation);
+            System.out.println("Move Log" + moveLog);
+            setMoveLog(moveLog);
             turn += 1;
             System.out.println("turn " + turn);
         } else{
@@ -115,5 +140,18 @@ public class ChessBoard {
     }
     public Pieces[][] getBoard() {
         return board;
+    }
+    public int getEnPassantRow() {
+        return enPassantRow;
+    }
+
+    public int getEnPassantCol() {
+        return enPassantCol;
+    }
+    public ArrayList<String> getMoveLog() {
+        return moveLog;
+    }
+    public void setMoveLog(ArrayList<String> moveLog) {
+        this.moveLog = moveLog;
     }
 }

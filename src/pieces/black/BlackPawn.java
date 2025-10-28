@@ -16,7 +16,6 @@ public class BlackPawn extends Pieces implements Vision {
         int rowLocation = getRow();
         int colDiff = Math.abs(colLocation - targetCol);
         int rowDiff = Math.abs(rowLocation - targetRow);
-
         if (rowLocation == 1){
             if (colLocation - targetCol == 0){
                 if (rowLocation - targetRow == -1 || rowLocation - targetRow == -2){
@@ -24,10 +23,19 @@ public class BlackPawn extends Pieces implements Vision {
                 }
             }
         }
-        if ((colDiff== 1) && (rowDiff == 1)){
-            return board[targetRow][targetCol] != null && board[targetRow][targetCol].getClass().getSimpleName().contains("White");
+        if ((colDiff== 1) && (rowDiff == 1)) {
+            if (board[targetRow][targetCol] != null &&
+                    board[targetRow][targetCol].getClass().getSimpleName().contains("White")) {
+                return true;
+            }
+
+            // En passant capture
+            if (targetCol == getEnPassantCol() && targetRow == getEnPassantRow()) {
+                return true;
+            }
         }
-        return false;
+
+        return rowLocation - targetRow == 1 &&  colLocation - targetCol == 0 && board[targetRow][targetCol] == null;
     }
 
 

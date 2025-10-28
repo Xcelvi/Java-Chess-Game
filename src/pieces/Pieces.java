@@ -1,6 +1,7 @@
 package pieces;
 
 import board.BoardControl;
+import board.ChessBoard;
 import pieces.black.*;
 import pieces.white.*;
 
@@ -16,6 +17,11 @@ public abstract class Pieces extends BoardControl {
 
 
     public Pieces(int col, int row, Pieces[][] board) {
+        this.col = col;
+        this.row = row;
+        this.board = board;
+    }
+    public Pieces(int col, int row, Pieces[][] board, ChessBoard chessBoard) {
         this.col = col;
         this.row = row;
         this.board = board;

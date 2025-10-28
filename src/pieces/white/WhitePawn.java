@@ -1,15 +1,17 @@
 package pieces.white;
 
+import board.ChessBoard;
 import pieces.Pieces;
 import pieces.Vision;
 
 import java.util.ArrayList;
 
 public class WhitePawn extends Pieces implements Vision {
-    public WhitePawn(int col, int row, Pieces[][] board) {
-        super(col, row, board);
+    public WhitePawn(int col, int row, Pieces[][] board, ChessBoard chessBoard) {
+        super(col, row, board, chessBoard);
+        this.chessBoard = chessBoard;
     }
-
+    private final ChessBoard chessBoard;
     @Override
     public boolean isValidMove(int targetCol, int targetRow) {
         int colLocation = getCol();
@@ -23,9 +25,21 @@ public class WhitePawn extends Pieces implements Vision {
                 }
             }
         }
-        if ((colDiff== 1) && (rowDiff == 1)){
-            return board[targetRow][targetCol] != null && board[targetRow][targetCol].getClass().getSimpleName().contains("Black");
+        if ((colDiff== 1) && (rowDiff == 1)) {
+            if (board[targetRow][targetCol] != null &&
+                    board[targetRow][targetCol].getClass().getSimpleName().contains("Black")) {
+                return true;
+            }
+            if (targetRow == 2) {
+                System.out.println("BlackPawn" + (targetCol) + "1" + (targetCol) + 3);
+                ArrayList<String> moveLog = chessBoard.getMoveLog();
+                if (moveLog.get(moveLog.size()-1).equals("BlackPawn" + (targetCol) + "1" + (targetCol) + 3)) {
+                    board[targetRow + 1][targetCol] = null;
+                    return true;
+                }
+            }
         }
+
         return rowLocation - targetRow == 1 &&  colLocation - targetCol == 0 && board[targetRow][targetCol] == null;
     }
 

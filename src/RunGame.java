@@ -1,7 +1,5 @@
 import board.BoardControl;
-import board.ChessBoard;
-import pieces.Pieces;
-import pieces.white.WhitePawn;
+
 
 import java.util.Scanner;
 
@@ -13,7 +11,6 @@ public class RunGame {
         board.initializeBoard();
 
         Scanner sc = new Scanner(System.in);
-        int turn = 1;
         do {
             System.out.println("Please enter the coordinates of the piece you would like to move and the move location:");
             String move = sc.nextLine();
@@ -23,12 +20,11 @@ public class RunGame {
             try {
                 int pieceRow = rowInput(move.charAt(1) + "");
                 int pieceColumn = colInput(move.charAt(0) + "");
-
                 int moveRow = rowInput(move.charAt(4) + "");
                 int movenColumn = colInput(move.charAt(3) + "");
-                board.movePiece(pieceColumn, pieceRow, movenColumn, moveRow, turn);
+                board.movePiece(pieceColumn, pieceRow, movenColumn, moveRow, board);
                 board.setBoardVision();
-                turn += 1;
+                board.printBoard();
             } finally{
                 continue;
             }
@@ -38,6 +34,7 @@ public class RunGame {
     // Below is taking user inputs and converting it into usable row / columns in my 2d array
     private static int colInput(String colInput) {
         int colValue = -1;
+        colInput = colInput.toUpperCase();
         switch (colInput) {
             case "A" : colValue = 0; break;
             case "B" : colValue = 1; break;

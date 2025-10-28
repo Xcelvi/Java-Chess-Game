@@ -18,9 +18,9 @@ public class BlackKing extends Pieces implements Vision {
         int colDiff = Math.abs(colLocation - targetCol);
         int rowDiff = Math.abs(rowLocation - targetRow);
 
-        if (isKingInCheckBlack(targetCol, targetRow)) {
-            return false;
-        }
+//        if (isKingInCheckBlack(targetCol, targetRow)) {
+//            return false;
+//        }
 
         if (colDiff == 1 && rowDiff ==1 && diagonalMoveBlack(targetCol, targetRow)){
             this.hasMoved = true;
@@ -46,6 +46,8 @@ public class BlackKing extends Pieces implements Vision {
                     }
                     board[0][2] = board[0][0];
                     board[0][0] = null;
+                    board[0][2].setCol(2);
+                    board[0][2].setRow(0);
                     return true;
                 }
                 //if they are castling king side
@@ -58,6 +60,8 @@ public class BlackKing extends Pieces implements Vision {
                     }
                         board[0][5] = board[0][7];
                         board[0][7] = null;
+                        board[0][5].setCol(5);
+                        board[0][5].setRow(0);
                         return true;
                     }
                 }
@@ -67,7 +71,36 @@ public class BlackKing extends Pieces implements Vision {
 
 
     @Override
-    public ArrayList<String> getPieceFullVision(int col, int row) {
-        return null;
+    public ArrayList<String> getPieceFullVision(int targetCol, int targetRow) {
+        ArrayList<String> pieceVision = new ArrayList<>();
+        int[][] aroundKingMoves = {
+                {-1, -1}, {-1, 0},
+                {-1, 1}, {0, 1},
+                {1, 1}, {1, 0},
+                {1, -1}, {0, -1}
+        };
+
+        for (int[] move : aroundKingMoves) {
+            int tempColLocation = targetCol;
+            int tempRowLocation = targetRow;
+            tempColLocation += move[0];
+            tempRowLocation += move[1];
+
+            // Check board bounds (0–7 if 8×8 board)
+           if ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)){
+                String square;
+                if (board[tempRowLocation][tempColLocation] == null){
+                    square = "null";
+                }else {
+                    square = board[tempRowLocation][tempColLocation].getClass().getSimpleName();
+                }
+                pieceVision.add(square);
+
+                if (board[tempRowLocation][tempColLocation] != null) break;
+
+            }
+        }
+        setPieceVision(pieceVision);
+        return pieceVision;
     }
 }

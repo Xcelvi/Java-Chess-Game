@@ -17,8 +17,10 @@ public class BlackQueen extends Pieces implements Vision {
 
         int colDiff = Math.abs(colLocation - targetCol);
         int rowDiff = Math.abs(rowLocation - targetRow);
-        if (colDiff == rowDiff)  return diagonalMoveBlack(targetCol, targetRow);
-        return horizontalVerticalMoveBlack(targetCol, targetRow);
+        if (colDiff == rowDiff && diagonalMoveBlack(targetCol, targetRow)) {
+
+            return true;
+        }else return horizontalVerticalMoveBlack(targetCol, targetRow);
     }
 
     @Override
@@ -69,7 +71,7 @@ public class BlackQueen extends Pieces implements Vision {
             }
             pieceVision.add("|");
         }
-
+        setPieceVision(pieceVision);
         return pieceVision;
     }
 

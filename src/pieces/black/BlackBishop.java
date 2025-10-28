@@ -40,6 +40,7 @@ public class BlackBishop extends Pieces implements Vision {
             }
             pieceVision.add("|");
         }
+        setPieceVision(pieceVision);
         return pieceVision;
     }
 

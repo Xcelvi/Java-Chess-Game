@@ -10,15 +10,10 @@ public class WhiteRook extends Pieces implements Vision {
         super(col, row, board);
     }
 
-
-
     @Override
     public boolean isValidMove(int targetCol, int targetRow) {
-
         if (horizontalVerticalMoveWhite(targetCol, targetRow)) {
             hasMoved = true;
-            setCol(targetCol);
-            setRow(targetRow);
             return true;
         }
         return false;
@@ -49,8 +44,9 @@ public class WhiteRook extends Pieces implements Vision {
                 tempRowLocation += d[1];
             }
             pieceVision.add("|");
-        }
-        System.out.println("Returned piece vision");
+            }
+        setPieceVision(new  ArrayList<>());
+        setPieceVision(pieceVision);
         return pieceVision;
     }
 }

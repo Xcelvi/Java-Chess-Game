@@ -42,6 +42,7 @@ public class WhiteBishop extends Pieces implements Vision {
             }
             pieceVision.add("|");
         }
+        setPieceVision(pieceVision);
         return pieceVision;
     }
 }

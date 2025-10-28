@@ -14,13 +14,13 @@ public class BlackKnight extends Pieces implements Vision {
     public boolean isValidMove(int targetCol, int targetRow){
         int colLocation = getCol();
         int rowLocation = getRow();
-        System.out.println("In black knight");
-        if (board[targetRow][targetCol].getClass().getSimpleName().contains("Black")){
-            return false;
+        if (board[targetRow][targetCol] != null) {
+            if (board[targetRow][targetCol].getClass().getSimpleName().contains("Black")) {
+                return false;
+            }
         }
         int colDiff = Math.abs(colLocation - targetCol);
         int rowDiff = Math.abs(rowLocation - targetRow);
-        System.out.println("In black knight");
         if (colDiff == 2 && rowDiff == 1){
             return true;
         }else return colDiff == 1 && rowDiff == 2;
@@ -51,6 +51,7 @@ public class BlackKnight extends Pieces implements Vision {
                 }
             }
         }
+        setPieceVision(pieceVision);
         return pieceVision;
     }
 }

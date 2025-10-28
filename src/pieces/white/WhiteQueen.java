@@ -19,8 +19,10 @@ public class WhiteQueen extends Pieces implements Vision {
 
         int colDiff = Math.abs(colLocation - targetCol);
         int rowDiff = Math.abs(rowLocation - targetRow);
-        if (colDiff == rowDiff)  return diagonalMoveWhite(targetCol, targetRow);
-        return horizontalVerticalMoveWhite(targetCol, targetRow);
+        if (colDiff == rowDiff && diagonalMoveWhite(targetCol, targetRow)) {
+            return true;
+
+        }else return horizontalVerticalMoveWhite(targetCol, targetRow);
     }
 
     @Override
@@ -34,10 +36,15 @@ public class WhiteQueen extends Pieces implements Vision {
             tempColLocation += d[0];
             tempRowLocation += d[1];
             while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)){
-                String square = board[tempRowLocation][tempColLocation].getClass().getSimpleName();
+                String square;
+                if (board[tempRowLocation][tempColLocation] == null){
+                    square = "null";
+                }else {
+                    square = board[tempRowLocation][tempColLocation].getClass().getSimpleName();
+                }
                 pieceVision.add(square);
 
-                if (!square.contains("-")) break;
+                if (board[tempRowLocation][tempColLocation] != null) break;
 
                 tempColLocation += d[0];
                 tempRowLocation += d[1];
@@ -51,17 +58,22 @@ public class WhiteQueen extends Pieces implements Vision {
             tempColLocation += d[0];
             tempRowLocation += d[1];
             while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)){
-                String square = board[tempRowLocation][tempColLocation].getClass().getSimpleName();
+                String square;
+                if (board[tempRowLocation][tempColLocation] == null){
+                    square = "null";
+                }else {
+                    square = board[tempRowLocation][tempColLocation].getClass().getSimpleName();
+                }
                 pieceVision.add(square);
 
-                if (!square.contains("-")) break;
+                if (board[tempRowLocation][tempColLocation] != null) break;
 
                 tempColLocation += d[0];
                 tempRowLocation += d[1];
             }
             pieceVision.add("|");
         }
-
+        setPieceVision(pieceVision);
         return pieceVision;
     }
 }

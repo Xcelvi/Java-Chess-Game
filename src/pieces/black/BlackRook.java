@@ -17,7 +17,6 @@ public class BlackRook extends Pieces implements Vision {
     public boolean isValidMove(int targetCol, int targetRow) {
         if (horizontalVerticalMoveBlack(targetCol, targetRow)) {
             hasMoved = true;
-            System.out.println(pieceVision);
             return true;
         }
         return false;
@@ -49,6 +48,7 @@ public class BlackRook extends Pieces implements Vision {
             }
             pieceVision.add("|");
         }
+        setPieceVision(pieceVision);
         return pieceVision;
     }
 }

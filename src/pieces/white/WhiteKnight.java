@@ -14,8 +14,10 @@ public class WhiteKnight extends Pieces implements Vision {
     public boolean isValidMove(int targetCol, int targetRow){
         int colLocation = getCol();
         int rowLocation = getRow();
-        if (board[targetRow][targetCol].getClass().getSimpleName().contains("White")){
-            return false;
+        if (board[targetRow][targetCol] != null) {
+            if (board[targetRow][targetCol].getClass().getSimpleName().contains("Black")) {
+                return false;
+            }
         }
         int colDiff = Math.abs(colLocation - targetCol);
         int rowDiff = Math.abs(rowLocation - targetRow);
@@ -42,13 +44,15 @@ public class WhiteKnight extends Pieces implements Vision {
             tempRowLocation += move[1];
 
             // Check board bounds (0–7 if 8×8 board)
-            while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)){
-                String square = board[tempRowLocation][tempColLocation].getClass().getSimpleName();
-                pieceVision.add(square);
-                tempColLocation += move[0];
-                tempRowLocation += move[1];
+            if (tempColLocation >= 0 && tempRowLocation >= 0 && tempColLocation < 8 && tempRowLocation < 8) {
+                if (board[tempRowLocation][tempColLocation] == null){
+                    pieceVision.add("null");
+                }else {
+                    pieceVision.add(board[tempRowLocation][tempColLocation].getClass().getSimpleName());
+                }
             }
         }
+        setPieceVision(pieceVision);
         return pieceVision;
     }
 }

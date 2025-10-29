@@ -12,14 +12,14 @@ public class ChessBoard {
     //loops over to initialize entire chess board
     public void initializeBoard() {
         // initialize pawns
-        board[1][0] = new BlackPawn(0, 1, board);
-        board[1][1] = new BlackPawn(1, 1, board);
-        board[1][2] = new BlackPawn(2, 1, board);
-        board[1][3] = new BlackPawn(3, 1, board);
-        board[1][4] = new BlackPawn(4, 1, board);
-        board[1][5] = new BlackPawn(5, 1, board);
-        board[1][6] = new BlackPawn(6, 1, board);
-        board[1][7] = new BlackPawn(7, 1, board);
+        board[1][0] = new BlackPawn(0, 1, board, this);
+        board[1][1] = new BlackPawn(1, 1, board, this);
+        board[1][2] = new BlackPawn(2, 1, board, this);
+        board[1][3] = new BlackPawn(3, 1, board, this);
+        board[1][4] = new BlackPawn(4, 1, board, this);
+        board[1][5] = new BlackPawn(5, 1, board, this);
+        board[1][6] = new BlackPawn(6, 1, board, this);
+        board[1][7] = new BlackPawn(7, 1, board, this);
         board[6][0] = new WhitePawn(0, 6, board, this);
         board[6][1] = new WhitePawn(1, 6, board, this);
         board[6][2] = new WhitePawn(2, 6, board, this);

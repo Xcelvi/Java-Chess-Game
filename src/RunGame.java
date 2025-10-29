@@ -17,7 +17,6 @@ public class RunGame {
             if (move.equals("end")) {
                 break;
             }
-            try {
                 int pieceRow = rowInput(move.charAt(1) + "");
                 int pieceColumn = colInput(move.charAt(0) + "");
                 int moveRow = rowInput(move.charAt(4) + "");
@@ -25,9 +24,6 @@ public class RunGame {
                 board.movePiece(pieceColumn, pieceRow, movenColumn, moveRow, board);
                 board.setBoardVision();
                 board.printBoard();
-            } finally{
-                continue;
-            }
         } while (true);
     }
 

@@ -58,7 +58,7 @@ public class WhitePawn extends Pieces implements Vision {
             if (board[targetRow - 1][targetCol - 1] == null) {
                 pieceVision.add("Null");
             } else if (board[targetRow - 1][targetCol - 1] != null) {
-                pieceVision.add(board[targetRow - 1][targetCol + 1].getClass().getSimpleName());
+                pieceVision.add(board[targetRow - 1][targetCol - 1].getClass().getSimpleName());
             }
         }
         setPieceVision(pieceVision);

@@ -1,72 +1,91 @@
+import board.AI;
 import board.BoardControl;
 import board.ChessGUI;
+import board.Move;
 
-
+import javax.swing.*;
 import java.util.Scanner;
 
 public class RunGame {
     public static void main(String[] args) {
 
-        //Initializes and prints the chess board, and begins the game
         BoardControl board = new BoardControl();
         board.initializeBoard();
-        ChessGUI chessGUI = new ChessGUI(board);
 
-
+        AI ai = new AI(board);
+        ChessGUI chessGUI = new ChessGUI(board, ai);
         Scanner sc = new Scanner(System.in);
-        do {
-            System.out.println("Please enter the coordinates of the piece you would like to move and the move location:");
-            String move = sc.nextLine();
-            if (move.equals("end")) {
-                break;
-            }
+
+        while (true) {
+            int turn = board.getTurn();
+            boolean isHumanTurn = turn % 2 == 1;
+
+            if (isHumanTurn) {
+                System.out.println("Please enter the coordinates of the piece you would like to move and the move location:");
+                String move = sc.nextLine();
+                if (move.equals("end")) break;
+
                 int pieceRow = rowInput(move.charAt(1) + "");
-                int pieceColumn = colInput(move.charAt(0) + "");
+                int pieceCol = colInput(move.charAt(0) + "");
                 int moveRow = rowInput(move.charAt(4) + "");
-                int movenColumn = colInput(move.charAt(3) + "");
-                board.movePiece(pieceColumn, pieceRow, movenColumn, moveRow, board);
-                board.setBoardVision();
-                chessGUI.updateBoard();
-                board.printBoard();
-        } while (true);
+                int moveCol = colInput(move.charAt(3) + "");
+
+                if (board.isMoveLegal(pieceCol, pieceRow, moveCol, moveRow, board)) {
+                    board.movePiece(pieceCol, pieceRow, moveCol, moveRow, board);
+                    board.setBoardVision();
+                    SwingUtilities.invokeLater(chessGUI::updateBoard);
+                    board.printBoard();
+                } else {
+                    System.out.println("Invalid move");
+                    continue;
+                }
+            } else { // AI turn
+                System.out.println("AI is thinking...");
+                Move aiMove = ai.findBestMove(false, 5);
+                if (aiMove != null) {
+                    board.makeMove(aiMove);
+                    board.setBoardVision();
+                    board.increaseTurn();
+                    SwingUtilities.invokeLater(chessGUI::updateBoard);
+                    board.printBoard();
+                    System.out.println("AI move: " + aiMove.toString());
+                } else {
+                    System.out.println("No AI move found");
+                    board.setBoardVision();
+                    SwingUtilities.invokeLater(chessGUI::updateBoard);
+                    board.printBoard();
+                    break;
+                }
+            }
+        }
     }
 
-    // Below is taking user inputs and converting it into usable row / columns in my 2d array
     private static int colInput(String colInput) {
-        int colValue = -1;
-        colInput = colInput.toUpperCase();
-        switch (colInput) {
-            case "A" : colValue = 0; break;
-            case "B" : colValue = 1; break;
-            case "C" : colValue = 2; break;
-            case "D" : colValue = 3; break;
-            case "E" : colValue = 4; break;
-            case "F" : colValue = 5; break;
-            case "G" : colValue = 6; break;
-            case "H" : colValue = 7; break;
-            default:
-                System.out.println("Invalid input");
-                break;
-        }
-        return colValue;
-    }
-    private static int rowInput(String rowInput) {
-        int rowValue  = Integer.parseInt(rowInput);
-        switch (rowValue) {
-            case 8 : rowValue = 0; break;
-            case 7 : rowValue = 1; break;
-            case 6 : rowValue = 2; break;
-            case 5 : rowValue = 3; break;
-            case 4 :
-                break;
-            case 3 : rowValue = 5; break;
-            case 2 : rowValue = 6; break;
-            case 1 : rowValue = 7; break;
-            default:
-                System.out.println("Invalid input");
-                break;
-        }
-        return rowValue;
+        return switch (colInput.toUpperCase()) {
+            case "A" -> 0;
+            case "B" -> 1;
+            case "C" -> 2;
+            case "D" -> 3;
+            case "E" -> 4;
+            case "F" -> 5;
+            case "G" -> 6;
+            case "H" -> 7;
+            default -> -1;
+        };
     }
 
+    private static int rowInput(String rowInput) {
+        int rowValue = Integer.parseInt(rowInput);
+        return switch (rowValue) {
+            case 8 -> 0;
+            case 7 -> 1;
+            case 6 -> 2;
+            case 5 -> 3;
+            case 4 -> 4;
+            case 3 -> 5;
+            case 2 -> 6;
+            case 1 -> 7;
+            default -> -1;
+        };
+    }
 }

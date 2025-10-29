@@ -31,7 +31,7 @@ public class WhitePawn extends Pieces implements Vision {
                     board[targetRow][targetCol].getClass().getSimpleName().contains("Black")) {
                 return true;
             }
-            if (targetRow == 2) {
+            if (targetRow == 2 && rowLocation == 3) {
                 System.out.println("BlackPawn" + (targetCol) + "1" + (targetCol) + 3);
                 ArrayList<String> moveLog = chessBoard.getMoveLog();
                 if (moveLog.get(moveLog.size()-1).equals("BlackPawn" + (targetCol) + "1" + (targetCol) + 3)) {

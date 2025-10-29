@@ -9,13 +9,14 @@ public class ChessGUI {
     private final BoardControl boardControl;
     private final JPanel chessBoardPanel;
     private final JButton[][] squares = new JButton[8][8];
+    private final AI ai;
 
-    public ChessGUI(BoardControl boardControl) {
+    public ChessGUI(BoardControl boardControl, AI ai) {
         this.boardControl = boardControl;
+        this.ai = ai;
         JFrame frame = new JFrame("Chess Board");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(600, 600);
-        frame.setVisible(true);
 
         chessBoardPanel = new JPanel(new GridLayout(8, 8));
         initializeBoard();
@@ -46,9 +47,6 @@ public class ChessGUI {
         }
     }
 
-    public static void main(String[] args) {
-        new ChessGUI(new BoardControl());
-    }
     public void updateBoard() {
         Pieces[][] board = boardControl.getBoard();
         for (int row = 0; row < 8; row++) {
@@ -62,7 +60,10 @@ public class ChessGUI {
                 }
             }
         }
+        chessBoardPanel.revalidate();
+        chessBoardPanel.repaint();
     }
+
     private String getPieceSymbol(Pieces piece) {
         String name = piece.getClass().getSimpleName();
         return switch (name) {
@@ -81,27 +82,41 @@ public class ChessGUI {
             default -> "Unknown";
         };
     }
-    int selectedRow = -1;
-    int selectedCol = -1;
+
+    private int selectedRow = -1;
+    private int selectedCol = -1;
+
     private void handleClick(int row, int col) {
         Pieces[][] board = boardControl.getBoard();
+
         if (selectedRow == -1 && selectedCol == -1) {
-            if(board[row][col] != null) {
+            if (board[row][col] != null) {
                 selectedRow = row;
                 selectedCol = col;
             }
             return;
         }
 
-
-        Pieces movingPiece = board[selectedRow][selectedCol];
-        boardControl.movePiece(selectedCol, selectedRow, col, row, boardControl);
-        if (board[row][col] == movingPiece) {
+        if (boardControl.isMoveLegal(selectedCol, selectedRow, col, row, boardControl)) {
+            boardControl.movePiece(selectedCol, selectedRow, col, row, boardControl);
             boardControl.setBoardVision();
             updateBoard();
-        }
+            selectedRow = -1;
+            selectedCol = -1;
 
-        selectedRow = -1;
-        selectedCol = -1;
+            // Run AI move on a separate thread
+            new Thread(() -> {
+                Move aiMove = ai.findBestMove(false, 1);
+                if (aiMove != null) {
+                    SwingUtilities.invokeLater(() -> {
+                        boardControl.makeMove(aiMove);
+                        boardControl.setBoardVision();
+                        boardControl.increaseTurn();
+                        updateBoard();
+                    });
+                }
+            }).start();
         }
+    }
+
 }

@@ -26,12 +26,15 @@ public class BlackPawn extends Pieces implements Vision {
                 }
             }
         }
+        if (rowDiff > 1){
+            return false;
+        }
         if ((colDiff== 1) && (rowDiff == 1)) {
             if (board[targetRow][targetCol] != null &&
                     board[targetRow][targetCol].getClass().getSimpleName().contains("White")) {
                 return true;
             }
-            if (targetRow == 5) {
+            if (targetRow == 5 && rowLocation == 4) {
                 System.out.println("BlackPawn" + (targetCol) + "6" + (targetCol) + 5);
                 ArrayList<String> moveLog = chessBoard.getMoveLog();
                 if (moveLog.get(moveLog.size()-1).equals("WhitePawn" + (targetCol) + "6" + (targetCol) + 4)) {

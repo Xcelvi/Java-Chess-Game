@@ -110,5 +110,7 @@ public class BlackKing extends Pieces implements Vision {
         setPieceVision(pieceVision);
         return pieceVision;
     }
-
+    public void setHasMoved(boolean hasMoved) {
+        this.hasMoved = hasMoved;
+    }
 }

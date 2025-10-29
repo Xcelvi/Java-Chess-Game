@@ -73,8 +73,8 @@ public class ChessBoard {
         return false;
     }
 
-    public ArrayList<String> generateAllLegalMoves(BoardControl boardControl) {
-        ArrayList<String> legalMoves = new ArrayList<>();
+    public ArrayList<Move> generateAllLegalMoves(BoardControl boardControl) {
+        ArrayList<Move> legalMoves = new ArrayList<>();
         for  (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 Pieces piece = board[row][col];
@@ -86,13 +86,12 @@ public class ChessBoard {
                 for (int targetRow = 0; targetRow < 8; targetRow++) {
                     for (int targetCol = 0; targetCol < 8; targetCol++) {
                         if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) {
-                            legalMoves.add(row + "" + col + " " +  targetRow  + targetCol);
+                            legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
                         }
                     }
                 }
             }
         }
-        System.out.println("Legal moves: " + legalMoves);
         return legalMoves;
     }
     public Pieces[][] getBoard() {
@@ -113,5 +112,35 @@ public class ChessBoard {
             return new WhiteQueen(col, row, board);
         }
         return null;
+    }
+    public Pieces makeMove(Move move) {
+        Pieces captured = move.capturedPiece;
+        Pieces movedPiece = move.movedPiece;
+
+        board[move.toRow][move.toCol] = movedPiece;
+        board[move.fromRow][move.fromCol] = null;
+
+
+        movedPiece.setRow(move.toRow);
+        movedPiece.setCol(move.toCol);
+        return captured;
+    }
+
+    public void undoMove(Move move, Pieces captured) {
+        Pieces movedPiece = move.movedPiece;
+
+        board[move.fromRow][move.fromCol] = movedPiece;
+        board[move.toRow][move.toCol] = captured;
+
+
+        movedPiece.setRow(move.fromRow);
+        movedPiece.setCol(move.fromCol);
+
+    }
+    public int getTurn() {
+        return turn;
+    }
+    public void increaseTurn() {
+        turn++;
     }
 }

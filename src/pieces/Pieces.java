@@ -21,6 +21,11 @@ public abstract class Pieces extends BoardControl {
         this.row = row;
         this.board = board;
     }
+    public Pieces(int col, int row, Pieces[][] board, ChessBoard chessBoard) {
+        this.col = col;
+        this.row = row;
+        this.board = board;
+    }
 
     public int getCol() {
         return col;
@@ -30,6 +35,9 @@ public abstract class Pieces extends BoardControl {
         return row;
     }
 
+    public boolean getHasMoved() {
+        return hasMoved;
+    }
     public void setCol(int col) {
         this.col = col;
     }
@@ -59,9 +67,15 @@ public abstract class Pieces extends BoardControl {
         colLocation += colStep;
         rowLocation += rowStep;
 
+        if (colLocation < 0 || colLocation > 7
+                || rowLocation < 0 || rowLocation > 7) {
+            return false;
+        }
         while (colLocation != targetCol && rowLocation != targetRow) {
-            if (board[rowLocation][colLocation] != null) {
-                return false;
+            if (rowLocation >0 && colLocation > 0 && rowLocation < 7 && colLocation < 7) {
+                if (board[rowLocation][colLocation] != null) {
+                    return false;
+                }
             }
             colLocation = colLocation + colStep;
             rowLocation = rowLocation + rowStep;
@@ -118,10 +132,15 @@ public abstract class Pieces extends BoardControl {
 
         colLocation += colStep;
         rowLocation += rowStep;
-
+        if (colLocation > 7 || colLocation < 0
+        || rowLocation > 7 || rowLocation < 0) {
+            return false;
+        }
         while (colLocation != targetCol && rowLocation != targetRow) {
-            if (board[rowLocation][colLocation] != null) {
-                return false;
+            if  (rowLocation >0 && colLocation > 0 && rowLocation < 7 && colLocation < 7) {
+                if (board[rowLocation][colLocation] != null) {
+                    return false;
+                }
             }
             colLocation = colLocation + colStep;
             rowLocation = rowLocation + rowStep;

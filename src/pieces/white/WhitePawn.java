@@ -1,5 +1,6 @@
 package pieces.white;
 
+import board.BoardControl;
 import board.ChessBoard;
 import pieces.Pieces;
 import pieces.Vision;
@@ -7,7 +8,7 @@ import pieces.Vision;
 import java.util.ArrayList;
 
 public class WhitePawn extends Pieces implements Vision {
-    public WhitePawn(int col, int row, Pieces[][] board, ChessBoard chessBoard) {
+    public WhitePawn(int col, int row, Pieces[][] board, BoardControl chessBoard) {
         super(col, row, board, chessBoard);
         this.chessBoard = chessBoard;
     }
@@ -47,14 +48,14 @@ public class WhitePawn extends Pieces implements Vision {
     public ArrayList<String> getPieceFullVision(int targetCol, int targetRow) {
         ArrayList<String> pieceVision = new ArrayList<>();
 
-        if (targetRow -1 > 0 && targetCol + 1 < 8) {
+        if (targetRow - 1 >= 0 && targetCol + 1 < 8) {
             if (board[targetRow - 1][targetCol + 1] == null) {
                 pieceVision.add("Null");
             } else if (board[targetRow - 1][targetCol + 1] != null) {
                 pieceVision.add(board[targetRow - 1][targetCol + 1].getClass().getSimpleName());
             }
         }
-        if (targetRow -1 > 0 && targetCol -1 > 0) {
+        if (targetRow -1 >= 0 && targetCol -1 >= 0) {
             if (board[targetRow - 1][targetCol - 1] == null) {
                 pieceVision.add("Null");
             } else if (board[targetRow - 1][targetCol - 1] != null) {

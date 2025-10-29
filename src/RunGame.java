@@ -1,4 +1,5 @@
 import board.BoardControl;
+import board.ChessGUI;
 
 
 import java.util.Scanner;
@@ -9,6 +10,8 @@ public class RunGame {
         //Initializes and prints the chess board, and begins the game
         BoardControl board = new BoardControl();
         board.initializeBoard();
+        ChessGUI chessGUI = new ChessGUI(board);
+
 
         Scanner sc = new Scanner(System.in);
         do {
@@ -23,6 +26,7 @@ public class RunGame {
                 int movenColumn = colInput(move.charAt(3) + "");
                 board.movePiece(pieceColumn, pieceRow, movenColumn, moveRow, board);
                 board.setBoardVision();
+                chessGUI.updateBoard();
                 board.printBoard();
         } while (true);
     }

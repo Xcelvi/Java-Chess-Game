@@ -1,5 +1,6 @@
 package pieces.black;
 
+import board.BoardControl;
 import pieces.Pieces;
 import pieces.Vision;
 
@@ -7,9 +8,11 @@ import java.util.ArrayList;
 
 
 public class BlackKing extends Pieces implements Vision {
-    public BlackKing(int col, int row, Pieces[][] board) {
+    public BlackKing(int col, int row, Pieces[][] board, BoardControl chessBoard) {
         super(col, row, board);
+        this.chessBoard = chessBoard;
     }
+    BoardControl chessBoard;
     @Override
     public boolean isValidMove(int targetCol, int targetRow){
         int colLocation = getCol();
@@ -33,41 +36,47 @@ public class BlackKing extends Pieces implements Vision {
             return true;
         }
         //if the kings hasn't moved
-        if (hasMoved){
+        if (!hasMoved) {
             //if they are castling queen side
-            if (targetRow == 0 && targetCol == 1){
+            if (targetRow == 0 && targetCol == 2){
                 //if the rook queen side has not moved
-                if (board[0][0] != null && board[0][0].getHasMoved()){
+                if (board[0][0] != null && !board[0][0].getHasMoved()){
                     //check if squares are open, if not return false.
-                    for (int i = 1; i < 4; i++){
+                    for (int i = 3; i > 1; i--){
                         if (board[0][i] != null){
                             return false;
                         }
+                        if (chessBoard.isWhiteInCheck(board, colLocation, rowLocation, i, targetRow)){
+                            return false;
+                        }
                     }
-                    board[0][2] = board[0][0];
+                    board[0][3] = board[0][0];
                     board[0][0] = null;
-                    board[0][2].setCol(2);
-                    board[0][2].setRow(0);
+                    board[0][3].setCol(3);
+                    board[0][3].setRow(0);
                     return true;
                 }
                 //if they are castling king side
             } else if (targetRow == 0 && targetCol == 6){
                 //If the king side rook has not moved
-                if (board[0][7] != null && board[0][7].getHasMoved()){
+                if (board[0][7] != null && !board[0][7].getHasMoved()){
                     //check if squares are open, if not return false.
-                    if (board[0][5] != null &&  board[0][6] != null){
+                    if (board[0][5] != null || board[0][6] != null){
                         return false;
                     }
-                        board[0][5] = board[0][7];
-                        board[0][7] = null;
-                        board[0][5].setCol(5);
-                        board[0][5].setRow(0);
-                        return true;
+                    if (chessBoard.isWhiteInCheck(board, colLocation, rowLocation, 5, 0) || chessBoard.isWhiteInCheck(board, colLocation, rowLocation, 6, 0)) {
+                        return false;
                     }
+                    board[0][5] = board[0][7];
+                    board[0][7] = null;
+                    board[0][5].setCol(5);
+                    board[0][5].setRow(0);
+                    return true;
                 }
             }
-        return false;
         }
+        return false;
+    }
 
 
     @Override
@@ -96,11 +105,10 @@ public class BlackKing extends Pieces implements Vision {
                 }
                 pieceVision.add(square);
 
-                if (board[tempRowLocation][tempColLocation] != null) break;
-
             }
         }
         setPieceVision(pieceVision);
         return pieceVision;
     }
+
 }

@@ -15,7 +15,7 @@ public class WhiteKnight extends Pieces implements Vision {
         int colLocation = getCol();
         int rowLocation = getRow();
         if (board[targetRow][targetCol] != null) {
-            if (board[targetRow][targetCol].getClass().getSimpleName().contains("Black")) {
+            if (board[targetRow][targetCol].getClass().getSimpleName().contains("White")) {
                 return false;
             }
         }

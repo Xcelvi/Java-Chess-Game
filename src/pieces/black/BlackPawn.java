@@ -1,5 +1,6 @@
 package pieces.black;
 
+import board.BoardControl;
 import board.ChessBoard;
 import pieces.Pieces;
 import pieces.Vision;
@@ -7,7 +8,7 @@ import pieces.Vision;
 import java.util.ArrayList;
 
 public class BlackPawn extends Pieces implements Vision {
-    public BlackPawn(int col, int row, Pieces[][] board, ChessBoard chessBoard) {
+    public BlackPawn(int col, int row, Pieces[][] board, BoardControl chessBoard) {
         super(col, row, board);
         this.chessBoard = chessBoard;
     }
@@ -27,7 +28,7 @@ public class BlackPawn extends Pieces implements Vision {
         }
         if ((colDiff== 1) && (rowDiff == 1)) {
             if (board[targetRow][targetCol] != null &&
-                    board[targetRow][targetCol].getClass().getSimpleName().contains("Black")) {
+                    board[targetRow][targetCol].getClass().getSimpleName().contains("White")) {
                 return true;
             }
             if (targetRow == 5) {
@@ -55,7 +56,7 @@ public class BlackPawn extends Pieces implements Vision {
                 pieceVision.add(board[targetRow + 1][targetCol + 1].getClass().getSimpleName());
             }
         }
-        if (targetRow + 1 < 8 && targetCol -1 > 0) {
+        if (targetRow + 1 < 8 && targetCol -1 >= 0) {
             if (board[targetRow + 1][targetCol - 1] == null) {
                 pieceVision.add("Null");
             } else if (board[targetRow + 1][targetCol - 1] != null) {

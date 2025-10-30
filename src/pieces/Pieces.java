@@ -93,6 +93,7 @@ public abstract class Pieces extends BoardControl {
         int rowDiff = Math.abs(rowLocation - targetRow);
         if (colDiff > 0 && rowDiff > 0) return false;
         int colStep = 0, rowStep = 0;
+        if (!(targetCol >=0 && targetRow >= 0 && targetCol < 8 && targetRow < 8)) return false;
 
         if (colLocation - targetCol > 0) {
             colStep = -1;
@@ -179,10 +180,14 @@ public abstract class Pieces extends BoardControl {
             colLocation = colLocation + colStep;
             rowLocation = rowLocation + rowStep;
         }
-        if (board[rowLocation][colLocation] != null) {
-            Pieces piece = board[rowLocation][colLocation];
-            return !piece.getClass().getSimpleName().contains("Black");
-        }else return true;
+        if (rowLocation < 8 && colLocation < 8
+        && rowLocation >= 0  && colLocation >= 0) {
+            if (board[rowLocation][colLocation] != null) {
+                Pieces piece = board[rowLocation][colLocation];
+                return !piece.getClass().getSimpleName().contains("Black");
+            } else return true;
+        }
+        return false;
     }
 
     public void setHasMoved(boolean hasMoved) {

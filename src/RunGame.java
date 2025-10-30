@@ -20,7 +20,7 @@ public class RunGame {
             int turn = board.getTurn();
             boolean isHumanTurn = turn % 2 == 1;
 
-            if (true) {
+            if (false) {
                 System.out.println("Please enter the coordinates of the piece you would like to move and the move location:");
                 String move = sc.nextLine();
                 if (move.equals("end")) break;
@@ -41,7 +41,7 @@ public class RunGame {
                 }
             } else { // AI turn
                 System.out.println("AI is thinking...");
-                Move aiMove = ai.findBestMove(false, 5);
+                Move aiMove = ai.findBestMove(false, 3);
                 if (aiMove != null) {
                     board.makeMove(aiMove);
                     board.setBoardVision();

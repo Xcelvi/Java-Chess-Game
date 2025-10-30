@@ -41,8 +41,15 @@ public class AI {
     public Move findBestMove(boolean isWhite, int depth) {
         //Generate the full list of legal moves
         ArrayList<Move> legalMoves = board.generateAllLegalMoves(board);
-        Move bestMove = null;
         int bestScore = isWhite ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+        if (isWhite && legalMoves.isEmpty()) {
+            System.out.println("Game Over");
+            bestScore = Integer.MAX_VALUE;
+        } else if(!isWhite && legalMoves.isEmpty()) {
+            System.out.println("Game Over");
+            bestScore = Integer.MIN_VALUE;
+        }
+        Move bestMove = null;
         //Loop through legal moves
         for (Move move : legalMoves) {
             // make move and store caputred piece

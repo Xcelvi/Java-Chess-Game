@@ -19,6 +19,7 @@ public class BlackPawn extends Pieces implements Vision {
         int rowLocation = getRow();
         int colDiff = Math.abs(colLocation - targetCol);
         int rowDiff = rowLocation - targetRow;
+        if (!(targetCol >=0 && targetRow >= 0 && targetCol < 8 && targetRow < 8)) return false;
         if (rowLocation == 1){
             if (colLocation - targetCol == 0){
                 if (rowDiff == -2){

@@ -14,6 +14,7 @@ public class WhiteKnight extends Pieces implements Vision {
     public boolean isValidMove(int targetCol, int targetRow){
         int colLocation = getCol();
         int rowLocation = getRow();
+        if (!(targetCol >=0 && targetRow >= 0 && targetCol < 8 && targetRow < 8)) return false;
         if (board[targetRow][targetCol] != null) {
             if (board[targetRow][targetCol].getClass().getSimpleName().contains("White")) {
                 return false;

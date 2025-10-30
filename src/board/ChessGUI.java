@@ -83,9 +83,9 @@ public class ChessGUI {
         };
     }
 
+
     private int selectedRow = -1;
     private int selectedCol = -1;
-
     private void handleClick(int row, int col) {
         Pieces[][] board = boardControl.getBoard();
 
@@ -104,19 +104,21 @@ public class ChessGUI {
             selectedRow = -1;
             selectedCol = -1;
 
-            // Run AI move on a separate thread
-            new Thread(() -> {
-                Move aiMove = ai.findBestMove(false, 1);
-                if (aiMove != null) {
-                    SwingUtilities.invokeLater(() -> {
-                        boardControl.makeMove(aiMove);
-                        boardControl.setBoardVision();
-                        boardControl.increaseTurn();
-                        updateBoard();
-                    });
-                }
-            }).start();
+//             Run AI move on a separate thread
+//            new Thread(() -> {
+//                Move aiMove = ai.findBestMove(false, 1);
+//                if (aiMove != null) {
+//                    SwingUtilities.invokeLater(() -> {
+//                        boardControl.makeMove(aiMove);
+//                        boardControl.setBoardVision();
+//                        boardControl.increaseTurn();
+//                        updateBoard();
+//                    });
+//                }
+//            }).start();
         }
+        selectedRow = -1;
+        selectedCol = -1;
     }
 
 }

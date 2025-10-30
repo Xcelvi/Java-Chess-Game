@@ -20,7 +20,7 @@ public class RunGame {
             int turn = board.getTurn();
             boolean isHumanTurn = turn % 2 == 1;
 
-            if (isHumanTurn) {
+            if (true) {
                 System.out.println("Please enter the coordinates of the piece you would like to move and the move location:");
                 String move = sc.nextLine();
                 if (move.equals("end")) break;

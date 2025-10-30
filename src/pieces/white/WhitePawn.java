@@ -18,7 +18,7 @@ public class WhitePawn extends Pieces implements Vision {
         int colLocation = getCol();
         int rowLocation = getRow();
         int colDiff = Math.abs(colLocation - targetCol);
-        int rowDiff = Math.abs(rowLocation - targetRow);
+        int rowDiff = rowLocation - targetRow;
         if (rowLocation == 6){
             if (colLocation - targetCol == 0){
                 if (rowLocation - targetRow == 2){

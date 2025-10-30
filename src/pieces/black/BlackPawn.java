@@ -18,18 +18,18 @@ public class BlackPawn extends Pieces implements Vision {
         int colLocation = getCol();
         int rowLocation = getRow();
         int colDiff = Math.abs(colLocation - targetCol);
-        int rowDiff = Math.abs(rowLocation - targetRow);
+        int rowDiff = rowLocation - targetRow;
         if (rowLocation == 1){
             if (colLocation - targetCol == 0){
-                if (rowLocation - targetRow == -2){
+                if (rowDiff == -2){
                     return board[rowLocation + 1][colLocation] == null && board[targetRow][targetCol] == null;
                 }
             }
         }
-        if (rowDiff > 1){
+        if (rowDiff < -1){
             return false;
         }
-        if ((colDiff== 1) && (rowDiff == 1)) {
+        if ((colDiff== 1) && (rowDiff == -1)) {
             if (board[targetRow][targetCol] != null &&
                     board[targetRow][targetCol].getClass().getSimpleName().contains("White")) {
                 return true;

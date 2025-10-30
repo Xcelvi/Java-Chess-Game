@@ -19,11 +19,58 @@ public class ChessBoard {
         }
         if (board[rowPiece][colPiece] != null) {
             Pieces piece = board[rowPiece][colPiece];
+            boolean isWhiteKing = piece instanceof WhiteKing;
+            boolean isBlackKing = piece instanceof BlackKing;
             if (piece instanceof WhitePawn && rowLocation == 0){
                 piece = promotePawn(piece);
             } else if (piece instanceof BlackPawn && rowLocation == 7){
                 piece = promotePawn(piece);
             }
+            if (isBlackKing && Math.abs(colLocation - piece.getCol()) == 2) {
+                // King-side
+                if (colLocation == 6) {
+                    Pieces rook = board[0][7];
+                    board[0][5] = rook;
+                    board[0][7] = null;
+                    rook.setCol(5);
+                    rook.setRow(0);
+                    rook.setHasMoved(true);
+                }
+                // Queen-side
+                else if (colLocation == 2) {
+                    Pieces rook = board[0][0];
+                    board[0][3] = rook;
+                    board[0][0] = null;
+                    rook.setCol(3);
+                    rook.setRow(0);
+                    rook.setHasMoved(true);
+                }
+            piece.setHasMoved(true);
+            }
+
+            if (isWhiteKing && Math.abs(colLocation - piece.getCol()) == 2) {
+                // King-side
+                if (colLocation == 6) {
+                    Pieces rook = board[7][7];
+                    board[7][5] = rook;
+                    board[7][7] = null;
+                    rook.setCol(5);
+                    rook.setRow(7);
+                    rook.setHasMoved(true);
+                }
+                // Queen-side
+                else if (colLocation == 2) {
+                    Pieces rook = board[7][0];
+                    board[7][3] = rook;
+                    board[7][0] = null;
+                    rook.setCol(3);
+                    rook.setRow(7);
+                    rook.setHasMoved(true);
+                }
+                piece.setHasMoved(true);
+
+            }
+
             turn++;
             board[rowLocation][colLocation] = piece;
             board[rowPiece][colPiece] = null;

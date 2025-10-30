@@ -12,6 +12,7 @@ public class WhiteKing extends Pieces implements Vision {
         this.chessBoard = chessBoard;
     }
     BoardControl chessBoard;
+    boolean hasMoved = false;
     @Override
     public boolean isValidMove(int targetCol, int targetRow){
         int colLocation = getCol();
@@ -28,11 +29,14 @@ public class WhiteKing extends Pieces implements Vision {
         } else if  (colDiff == 0 && rowDiff == 1 && horizontalVerticalMoveWhite(targetCol, targetRow)){
             return true;
         }
+        //check if it is rooks in corner
+        boolean queenSideRook = board[7][0] instanceof WhiteRook;
+        boolean kingSideRook = board[7][7] instanceof WhiteRook;
         if (!hasMoved) {
             //if they are castling queen side
             if (targetRow == 7 && targetCol == 2){
                 //if the rook queen side has not moved
-                if (board[7][0] != null && !board[7][0].getHasMoved()){
+                if (board[7][0] != null && !board[7][0].getHasMoved() && queenSideRook){
                     //check if squares are open, if not return false.
                     for (int i = 3; i > 1; i--){
                         if (board[7][i] != null){
@@ -42,31 +46,18 @@ public class WhiteKing extends Pieces implements Vision {
                             return false;
                         }
                     }
-                    board[7][3] = board[7][0];
-                    board[7][0] = null;
-                    board[7][3].setCol(3);
-                    board[7][3].setRow(7);
-                    this.hasMoved = true;
                     return true;
                 }
                 //if they are castling king side
             } else if (targetRow == 7 && targetCol == 6){
                 //If the king side rook has not moved
-                if (board[7][7] != null && !board[7][7].getHasMoved()){
+                if (board[7][7] != null && !board[7][7].getHasMoved() && kingSideRook){
                     //check if squares are open, if not return false.
                         if (board[7][5] != null || board[7][6] != null){
                             return false;
                         }
-                        if (chessBoard.isWhiteInCheck(board, colLocation, rowLocation, 5, 7) || chessBoard.isWhiteInCheck(board, colLocation, rowLocation, 6, 7)) {
-                            return false;
-                        }
-                    board[7][5] = board[7][7];
-                    board[7][7] = null;
-                    board[7][5].setCol(5);
-                    board[7][5].setRow(7);
-                    this.hasMoved = true;
-                    return true;
-                    }
+                    return !chessBoard.isWhiteInCheck(board, colLocation, rowLocation, 5, 7) && !chessBoard.isWhiteInCheck(board, colLocation, rowLocation, 6, 7);
+                }
             }
         }
         return false;

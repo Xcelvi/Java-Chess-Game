@@ -12,11 +12,7 @@ public class WhiteRook extends Pieces implements Vision {
 
     @Override
     public boolean isValidMove(int targetCol, int targetRow) {
-        if (horizontalVerticalMoveWhite(targetCol, targetRow)) {
-            hasMoved = true;
-            return true;
-        }
-        return false;
+        return horizontalVerticalMoveWhite(targetCol, targetRow);
     }
 
     @Override

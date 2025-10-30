@@ -26,21 +26,20 @@ public class BlackKing extends Pieces implements Vision {
 //        }
 
         if (colDiff == 1 && rowDiff ==1 && diagonalMoveBlack(targetCol, targetRow)){
-            this.hasMoved = true;
             return true;
         } if (colDiff == 1 && rowDiff == 0 && horizontalVerticalMoveBlack(targetCol, targetRow)){
-            this.hasMoved = true;
             return true;
         } else if  (colDiff == 0 && rowDiff == 1 && horizontalVerticalMoveBlack(targetCol, targetRow)){
-            hasMoved = true;
             return true;
         }
+        boolean queenSideRook = board[0][0] instanceof BlackRook;
+        boolean kingSideRook = board[0][7] instanceof BlackRook;
         //if the kings hasn't moved
         if (!hasMoved) {
             //if they are castling queen side
             if (targetRow == 0 && targetCol == 2){
                 //if the rook queen side has not moved
-                if (board[0][0] != null && !board[0][0].getHasMoved()){
+                if (board[0][0] != null && !board[0][0].getHasMoved() && queenSideRook){
                     //check if squares are open, if not return false.
                     for (int i = 3; i > 1; i--){
                         if (board[0][i] != null){
@@ -50,28 +49,17 @@ public class BlackKing extends Pieces implements Vision {
                             return false;
                         }
                     }
-                    board[0][3] = board[0][0];
-                    board[0][0] = null;
-                    board[0][3].setCol(3);
-                    board[0][3].setRow(0);
                     return true;
                 }
                 //if they are castling king side
             } else if (targetRow == 0 && targetCol == 6){
                 //If the king side rook has not moved
-                if (board[0][7] != null && !board[0][7].getHasMoved()){
+                if (board[0][7] != null && !board[0][7].getHasMoved() && kingSideRook){
                     //check if squares are open, if not return false.
                     if (board[0][5] != null || board[0][6] != null){
                         return false;
                     }
-                    if (chessBoard.isWhiteInCheck(board, colLocation, rowLocation, 5, 0) || chessBoard.isWhiteInCheck(board, colLocation, rowLocation, 6, 0)) {
-                        return false;
-                    }
-                    board[0][5] = board[0][7];
-                    board[0][7] = null;
-                    board[0][5].setCol(5);
-                    board[0][5].setRow(0);
-                    return true;
+                    return !chessBoard.isWhiteInCheck(board, colLocation, rowLocation, 5, 0) && !chessBoard.isWhiteInCheck(board, colLocation, rowLocation, 6, 0);
                 }
             }
         }
@@ -109,8 +97,5 @@ public class BlackKing extends Pieces implements Vision {
         }
         setPieceVision(pieceVision);
         return pieceVision;
-    }
-    public void setHasMoved(boolean hasMoved) {
-        this.hasMoved = hasMoved;
     }
 }

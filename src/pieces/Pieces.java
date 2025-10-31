@@ -2,8 +2,6 @@ package pieces;
 
 import board.BoardControl;
 import board.ChessBoard;
-import pieces.black.*;
-import pieces.white.*;
 
 import java.util.ArrayList;
 
@@ -47,7 +45,7 @@ public abstract class Pieces extends BoardControl {
     public void setPieceVision(ArrayList<String> pieceVision) {
         this.pieceVision = pieceVision;
     }
-    public ArrayList<String> getPieceFullVision(int  targetCol, int targetRow) {
+    public ArrayList<String> getPieceFullVision() {
         return pieceVision;
     }
 
@@ -192,5 +190,21 @@ public abstract class Pieces extends BoardControl {
 
     public void setHasMoved(boolean hasMoved) {
         this.hasMoved = hasMoved;
+    }
+
+    public ArrayList<String> getPieceVision(){
+        return pieceVision;
+    }
+
+    public ArrayList<Integer> getPieceVisionSquares(Pieces piece){
+        ArrayList<String> pieceVision = piece.getPieceFullVision();
+        ArrayList<Integer> pieceVisionSquares = new ArrayList<>();
+        for (String pieces : pieceVision){
+            if (pieces.length() < 2) continue;
+            String number = pieces.substring(pieces.length() - 2);
+            int numberInt = Integer.parseInt(number);
+            pieceVisionSquares.add(numberInt);
+        }
+        return pieceVisionSquares;
     }
 }

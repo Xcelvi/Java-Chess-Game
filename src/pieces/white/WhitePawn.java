@@ -13,6 +13,7 @@ public class WhitePawn extends Pieces implements Vision {
         this.chessBoard = chessBoard;
     }
     private final ChessBoard chessBoard;
+
     @Override
     public boolean isValidMove(int targetCol, int targetRow) {
         int colLocation = getCol();
@@ -33,7 +34,6 @@ public class WhitePawn extends Pieces implements Vision {
                 return true;
             }
             if (targetRow == 2 && rowLocation == 3) {
-                System.out.println("BlackPawn" + (targetCol) + "1" + (targetCol) + 3);
                 ArrayList<String> moveLog = chessBoard.getMoveLog();
                 if (moveLog.get(moveLog.size()-1).equals("BlackPawn" + (targetCol) + "1" + (targetCol) + 3)) {
                     board[targetRow + 1][targetCol] = null;
@@ -46,21 +46,22 @@ public class WhitePawn extends Pieces implements Vision {
     }
 
     @Override
-    public ArrayList<String> getPieceFullVision(int targetCol, int targetRow) {
+    public ArrayList<String> getPieceFullVision() {
         ArrayList<String> pieceVision = new ArrayList<>();
-
+        int targetCol = this.getCol();
+        int targetRow = this.getRow();
         if (targetRow - 1 >= 0 && targetCol + 1 < 8) {
             if (board[targetRow - 1][targetCol + 1] == null) {
-                pieceVision.add("Null");
+                pieceVision.add("Null" + (targetCol +1) + (targetRow - 1));
             } else if (board[targetRow - 1][targetCol + 1] != null) {
-                pieceVision.add(board[targetRow - 1][targetCol + 1].getClass().getSimpleName());
+                pieceVision.add(board[targetRow - 1][targetCol + 1].getClass().getSimpleName()+ (targetCol +1) + (targetRow - 1));
             }
         }
         if (targetRow -1 >= 0 && targetCol -1 >= 0) {
             if (board[targetRow - 1][targetCol - 1] == null) {
-                pieceVision.add("Null");
+                pieceVision.add("Null" + (targetCol -1) + (targetRow - 1));
             } else if (board[targetRow - 1][targetCol - 1] != null) {
-                pieceVision.add(board[targetRow - 1][targetCol - 1].getClass().getSimpleName());
+                pieceVision.add(board[targetRow - 1][targetCol - 1].getClass().getSimpleName() + (targetCol -1) + (targetRow - 1));
             }
         }
         setPieceVision(pieceVision);

@@ -29,8 +29,10 @@ public class BlackKnight extends Pieces implements Vision {
 
 
     @Override
-    public ArrayList<String> getPieceFullVision(int targetCol, int targetRow) {
+    public ArrayList<String> getPieceFullVision() {
         ArrayList<String> pieceVision = new ArrayList<>();
+        int targetCol = this.getCol();
+        int targetRow = this.getRow();
         int[][] knightMoves = {
                 {-2, -1}, {-2, +1},
                 {-1, +2}, {+1, +2},
@@ -46,9 +48,9 @@ public class BlackKnight extends Pieces implements Vision {
             // Check board bounds (0–7 if 8×8 board)
             if (tempColLocation >= 0 && tempRowLocation >= 0 && tempColLocation < 8 && tempRowLocation < 8) {
                 if (board[tempRowLocation][tempColLocation] == null){
-                    pieceVision.add("null");
+                    pieceVision.add("null"+ tempColLocation + tempRowLocation);
                 }else {
-                    pieceVision.add(board[tempRowLocation][tempColLocation].getClass().getSimpleName());
+                    pieceVision.add(board[tempRowLocation][tempColLocation].getClass().getSimpleName()+ tempColLocation + tempRowLocation);
                 }
             }
         }

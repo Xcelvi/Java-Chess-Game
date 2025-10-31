@@ -106,7 +106,7 @@ public class ChessGUI {
 
 //             Run AI move on a separate thread
             new Thread(() -> {
-                Move aiMove = ai.findBestMove(false, 3);
+                Move aiMove = ai.findBestMove(false, 4);
                 if (aiMove != null) {
                     SwingUtilities.invokeLater(() -> {
                         boardControl.makeMove(aiMove);

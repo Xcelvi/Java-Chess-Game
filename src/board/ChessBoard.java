@@ -76,12 +76,13 @@ public class ChessBoard {
             board[rowPiece][colPiece] = null;
             board[rowLocation][colLocation].setCol(colLocation);
             board[rowLocation][colLocation].setRow(rowLocation);
-
+            board[rowLocation][colLocation].getPieceVisionSquares(board[rowLocation][colLocation]);
             //log the moves
             moveLog.add(board[rowLocation][colLocation].getClass().getSimpleName() + colPiece + rowPiece + colLocation + rowLocation);
             setMoveLog(moveLog);
         }
     }
+
     public boolean isMoveLegal(int colPiece, int rowPiece, int colLocation, int rowLocation, BoardControl boardControl) {
         Pieces piece = board[rowPiece][colPiece];
         int white = 1;
@@ -128,95 +129,101 @@ public class ChessBoard {
             for (int col = 0; col < 8; col++) {
                 Pieces piece = board[row][col];
                 if (piece == null) continue;
+                ArrayList<Integer> pieceVisionSquare = piece.getPieceVisionSquares(piece);
 
                 if (isWhiteTurn && piece.getClass().getSimpleName().contains("Black")) continue;
                 if (isBlackTurn && piece.getClass().getSimpleName().contains("White")) continue;
 
-                boolean isRook = piece.getClass().getSimpleName().contains("Rook");
-                boolean isQueen = piece.getClass().getSimpleName().contains("Queen");
-                boolean isKing = piece.getClass().getSimpleName().contains("King");
-                boolean isPawn = piece.getClass().getSimpleName().contains("Pawn");
-                boolean isBishop = piece.getClass().getSimpleName().contains("Bishop");
-                boolean isKnight = piece.getClass().getSimpleName().contains("Knight");
-
-                if (isRook){
-                    ArrayList<int[]> rookMoves = legalHorizontalVerticalMoves(col, row);
-                        for(int[] rookMove : rookMoves){
-                            int targetCol = rookMove[0];
-                            int targetRow = rookMove[1];
-                            if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
-                        }
-                } else if (isBishop){
-                    ArrayList<int[]> bishopMoves = legalDiagonalMoves(col, row);
-                        for(int[] bishopMove : bishopMoves){
-                            int targetCol = bishopMove[0];
-                            int targetRow = bishopMove[1];
-                            if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
-                        }
-                } else if  (isQueen){
-                    ArrayList<int[]> queenMoves = legalMovesQueen(col, row);
-                        for(int[] queenMove : queenMoves){
-                            int targetCol = queenMove[0];
-                            int targetRow = queenMove[1];
-                            if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
-                        }
-
-                } else if (isKing){
-                    int[][] kingMoves = {
-                            {-1, -1}, {-1, 0},
-                            {-1, 1}, {0, 1},
-                            {1, 1}, {1, 0},
-                            {1, -1}, {0, -1}
-                    };
-
-                    for(int[] kingMove : kingMoves){
-                        int targetCol = col + kingMove[0];
-                        int targetRow = row + kingMove[1];
-                        if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
-                        }
-                } else if (isPawn){
-                    if (isBlackTurn) {
-                        int[][] blackPawnMoves = {
-                                {1, 0},
-                                {2, 0},
-                                {1, -1},
-                                {1, 1}
-                        };
-                        for(int[] blackPawnMove : blackPawnMoves){
-                            int targetCol = col + blackPawnMove[0];
-                            int targetRow = row + blackPawnMove[1];
-                            if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
-                        }
-                    } else if (isWhiteTurn) {
-                        int[][] whitePawnMoves = {
-                                {-1, 0},
-                                {-2, 0},
-                                {-1, -1},
-                                {-1, 1}
-                        };
-                        for(int[] whitePawnMove : whitePawnMoves){
-                            int targetCol = col + whitePawnMove[0];
-                            int targetRow = row + whitePawnMove[1];
-                            if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
-                        }
-                    }
-                } else if (isKnight){
-                    int[][] knightMoves = {
-                            {-2, -1},
-                            {-2, 1},
-                            {-1, -2},
-                            {-1, 2},
-                            {1, -2},
-                            {1, 2},
-                            {2, -1},
-                            {2, 1}
-                    };
-                    for(int[] knightMove : knightMoves){
-                        int targetCol = col + knightMove[0];
-                        int targetRow = row + knightMove[1];
-                        if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
-                    }
+                for (int pieceSquare : pieceVisionSquare) {
+                    int targetRow = pieceSquare % 10;
+                    int targetCol =  pieceSquare / 10;
+                    if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
                 }
+//                boolean isRook = piece.getClass().getSimpleName().contains("Rook");
+//                boolean isQueen = piece.getClass().getSimpleName().contains("Queen");
+//                boolean isKing = piece.getClass().getSimpleName().contains("King");
+//                boolean isPawn = piece.getClass().getSimpleName().contains("Pawn");
+//                boolean isBishop = piece.getClass().getSimpleName().contains("Bishop");
+//                boolean isKnight = piece.getClass().getSimpleName().contains("Knight");
+//
+//                if (isRook){
+//                    ArrayList<int[]> rookMoves = legalHorizontalVerticalMoves(col, row);
+//                        for(int[] rookMove : rookMoves){
+//                            int targetCol = rookMove[0];
+//                            int targetRow = rookMove[1];
+//                            if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
+//                        }
+//                } else if (isBishop){
+//                    ArrayList<int[]> bishopMoves = legalDiagonalMoves(col, row);
+//                        for(int[] bishopMove : bishopMoves){
+//                            int targetCol = bishopMove[0];
+//                            int targetRow = bishopMove[1];
+//                            if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
+//                        }
+//                } else if  (isQueen){
+//                    ArrayList<int[]> queenMoves = legalMovesQueen(col, row);
+//                        for(int[] queenMove : queenMoves){
+//                            int targetCol = queenMove[0];
+//                            int targetRow = queenMove[1];
+//                            if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
+//                        }
+//
+//                } else if (isKing){
+//                    int[][] kingMoves = {
+//                            {-1, -1}, {-1, 0},
+//                            {-1, 1}, {0, 1},
+//                            {1, 1}, {1, 0},
+//                            {1, -1}, {0, -1}
+//                    };
+//
+//                    for(int[] kingMove : kingMoves){
+//                        int targetCol = col + kingMove[0];
+//                        int targetRow = row + kingMove[1];
+//                        if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
+//                        }
+//                } else if (isPawn){
+//                    if (isBlackTurn) {
+//                        int[][] blackPawnMoves = {
+//                                {1, 0},
+//                                {2, 0},
+//                                {1, -1},
+//                                {1, 1}
+//                        };
+//                        for(int[] blackPawnMove : blackPawnMoves){
+//                            int targetCol = col + blackPawnMove[0];
+//                            int targetRow = row + blackPawnMove[1];
+//                            if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
+//                        }
+//                    } else if (isWhiteTurn) {
+//                        int[][] whitePawnMoves = {
+//                                {-1, 0},
+//                                {-2, 0},
+//                                {-1, -1},
+//                                {-1, 1}
+//                        };
+//                        for(int[] whitePawnMove : whitePawnMoves){
+//                            int targetCol = col + whitePawnMove[0];
+//                            int targetRow = row + whitePawnMove[1];
+//                            if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
+//                        }
+//                    }
+//                } else if (isKnight){
+//                    int[][] knightMoves = {
+//                            {-2, -1},
+//                            {-2, 1},
+//                            {-1, -2},
+//                            {-1, 2},
+//                            {1, -2},
+//                            {1, 2},
+//                            {2, -1},
+//                            {2, 1}
+//                    };
+//                    for(int[] knightMove : knightMoves){
+//                        int targetCol = col + knightMove[0];
+//                        int targetRow = row + knightMove[1];
+//                        if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
+//                    }
+//                }
             }
         }
         return legalMoves;
@@ -270,78 +277,5 @@ public class ChessBoard {
     }
     public void increaseTurn() {
         turn++;
-    }
-    public static ArrayList<int[]> legalHorizontalVerticalMoves(int col, int row){
-        ArrayList<int[]> legalMoves = new ArrayList<>();
-        for (int r = row-1; r >= 0; r--) {
-            legalMoves.add(new int[]{col, r});
-        }
-        for (int r = row+1; r < 8; r++) {
-            legalMoves.add(new int[]{col, r});
-        }
-        for (int c = col+1; c < 8; c++) {
-            legalMoves.add(new int[]{c, row});
-        }
-        for (int c = col-1; c >= 0; c--) {
-            legalMoves.add(new int[]{c, row});
-        }
-        return legalMoves;
-    }
-    public static ArrayList<int[]> legalDiagonalMoves(int col, int row){
-        ArrayList<int[]> legalMoves = new ArrayList<>();
-        // Up-Left (↖)
-        for (int r = row - 1, c = col - 1; r >= 0 && c >= 0; r--, c--) {
-            legalMoves.add(new int[]{r, c});
-        }
-
-        // Up-Right (↗)
-        for (int r = row - 1, c = col + 1; r >= 0 && c < 8; r--, c++) {
-            legalMoves.add(new int[]{r, c});
-        }
-
-        // Down-Left (↙)
-        for (int r = row + 1, c = col - 1; r < 8 && c >= 0; r++, c--) {
-            legalMoves.add(new int[]{r, c});
-        }
-
-        // Down-Right (↘)
-        for (int r = row + 1, c = col + 1; r < 8 && c < 8; r++, c++) {
-            legalMoves.add(new int[]{r, c});
-        }
-        return legalMoves;
-    }
-    public static ArrayList<int[]> legalMovesQueen(int col, int row){
-        ArrayList<int[]> legalMoves = new ArrayList<>();
-        for (int r = row - 1, c = col - 1; r >= 0 && c >= 0; r--, c--) {
-            legalMoves.add(new int[]{r, c});
-        }
-
-        // Up-Right (↗)
-        for (int r = row - 1, c = col + 1; r >= 0 && c < 8; r--, c++) {
-            legalMoves.add(new int[]{r, c});
-        }
-
-        // Down-Left (↙)
-        for (int r = row + 1, c = col - 1; r < 8 && c >= 0; r++, c--) {
-            legalMoves.add(new int[]{r, c});
-        }
-
-        // Down-Right (↘)
-        for (int r = row + 1, c = col + 1; r < 8 && c < 8; r++, c++) {
-            legalMoves.add(new int[]{r, c});
-        }
-        for (int r = row-1; r >= 0; r--) {
-            legalMoves.add(new int[]{col, r});
-        }
-        for (int r = row+1; r < 8; r++) {
-            legalMoves.add(new int[]{col, r});
-        }
-        for (int c = col+1; c < 8; c++) {
-            legalMoves.add(new int[]{c, row});
-        }
-        for (int c = col-1; c >= 0; c--) {
-            legalMoves.add(new int[]{c, row});
-        }
-        return legalMoves;
     }
 }

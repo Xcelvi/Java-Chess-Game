@@ -24,9 +24,10 @@ public class BlackQueen extends Pieces implements Vision {
     }
 
     @Override
-    public ArrayList<String> getPieceFullVision(int targetCol, int targetRow) {
+    public ArrayList<String> getPieceFullVision() {
         ArrayList<String> pieceVision = new ArrayList<>();
-
+        int targetCol = this.getCol();
+        int targetRow = this.getRow();
         int[][] directions = {{0, -1}, {0, 1}, {1, 0}, {-1, 0}};
         for (int[] d : directions) {
             int tempColLocation = targetCol;
@@ -40,7 +41,7 @@ public class BlackQueen extends Pieces implements Vision {
                 }else {
                     square = board[tempRowLocation][tempColLocation].getClass().getSimpleName();
                 }
-                pieceVision.add(square);
+                pieceVision.add(square+ tempColLocation + tempRowLocation);
 
                 if (board[tempRowLocation][tempColLocation] != null) break;
 
@@ -62,7 +63,7 @@ public class BlackQueen extends Pieces implements Vision {
                 }else {
                     square = board[tempRowLocation][tempColLocation].getClass().getSimpleName();
                 }
-                pieceVision.add(square);
+                pieceVision.add(square+ tempColLocation + tempRowLocation);
 
                 if (board[tempRowLocation][tempColLocation] != null) break;
 

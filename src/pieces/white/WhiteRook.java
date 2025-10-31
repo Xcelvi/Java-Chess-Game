@@ -9,20 +9,21 @@ public class WhiteRook extends Pieces implements Vision {
     public WhiteRook(int col, int row, Pieces[][] board) {
         super(col, row, board);
     }
-
+    ArrayList<String> pieceVision = new ArrayList<>();
     @Override
     public boolean isValidMove(int targetCol, int targetRow) {
         return horizontalVerticalMoveWhite(targetCol, targetRow);
     }
 
     @Override
-    public ArrayList<String> getPieceFullVision(int targetCol, int targetRow) {
+    public ArrayList<String> getPieceFullVision() {
         ArrayList<String> pieceVision = new ArrayList<>();
-
+        int col = this.getCol();
+        int row = this.getRow();
         int[][] directions = {{0, -1}, {0, 1}, {1, 0}, {-1, 0}};
         for (int[] d : directions) {
-            int tempColLocation = targetCol;
-            int tempRowLocation = targetRow;
+            int tempColLocation = col;
+            int tempRowLocation = row;
             tempColLocation += d[0];
             tempRowLocation += d[1];
             while ((tempRowLocation >= 0 && tempRowLocation < 8 && tempColLocation >= 0 && tempColLocation < 8)){
@@ -32,7 +33,7 @@ public class WhiteRook extends Pieces implements Vision {
                 }else {
                     square = board[tempRowLocation][tempColLocation].getClass().getSimpleName();
                 }
-                pieceVision.add(square);
+                pieceVision.add(square+ tempColLocation + tempRowLocation);
 
                 if (board[tempRowLocation][tempColLocation] != null) break;
 

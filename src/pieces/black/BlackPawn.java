@@ -36,7 +36,6 @@ public class BlackPawn extends Pieces implements Vision {
                 return true;
             }
             if (targetRow == 5 && rowLocation == 4) {
-                System.out.println("BlackPawn" + (targetCol) + "6" + (targetCol) + 5);
                 ArrayList<String> moveLog = chessBoard.getMoveLog();
                 if (moveLog.get(moveLog.size()-1).equals("WhitePawn" + (targetCol) + "6" + (targetCol) + 4)) {
                     board[targetRow - 1][targetCol] = null;
@@ -50,23 +49,25 @@ public class BlackPawn extends Pieces implements Vision {
 
 
     @Override
-    public ArrayList<String> getPieceFullVision(int targetCol, int targetRow) {
+    public ArrayList<String> getPieceFullVision() {
         ArrayList<String> pieceVision = new ArrayList<>();
-
+        int targetCol = this.getCol();
+        int targetRow = this.getRow();
         if (targetRow + 1 < 8 && targetCol + 1 < 8) {
             if (board[targetRow + 1][targetCol + 1] == null) {
-                pieceVision.add("Null");
+                pieceVision.add("Null" + (targetCol +1) + (targetRow + 1));
             } else if (board[targetRow + 1][targetCol + 1] != null) {
-                pieceVision.add(board[targetRow + 1][targetCol + 1].getClass().getSimpleName());
+                pieceVision.add(board[targetRow + 1][targetCol + 1].getClass().getSimpleName() + (targetCol +1) + (targetRow + 1));
             }
         }
         if (targetRow + 1 < 8 && targetCol -1 >= 0) {
             if (board[targetRow + 1][targetCol - 1] == null) {
-                pieceVision.add("Null");
+                pieceVision.add("Null" + (targetCol - 1) + (targetRow + 1));
             } else if (board[targetRow + 1][targetCol - 1] != null) {
-                pieceVision.add(board[targetRow + 1][targetCol - 1].getClass().getSimpleName());
+                pieceVision.add(board[targetRow + 1][targetCol - 1].getClass().getSimpleName() + (targetCol -1) + (targetRow + 1));
             }
         }
+        System.out.println(pieceVision);
         setPieceVision(pieceVision);
         return pieceVision;
     }

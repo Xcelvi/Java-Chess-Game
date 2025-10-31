@@ -20,7 +20,7 @@ public class RunGame {
             int turn = board.getTurn();
             boolean isHumanTurn = turn % 2 == 1;
 
-            if (false) {
+            if (isHumanTurn) {
                 System.out.println("Please enter the coordinates of the piece you would like to move and the move location:");
                 String move = sc.nextLine();
                 if (move.equals("end")) break;
@@ -37,18 +37,17 @@ public class RunGame {
                     board.printBoard();
                 } else {
                     System.out.println("Invalid move");
-                    continue;
                 }
             } else { // AI turn
                 System.out.println("AI is thinking...");
-                Move aiMove = ai.findBestMove(false, 3);
+                Move aiMove = ai.findBestMove(false, 5);
                 if (aiMove != null) {
                     board.makeMove(aiMove);
                     board.setBoardVision();
                     board.increaseTurn();
                     SwingUtilities.invokeLater(chessGUI::updateBoard);
                     board.printBoard();
-                    System.out.println("AI move: " + aiMove.toString());
+                    System.out.println("AI move: " + aiMove);
                 } else {
                     System.out.println("No AI move found");
                     board.setBoardVision();

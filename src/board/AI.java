@@ -40,8 +40,8 @@ public class AI {
     //Find best move based on eval function, set if you are white, and the depth you want the ai to go
     public Move findBestMove(boolean isWhite, int depth) {
         //Generate the full list of legal moves
-        ArrayList<Move> legalMoves = board.generateAllLegalMoves(board);
         int bestScore = isWhite ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+        ArrayList<Move> legalMoves = board.generateAllLegalMoves(board);
         if (isWhite && legalMoves.isEmpty()) {
             System.out.println("Game Over");
             bestScore = Integer.MAX_VALUE;
@@ -58,7 +58,7 @@ public class AI {
             if (depth > 1) {
                 // Use minimax to generate the score of the position after that move
                 AI nextAI = new AI(board);
-                score = nextAI.minimax(!isWhite, depth - 1);
+                score = nextAI.minimax(!isWhite, depth - 1, Integer.MIN_VALUE, Integer.MAX_VALUE);
             } else {
                 //Reached base case for depth, return the score.
                 score = evaluateBoard();
@@ -79,7 +79,7 @@ public class AI {
     }
 
     // Minimax helper
-    private int minimax(boolean isWhite, int depth) {
+    private int minimax(boolean isWhite, int depth, int alpha, int beta) {
         //generate legal moves, initialize score to low/high
         if (depth == 0) return evaluateBoard();
         ArrayList<Move> legalMoves = board.generateAllLegalMoves(board);
@@ -87,11 +87,20 @@ public class AI {
         //begin looping through those legal moves
         for (Move move : legalMoves) {
             Pieces captured = board.makeMove(move);
-            int score = minimax(!isWhite, depth - 1);
+            int score = minimax(!isWhite, depth - 1, alpha, beta);
             board.undoMove(move, captured);
-            if (isWhite) bestScore = Math.max(bestScore, score);
-            else bestScore = Math.min(bestScore, score);
+            //alpha beta pruning. If the beta move is worse than the previous worst, it snips the branch off
+            if (isWhite) {
+                bestScore = Math.max(bestScore, score);
+                alpha = Math.max(alpha, bestScore);
+                if (alpha >= beta) break;
+            } else {
+                bestScore = Math.min(bestScore, score);
+                beta = Math.min(beta, bestScore);
+                if (beta <= alpha) break;
+            }
         }
+        //Return worst / best eval for each position, works for both players
         return bestScore;
     }
 }

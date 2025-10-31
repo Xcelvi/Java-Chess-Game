@@ -65,8 +65,10 @@ public class WhiteKing extends Pieces implements Vision {
 
 
     @Override
-    public ArrayList<String> getPieceFullVision(int targetCol, int targetRow) {
+    public ArrayList<String> getPieceFullVision() {
         ArrayList<String> pieceVision = new ArrayList<>();
+        int targetCol = this.getCol();
+        int targetRow = this.getRow();
         int[][] aroundKingMoves = {
                 {-1, -1}, {-1, 0},
                 {-1, 1}, {0, 1},
@@ -88,7 +90,7 @@ public class WhiteKing extends Pieces implements Vision {
                 }else {
                     square = board[tempRowLocation][tempColLocation].getClass().getSimpleName();
                 }
-                pieceVision.add(square);
+                pieceVision.add(square + tempColLocation + tempRowLocation);
 
             }
         }

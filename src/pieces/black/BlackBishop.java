@@ -14,7 +14,7 @@ public class BlackBishop extends Pieces implements Vision {
     public boolean isValidMove(int targetCol, int targetRow) {
         return diagonalMoveBlack(targetCol, targetRow);
     }
-
+    int pieceValue = 330;
     @Override
     public ArrayList<String> getPieceFullVision() {
         ArrayList<String> pieceVision = new ArrayList<>();
@@ -45,5 +45,8 @@ public class BlackBishop extends Pieces implements Vision {
         setPieceVision(pieceVision);
         return pieceVision;
     }
-
+    @Override
+    public int getPieceValue() {
+        return pieceValue;
+    }
 }

@@ -133,97 +133,42 @@ public class ChessBoard {
 
                 if (isWhiteTurn && piece.getClass().getSimpleName().contains("Black")) continue;
                 if (isBlackTurn && piece.getClass().getSimpleName().contains("White")) continue;
-
+                boolean isPawn = piece instanceof BlackPawn || piece instanceof WhitePawn;
+                if (isPawn) {
+                    if (isBlackTurn) {
+                        int[][] blackPawnMoves = {
+                                {0, 1},
+                                {0, 2},
+                                {-1, 1},
+                                {1, 1}
+                        };
+                        for (int[] blackPawnMove : blackPawnMoves) {
+                            int targetCol = col + blackPawnMove[0];
+                            int targetRow = row + blackPawnMove[1];
+                            if (isMoveLegal(col, row, targetCol, targetRow, boardControl))
+                                legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
+                        }
+                    } else if (isWhiteTurn) {
+                        int[][] whitePawnMoves = {
+                                {-1, 0},
+                                {-2, 0},
+                                {-1, -1},
+                                {-1, 1}
+                        };
+                        for (int[] whitePawnMove : whitePawnMoves) {
+                            int targetCol = col + whitePawnMove[1];
+                            int targetRow = row + whitePawnMove[0];
+                            if (isMoveLegal(col, row, targetCol, targetRow, boardControl))
+                                legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
+                        }
+                    }
+                }
                 for (int pieceSquare : pieceVisionSquare) {
                     int targetRow = pieceSquare % 10;
-                    int targetCol =  pieceSquare / 10;
-                    if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
+                    int targetCol = pieceSquare / 10;
+                    if (isMoveLegal(col, row, targetCol, targetRow, boardControl))
+                        legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
                 }
-//                boolean isRook = piece.getClass().getSimpleName().contains("Rook");
-//                boolean isQueen = piece.getClass().getSimpleName().contains("Queen");
-//                boolean isKing = piece.getClass().getSimpleName().contains("King");
-//                boolean isPawn = piece.getClass().getSimpleName().contains("Pawn");
-//                boolean isBishop = piece.getClass().getSimpleName().contains("Bishop");
-//                boolean isKnight = piece.getClass().getSimpleName().contains("Knight");
-//
-//                if (isRook){
-//                    ArrayList<int[]> rookMoves = legalHorizontalVerticalMoves(col, row);
-//                        for(int[] rookMove : rookMoves){
-//                            int targetCol = rookMove[0];
-//                            int targetRow = rookMove[1];
-//                            if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
-//                        }
-//                } else if (isBishop){
-//                    ArrayList<int[]> bishopMoves = legalDiagonalMoves(col, row);
-//                        for(int[] bishopMove : bishopMoves){
-//                            int targetCol = bishopMove[0];
-//                            int targetRow = bishopMove[1];
-//                            if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
-//                        }
-//                } else if  (isQueen){
-//                    ArrayList<int[]> queenMoves = legalMovesQueen(col, row);
-//                        for(int[] queenMove : queenMoves){
-//                            int targetCol = queenMove[0];
-//                            int targetRow = queenMove[1];
-//                            if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
-//                        }
-//
-//                } else if (isKing){
-//                    int[][] kingMoves = {
-//                            {-1, -1}, {-1, 0},
-//                            {-1, 1}, {0, 1},
-//                            {1, 1}, {1, 0},
-//                            {1, -1}, {0, -1}
-//                    };
-//
-//                    for(int[] kingMove : kingMoves){
-//                        int targetCol = col + kingMove[0];
-//                        int targetRow = row + kingMove[1];
-//                        if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
-//                        }
-//                } else if (isPawn){
-//                    if (isBlackTurn) {
-//                        int[][] blackPawnMoves = {
-//                                {1, 0},
-//                                {2, 0},
-//                                {1, -1},
-//                                {1, 1}
-//                        };
-//                        for(int[] blackPawnMove : blackPawnMoves){
-//                            int targetCol = col + blackPawnMove[0];
-//                            int targetRow = row + blackPawnMove[1];
-//                            if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
-//                        }
-//                    } else if (isWhiteTurn) {
-//                        int[][] whitePawnMoves = {
-//                                {-1, 0},
-//                                {-2, 0},
-//                                {-1, -1},
-//                                {-1, 1}
-//                        };
-//                        for(int[] whitePawnMove : whitePawnMoves){
-//                            int targetCol = col + whitePawnMove[0];
-//                            int targetRow = row + whitePawnMove[1];
-//                            if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
-//                        }
-//                    }
-//                } else if (isKnight){
-//                    int[][] knightMoves = {
-//                            {-2, -1},
-//                            {-2, 1},
-//                            {-1, -2},
-//                            {-1, 2},
-//                            {1, -2},
-//                            {1, 2},
-//                            {2, -1},
-//                            {2, 1}
-//                    };
-//                    for(int[] knightMove : knightMoves){
-//                        int targetCol = col + knightMove[0];
-//                        int targetRow = row + knightMove[1];
-//                        if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
-//                    }
-//                }
             }
         }
         return legalMoves;
@@ -249,8 +194,8 @@ public class ChessBoard {
         return null;
     }
     public Pieces makeMove(Move move) {
-        Pieces captured = move.capturedPiece;
-        Pieces movedPiece = move.movedPiece;
+        Pieces captured = board[move.toRow][move.toCol];
+        Pieces movedPiece = board[move.fromRow][move.fromCol];
 
         board[move.toRow][move.toCol] = movedPiece;
         board[move.fromRow][move.fromCol] = null;
@@ -258,6 +203,7 @@ public class ChessBoard {
 
         movedPiece.setRow(move.toRow);
         movedPiece.setCol(move.toCol);
+        turn++;
         return captured;
     }
 
@@ -270,6 +216,7 @@ public class ChessBoard {
 
         movedPiece.setRow(move.fromRow);
         movedPiece.setCol(move.fromCol);
+        turn--;
 
     }
     public int getTurn() {

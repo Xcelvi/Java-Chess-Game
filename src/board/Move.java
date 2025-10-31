@@ -7,6 +7,7 @@ public class Move {
     public int toCol, toRow;
     public Pieces movedPiece;
     public Pieces capturedPiece;
+    private int heuristicValue;
 
     public Move(int fromCol, int fromRow, int toCol, int toRow, Pieces movedPiece, Pieces capturedPiece) {
         this.fromCol = fromCol;
@@ -40,6 +41,12 @@ public class Move {
         char colChar = (char) ('A' + col);
         int rowNum = 8 - row; // assuming row 0 is top of the board
         return "" + colChar + rowNum;
+    }
+    public int getHeuristicValue() {
+        return heuristicValue;
+    }
+    public void setHeuristicValue(int heuristicValue) {
+        this.heuristicValue = heuristicValue;
     }
 }
 

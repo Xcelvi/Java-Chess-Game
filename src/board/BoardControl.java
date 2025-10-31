@@ -79,8 +79,6 @@ public class BoardControl extends ChessBoard {
                     if (board[i][j].getClass().getSimpleName().contains("Black")) {
                         for (String vision : pieceVision) {
                             if (vision != null && vision.contains("WhiteKing")) {
-                                System.out.println("BlackKing in check by " + board[i][j].getClass().getSimpleName() + board[i][j].getCol() + board[i][j].getRow());
-                                System.out.println(board[i][j].getPieceVision());
                                 return true;
                             }
                         }
@@ -99,8 +97,6 @@ public class BoardControl extends ChessBoard {
                     if (board[i][j].getClass().getSimpleName().contains("White")) {
                         for (String vision : pieceVision) {
                             if  (vision !=null && vision.contains("BlackKing")) {
-                                System.out.println("BlackKing in check by " + board[i][j].getClass().getSimpleName() + board[i][j].getCol() + board[i][j].getRow());
-                                System.out.println(board[i][j].getPieceVision());
                                 return true;
                             }
                         }

@@ -34,7 +34,7 @@ public class ChessGUI {
                 JButton square = new JButton();
                 square.setOpaque(true);
                 square.setBorderPainted(false);
-                square.setBackground(whiteSquare ? Color.WHITE : Color.BLUE);
+                square.setBackground(whiteSquare ? Color.WHITE : Color.PINK);
                 squares[row][col] = square;
 
                 final int r = row;
@@ -100,18 +100,18 @@ public class ChessGUI {
         if (boardControl.isMoveLegal(selectedCol, selectedRow, col, row, boardControl)) {
             boardControl.movePiece(selectedCol, selectedRow, col, row, boardControl);
             boardControl.setBoardVision();
+            boardControl.generateAllLegalMoves(boardControl);
             updateBoard();
             selectedRow = -1;
             selectedCol = -1;
 
 //             Run AI move on a separate thread
             new Thread(() -> {
-                Move aiMove = ai.findBestMove(false, 4);
+                Move aiMove = ai.findBestMove(false, 3);
                 if (aiMove != null) {
                     SwingUtilities.invokeLater(() -> {
                         boardControl.makeMove(aiMove);
                         boardControl.setBoardVision();
-                        boardControl.increaseTurn();
                         updateBoard();
                     });
                 }

@@ -9,7 +9,7 @@ public class BlackQueen extends Pieces implements Vision {
     public BlackQueen(int col, int row, Pieces[][] board) {
         super(col, row, board);
     }
-
+    int pieceValue = 1000;
     @Override
     public boolean isValidMove(int targetCol, int targetRow){
         int colLocation = getCol();

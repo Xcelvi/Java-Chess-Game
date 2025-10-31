@@ -10,8 +10,7 @@ public class WhiteBishop extends Pieces implements Vision {
     public WhiteBishop(int col, int row, Pieces[][] board) {
         super(col, row, board);
     }
-
-    //Fix this
+    int pieceValue = 330;
     @Override
     public boolean isValidMove(int targetCol, int targetRow) {
         return diagonalMoveWhite(targetCol, targetRow);

@@ -12,6 +12,7 @@ public class BlackPawn extends Pieces implements Vision {
         super(col, row, board);
         this.chessBoard = chessBoard;
     }
+    int pieceValue = 100;
     private final ChessBoard chessBoard;
     @Override
     public boolean isValidMove(int targetCol, int targetRow) {
@@ -67,7 +68,6 @@ public class BlackPawn extends Pieces implements Vision {
                 pieceVision.add(board[targetRow + 1][targetCol - 1].getClass().getSimpleName() + (targetCol -1) + (targetRow + 1));
             }
         }
-        System.out.println(pieceVision);
         setPieceVision(pieceVision);
         return pieceVision;
     }

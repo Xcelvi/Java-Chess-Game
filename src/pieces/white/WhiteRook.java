@@ -14,7 +14,7 @@ public class WhiteRook extends Pieces implements Vision {
     public boolean isValidMove(int targetCol, int targetRow) {
         return horizontalVerticalMoveWhite(targetCol, targetRow);
     }
-
+    int pieceValue = 500;
     @Override
     public ArrayList<String> getPieceFullVision() {
         ArrayList<String> pieceVision = new ArrayList<>();

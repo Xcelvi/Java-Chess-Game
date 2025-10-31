@@ -13,7 +13,7 @@ public class WhitePawn extends Pieces implements Vision {
         this.chessBoard = chessBoard;
     }
     private final ChessBoard chessBoard;
-
+    int pieceValue = 100;
     @Override
     public boolean isValidMove(int targetCol, int targetRow) {
         int colLocation = getCol();

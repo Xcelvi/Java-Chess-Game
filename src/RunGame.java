@@ -40,7 +40,7 @@ public class RunGame {
                 }
             } else { // AI turn
                 System.out.println("AI is thinking...");
-                Move aiMove = ai.findBestMove(false, 5);
+                Move aiMove = ai.findBestMove(false, 1);
                 if (aiMove != null) {
                     board.makeMove(aiMove);
                     board.setBoardVision();

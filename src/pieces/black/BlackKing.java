@@ -13,6 +13,7 @@ public class BlackKing extends Pieces implements Vision {
         this.chessBoard = chessBoard;
     }
     BoardControl chessBoard;
+    int pieceValue = 9000;
     @Override
     public boolean isValidMove(int targetCol, int targetRow){
         int colLocation = getCol();

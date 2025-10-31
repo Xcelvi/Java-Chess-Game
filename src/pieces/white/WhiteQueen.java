@@ -11,7 +11,7 @@ public class WhiteQueen extends Pieces implements Vision {
     }
 
 
-
+    int pieceValue = 1000;
     @Override
     public boolean isValidMove(int targetCol, int targetRow){
         int colLocation = getCol();

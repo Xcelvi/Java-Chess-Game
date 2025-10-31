@@ -12,6 +12,7 @@ public abstract class Pieces extends BoardControl {
     protected ArrayList<String> pieceVision = new ArrayList<>();
     protected boolean hasMoved;
     protected Pieces[][] board;
+    protected int pieceValue;
 
 
     public Pieces(int col, int row, Pieces[][] board) {
@@ -206,5 +207,8 @@ public abstract class Pieces extends BoardControl {
             pieceVisionSquares.add(numberInt);
         }
         return pieceVisionSquares;
+    }
+    public int getPieceValue(){
+        return pieceValue;
     }
 }

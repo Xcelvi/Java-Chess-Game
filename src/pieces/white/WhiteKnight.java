@@ -9,7 +9,7 @@ public class WhiteKnight extends Pieces implements Vision {
     public WhiteKnight(int col, int row, Pieces[][] board) {
         super(col, row, board);
     }
-
+    int pieceValue = 300;
     @Override
     public boolean isValidMove(int targetCol, int targetRow){
         int colLocation = getCol();

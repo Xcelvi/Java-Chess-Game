@@ -11,6 +11,7 @@ public class WhiteKing extends Pieces implements Vision {
         super(col, row, board);
         this.chessBoard = chessBoard;
     }
+    int pieceValue = 9000;
     BoardControl chessBoard;
     boolean hasMoved = false;
     @Override

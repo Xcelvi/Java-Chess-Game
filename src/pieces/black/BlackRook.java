@@ -11,7 +11,7 @@ public class BlackRook extends Pieces implements Vision {
         super(col, row, board);
     }
 
-
+    int pieceValue = 500;
 
     @Override
     public boolean isValidMove(int targetCol, int targetRow) {

@@ -105,7 +105,7 @@ public class ChessGUI {
             selectedRow = -1;
             selectedCol = -1;
 
-//             Run AI move on a separate thread
+//          Run AI move on a separate thread
             new Thread(() -> {
                 Move aiMove = ai.findBestMove(false, 3);
                 if (aiMove != null) {

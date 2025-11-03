@@ -14,12 +14,42 @@ public class AI {
     // Basic evaluation by material
     public int evaluateBoard(ArrayList<Move> legalMoves, boolean isWhite) {
         int score = 0;
+        int pieceCount = 0;
         Pieces[][] boardArray = board.getBoard();
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 Pieces piece = boardArray[row][col];
                 if (piece == null) continue;
-                score += piece.getPieceValue();
+                pieceCount++;
+                String pieceName = piece.getClass().getSimpleName();
+                boolean pawn = col >= 3 && col <= 5 && row >= 3 && row <= 5 && pieceName.contains("Pawn");
+                if (pieceName.contains("White")) {
+                    score += piece.getPieceValue();
+                    if (pawn) {
+                            score += 10;
+                    }
+                    if (pieceCount < 8){
+                        if (pieceName.contains("King")) {
+                            if (row >= 2 && row <= 6 &&
+                            col >= 2 && col <= 6) {
+                                score += 10;
+                            }
+                        }
+                    }
+                } else if (pieceName.contains("Black")) {
+                    score -= piece.getPieceValue();
+                    if (pawn){
+                        score -= 10;
+                    }
+                    if  (pieceCount < 8){
+                        if (pieceName.contains("King")) {
+                            if (row >= 2 && row <= 6 &&
+                                    col >= 2 && col <= 6) {
+                                score -= 10;
+                            }
+                        }
+                    }
+                }
             }
         }
         return score;
@@ -69,7 +99,7 @@ public class AI {
     private int minimax(boolean isWhite, int depth, int alpha, int beta) {
         //generate legal moves, initialize score to low/high
         ArrayList<Move> legalMoves = board.generateAllLegalMoves(board);
-        legalMoves = orderMoves(legalMoves);
+        legalMoves = orderMoves(legalMoves, isWhite);
         if (depth == 0) return evaluateBoard(legalMoves, isWhite);
         int bestScore = isWhite ? Integer.MIN_VALUE : Integer.MAX_VALUE;
         //begin looping through those legal moves
@@ -102,7 +132,7 @@ public class AI {
         return bestScore;
     }
 
-    public ArrayList<Move> orderMoves(ArrayList<Move> unorderedMoves){
+    public ArrayList<Move> orderMoves(ArrayList<Move> unorderedMoves, boolean isWhite){
         for (Move move : unorderedMoves) {
             int moveScoreGuess = 0;
             Pieces movePieceType = move.movedPiece;
@@ -116,9 +146,15 @@ public class AI {
                     moveScoreGuess += 900;
             }
             Pieces tempCaptured = board.makeMove(move);
-            if (board.isWhiteInCheck() || board.isBlackInCheck()) {
-                moveScoreGuess += 50;
+            if (isWhite) {
+                if (board.isBlackInCheck()) moveScoreGuess += 50;
+                if (board.isWhiteInCheck()) moveScoreGuess -= 80;
+            } else {
+                if (board.isWhiteInCheck()) moveScoreGuess += 50;
+                if (board.isBlackInCheck()) moveScoreGuess -= 80;
             }
+            if (move.toCol >= 3 && move.toCol <= 5 && move.toRow >= 3 && move.toRow <= 5) moveScoreGuess += 100;
+
             board.undoMove(move, tempCaptured);
             move.setHeuristicValue(moveScoreGuess);
         }

@@ -67,4 +67,8 @@ public class WhitePawn extends Pieces implements Vision {
         setPieceVision(pieceVision);
         return pieceVision;
     }
+    @Override
+    public int getPieceValue() {
+        return pieceValue;
+    }
 }

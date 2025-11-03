@@ -101,4 +101,8 @@ public class BlackKing extends Pieces implements Vision {
         setPieceVision(pieceVision);
         return pieceVision;
     }
+    @Override
+    public int getPieceValue() {
+        return pieceValue;
+    }
 }

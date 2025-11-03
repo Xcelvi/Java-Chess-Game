@@ -134,6 +134,7 @@ public class ChessBoard {
                 if (isWhiteTurn && piece.getClass().getSimpleName().contains("Black")) continue;
                 if (isBlackTurn && piece.getClass().getSimpleName().contains("White")) continue;
                 boolean isPawn = piece instanceof BlackPawn || piece instanceof WhitePawn;
+                boolean isKing = piece instanceof BlackKing || piece instanceof WhiteKing;
                 if (isPawn) {
                     if (isBlackTurn) {
                         int[][] blackPawnMoves = {
@@ -160,6 +161,19 @@ public class ChessBoard {
                             int targetRow = row + whitePawnMove[0];
                             if (isMoveLegal(col, row, targetCol, targetRow, boardControl))
                                 legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
+                        }
+                    }
+                }
+                if (isKing){
+                    int[][] castedKingMoves = {
+                            {0, 2},
+                            {0, -2}
+                    };
+                    for (int[] castedKingMove : castedKingMoves) {
+                        int targetCol = col + castedKingMove[1];
+                        int targetRow = row + castedKingMove[0];
+                        if (isMoveLegal(col, row, targetCol, targetRow, boardControl)) {
+                            legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
                         }
                     }
                 }
@@ -224,5 +238,8 @@ public class ChessBoard {
     }
     public void increaseTurn() {
         turn++;
+    }
+    public void decreaseTurn() {
+        turn--;
     }
 }

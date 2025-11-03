@@ -11,9 +11,113 @@ public class AI {
         this.board = board;
     }
 
+    int[][] whitePawnHeatMap = {
+            {0, 0, 0, 0, 0, 0, 0, 0},
+            {30, 30, 30, 30, 30, 30, 30, 30},
+            {10, 10, 20, 25, 25, 20, 10, 10},
+            {0, 0, 10, 20, 20, 10, 0, 0},
+            {0, 0, 0, 10, 10, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0}
+    };
+    int[][] blackPawnHeatMap = {
+            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 10, 10, 0, 0, 0},
+            {0, 0, 10, 20, 20, 10, 0, 0},
+            {10, 10, 20, 25, 25, 20, 10, 10},
+            {30, 30, 30, 30, 30, 30, 30, 30},
+            {0, 0, 0, 0, 0, 0, 0, 0}
+    };
+
+    int[][] whiteKnightPST = {
+
+            {29, 30, 30, 30, 30, 30, 30, 29,},
+            {30, 30, 30, 30, 30, 30, 30, 30,},
+            {25, 30, 32, 32, 32, 32, 30, 25,},
+            {30, 30, 32, 32, 32, 32, 30, 30,},
+            {30, 30, 32, 32, 32, 32, 30, 30,},
+            {30, 30, 32, 32, 32, 32, 30, 30,},
+            {30, 30, 30, 30, 30, 30, 30, 30,},
+            {29, 31, 30, 30, 30, 30, 31, 29}
+};
+    int[][]blackKnightPST = {
+
+            {29, 31, 30, 30, 30, 30, 31, 29},
+            {30, 30, 30, 30, 30, 30, 30, 30,},
+            {30, 30, 32, 32, 32, 32, 30, 30,},
+            {30, 30, 32, 32, 32, 32, 30, 30,},
+            {30, 30, 32, 32, 32, 32, 30, 30,},
+            {25, 30, 32, 32, 32, 32, 30, 25,},
+            {30, 30, 30, 30, 30, 30, 30, 30,},
+            {29, 30, 30, 30, 30, 30, 30, 29,},
+    };
+    int[][] whiteRookPST = {
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+            {52, 52, 52, 52, 52, 52, 52, 52,},
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+            {50, 50, 50, 51, 51, 50, 50, 50,},
+    };
+    int[][] blackRookPST = {
+            {50, 50, 50, 51, 51, 50, 50, 50,},
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+            {52, 52, 52, 52, 52, 52, 52, 52,},
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+    };
+    int[][] whiteBishopPST = {
+            {-20, -10, -10, -10, -10, -10, -10, -20},
+            {-10,   0,   0,   0,   0,   0,   0, -10},
+            {-10,   0,   5,  10,  10,   5,   0, -10},
+            {-10,   5,   5,  10,  10,   5,   5, -10},
+            {-10,   0,  10,  10,  10,  10,   0, -10},
+            {-10,  10,  10,  10,  10,  10,  10, -10},
+            {-10,   5,   0,   0,   0,   0,   5, -10},
+            {-20, -10, -10, -10, -10, -10, -10, -20}
+    };
+    int[][] blackBishopPST = {
+            {-20, -10, -10, -10, -10, -10, -10, -20},
+            {-10,   5,   0,   0,   0,   0,   5, -10},
+            {-10,  10,  10,  10,  10,  10, 10, -10},
+            {-10,   0,  10,  10,  10,  10,  0, -10},
+            {-10,   5,   5,   10,  10,   5,   5, -10},
+            {-10,   0,   5,  10,   10,   5,   0, -10},
+            {-10,   0,   0,   0,   0,   0,   0, -10},
+            {-20, -10, -10, -10, -10, -10, -10, -20}
+    };
+    int[][] blackQueenPST = {
+            {-20, -10, -10,  -5,  -5, -10, -10, -20},
+            {-10,   0,   0,   0,   0,   0,   0, -10},
+            {-10,   0,   5,   5,   5,   5,   0, -10},
+            { -5,   0,   5,   5,   5,   5,   0,  -5},
+            {  0,   0,   5,   5,   5,   5,   0,  -5},
+            {-10,   5,   5,   5,   5,   5,   0, -10},
+            {-10,   0,   0,   0,   0,   0,   0, -10},
+            {-20, -10, -10,  -5,  -5, -10, -10, -20}
+    };
+    int[][] whiteQueenPST = {
+            {-20, -10, -10,  -5,  -5, -10, -10, -20},
+            {-10,   0,   0,   0,   0,   0,   0, -10},
+            {-10,   0,   5,   5,   5,   5,   0, -10},
+            { -5,   0,   5,   5,   5,   5,   0,  -5},
+            {  0,   0,   5,   5,   5,   5,   0,  -5},
+            {-10,   5,   5,   5,   5,   5,   0, -10},
+            {-10,   0,   5,   0,  0,   0,   0, -10},
+            {-20, -10, -10,  -5,  -5, -10, -10, -20}
+    };
+
     // Basic evaluation by material
-    public int evaluateBoard(ArrayList<Move> legalMoves, boolean isWhite) {
-        int score = 0;
+    public double evaluateBoard(ArrayList<Move> legalMoves, boolean isWhite) {
+        double score = 0;
         int pieceCount = 0;
         Pieces[][] boardArray = board.getBoard();
         for (int row = 0; row < 8; row++) {
@@ -22,11 +126,22 @@ public class AI {
                 if (piece == null) continue;
                 pieceCount++;
                 String pieceName = piece.getClass().getSimpleName();
-                boolean pawn = col >= 3 && col <= 5 && row >= 3 && row <= 5 && pieceName.contains("Pawn");
                 if (pieceName.contains("White")) {
                     score += piece.getPieceValue();
-                    if (pawn) {
-                            score += 10;
+                    if (pieceName.contains("Pawn")){
+                        score += whitePawnHeatMap[row][col];
+                    }
+                    if (pieceName.contains("Knight")){
+                        score += whiteKnightPST[row][col];
+                    }
+                    if (pieceName.contains("Rook")){
+                        score += whiteRookPST[row][col];
+                    }
+                    if (pieceName.contains("Bishop")){
+                        score += whiteBishopPST[row][col];
+                    }
+                    if (pieceName.contains("Queen")){
+                        score += whiteQueenPST[row][col];
                     }
                     if (pieceCount < 8){
                         if (pieceName.contains("King")) {
@@ -38,8 +153,20 @@ public class AI {
                     }
                 } else if (pieceName.contains("Black")) {
                     score -= piece.getPieceValue();
-                    if (pawn){
-                        score -= 10;
+                    if (pieceName.contains("Pawn")){
+                        score -= blackPawnHeatMap[row][col];
+                    }
+                    if (pieceName.contains("Knight")){
+                        score -= blackKnightPST[row][col];
+                    }
+                    if (pieceName.contains("Rook")){
+                        score -= blackRookPST[row][col];
+                    }
+                    if (pieceName.contains("Bishop")){
+                        score -= blackBishopPST[row][col];
+                    }
+                    if (pieceName.contains("Queen")){
+                        score -= blackQueenPST[row][col];
                     }
                     if  (pieceCount < 8){
                         if (pieceName.contains("King")) {
@@ -57,7 +184,7 @@ public class AI {
     //Find best move based on eval function, set if you are white, and the depth you want the ai to go
     public Move findBestMove(boolean isWhite, int depth) {
         //Generate the full list of legal moves
-        int bestScore = isWhite ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+        double bestScore = isWhite ? Integer.MIN_VALUE : Integer.MAX_VALUE;
         ArrayList<Move> legalMoves = board.generateAllLegalMoves(board);
         if (isWhite && legalMoves.isEmpty()) {
             System.out.println("Game Over");
@@ -71,7 +198,7 @@ public class AI {
         for (Move move : legalMoves) {
             // make move and store caputred piece
             Pieces captured = board.makeMove(move);
-            int score;
+            double score;
             if (depth > 1) {
                 // Use minimax to generate the score of the position after that move
                 score = this.minimax(!isWhite, depth - 1, Integer.MIN_VALUE, Integer.MAX_VALUE);
@@ -96,12 +223,12 @@ public class AI {
 
     // Minimax helper
     int counter = 0;
-    private int minimax(boolean isWhite, int depth, int alpha, int beta) {
+    private double minimax(boolean isWhite, int depth, double alpha, double beta) {
         //generate legal moves, initialize score to low/high
         ArrayList<Move> legalMoves = board.generateAllLegalMoves(board);
         legalMoves = orderMoves(legalMoves, isWhite);
         if (depth == 0) return evaluateBoard(legalMoves, isWhite);
-        int bestScore = isWhite ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+        double bestScore = isWhite ? Integer.MIN_VALUE : Integer.MAX_VALUE;
         //begin looping through those legal moves
         if (legalMoves.isEmpty()) {
             if (isWhite) {
@@ -113,7 +240,7 @@ public class AI {
         }
         for (Move move : legalMoves) {
             Pieces captured = board.makeMove(move);
-            int score = minimax(!isWhite, depth - 1, alpha, beta);
+            double score = minimax(!isWhite, depth - 1, alpha, beta);
             board.undoMove(move, captured);
             //alpha beta pruning. If the beta move is worse than the previous worst, it snips the branch off
             counter++;

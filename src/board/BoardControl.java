@@ -56,8 +56,9 @@ public class BoardControl extends ChessBoard {
         printBoard();
     }
 
-    public void setBoardVision(){
+    public int setBoardVision(){
         Pieces[][] board = getBoard();
+        int boardVision = 0;
         for (Pieces[] pieces : board) {
             for (int col = 0; col < board.length; col++) {
                 if (pieces[col] != null) {
@@ -65,11 +66,20 @@ public class BoardControl extends ChessBoard {
                     if (piece instanceof Vision) {
                         //this is correct
                         ((Vision) piece).getPieceFullVision();
+                        ArrayList<String> pieceVision = pieces[col].getPieceFullVision();
+                        if (piece.getClass().getSimpleName().contains("Black")) {
+                            boardVision -= pieceVision.size();
+                        }
+                        else if (piece.getClass().getSimpleName().contains("White")) {
+                            boardVision += pieceVision.size();
+                        }
                     }
                 }
             }
         }
+        return boardVision;
     }
+
     public boolean isWhiteInCheck(){
         Pieces[][] board = getBoard();
         for (int i = 0; i < 8; i++) {

@@ -23,10 +23,13 @@ public class WhitePawn extends Pieces implements Vision {
         if (!(targetCol >=0 && targetRow >= 0 && targetCol < 8 && targetRow < 8)) return false;
         if (rowLocation == 6){
             if (colLocation - targetCol == 0){
-                if (rowLocation - targetRow == 2){
+                if (rowDiff == 2){
                     return board[rowLocation - 1][colLocation] == null && board[targetRow][targetCol] == null;
                 }
             }
+        }
+        if (rowDiff > 1){
+            return false;
         }
         if ((colDiff== 1) && (rowDiff == 1)) {
             if (board[targetRow][targetCol] != null &&
@@ -35,6 +38,7 @@ public class WhitePawn extends Pieces implements Vision {
             }
             if (targetRow == 2 && rowLocation == 3) {
                 ArrayList<String> moveLog = chessBoard.getMoveLog();
+                if (moveLog.isEmpty()) return false;
                 if (moveLog.get(moveLog.size()-1).equals("BlackPawn" + (targetCol) + "1" + (targetCol) + 3)) {
                     board[targetRow + 1][targetCol] = null;
                     return true;

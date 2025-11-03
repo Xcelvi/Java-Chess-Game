@@ -38,6 +38,7 @@ public class BlackPawn extends Pieces implements Vision {
             }
             if (targetRow == 5 && rowLocation == 4) {
                 ArrayList<String> moveLog = chessBoard.getMoveLog();
+                if (moveLog.isEmpty()) return false;
                 if (moveLog.get(moveLog.size()-1).equals("WhitePawn" + (targetCol) + "6" + (targetCol) + 4)) {
                     board[targetRow - 1][targetCol] = null;
                     return true;

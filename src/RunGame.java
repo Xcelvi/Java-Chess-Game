@@ -1,7 +1,4 @@
-import board.AI;
-import board.BoardControl;
-import board.ChessGUI;
-import board.Move;
+import board.*;
 
 import javax.swing.*;
 import java.util.Scanner;
@@ -13,14 +10,16 @@ public class RunGame {
         board.initializeBoard();
 
         AI ai = new AI(board);
+        AIOld aiOld = new AIOld(board);
         ChessGUI chessGUI = new ChessGUI(board, ai);
         Scanner sc = new Scanner(System.in);
 
         while (true) {
             int turn = board.getTurn();
             boolean isHumanTurn = turn % 2 == 1;
+            boolean isWhite = turn % 2 == 1;
 
-            if (isHumanTurn) {
+            if (true) {
                 System.out.println("Please enter the coordinates of the piece you would like to move and the move location:");
                 String move = sc.nextLine();
                 if (move.equals("end")) break;
@@ -38,13 +37,14 @@ public class RunGame {
                 } else {
                     System.out.println("Invalid move");
                 }
-            } else { // AI turn
+            } else if (!isHumanTurn) { // AI turn
                 System.out.println("AI is thinking...");
-                Move aiMove = ai.findBestMove(false, 1);
+                try { Thread.sleep(5); } catch (InterruptedException ignored) {}
+                Move aiMove = ai.findBestMove(false, 3);
+
                 if (aiMove != null) {
                     board.makeMove(aiMove);
                     board.setBoardVision();
-                    board.increaseTurn();
                     SwingUtilities.invokeLater(chessGUI::updateBoard);
                     board.printBoard();
                     System.out.println("AI move: " + aiMove);
@@ -55,6 +55,24 @@ public class RunGame {
                     board.printBoard();
                     break;
                 }
+//            } else {
+//                System.out.println("AI is thinking...");
+//                try { Thread.sleep(5); } catch (InterruptedException ignored) {}
+//                Move aiMove = aiOld.findBestMove(false, 3);
+//
+//                if (aiMove != null) {
+//                    board.makeMove(aiMove);
+//                    board.setBoardVision();
+//                    SwingUtilities.invokeLater(chessGUI::updateBoard);
+//                    board.printBoard();
+//                    System.out.println("AI move: " + aiMove);
+//                } else {
+//                    System.out.println("No AI move found");
+//                    board.setBoardVision();
+//                    SwingUtilities.invokeLater(chessGUI::updateBoard);
+//                    board.printBoard();
+//                    break;
+//                }
             }
         }
     }

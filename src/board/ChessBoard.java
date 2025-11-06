@@ -150,7 +150,12 @@ public class ChessBoard {
                             {0, -1},
                             {0, -2},
                     };
-                    tryCastle(boardControl, legalMoves, col, row, whitePawnMoves);
+                    for (int[] whitePawnMove : whitePawnMoves) {
+                        int targetCol = col + whitePawnMove[0];
+                        int targetRow = row + whitePawnMove[1];
+                        if (isMoveLegal(col, row, targetCol, targetRow, boardControl))
+                            legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
+                    }
                 }
             }
             if (isKing){

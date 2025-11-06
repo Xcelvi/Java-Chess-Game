@@ -121,10 +121,10 @@ public class AI {
         double score = 0;
         int pieceCount = 0;
         Pieces[][] boardArray = board.getBoard();
-        for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
-                Pieces piece = boardArray[row][col];
-                if (piece == null) continue;
+        ArrayList<Pieces> allPieces = board.getPieces();
+        for (Pieces piece : allPieces) {
+                int col = piece.getCol();
+                int row = piece.getRow();
                 pieceCount++;
                 String pieceName = piece.getName();
                 if (pieceName.contains("White")) {
@@ -178,7 +178,6 @@ public class AI {
                         }
                     }
                 }
-            }
         }
         return score;
     }

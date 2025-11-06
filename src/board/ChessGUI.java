@@ -106,16 +106,20 @@ public class ChessGUI {
             selectedCol = -1;
 
 //          Run AI move on a separate thread
-            new Thread(() -> {
-                Move aiMove = ai.findBestMove(false, 3);
-                if (aiMove != null) {
-                    SwingUtilities.invokeLater(() -> {
-                        boardControl.makeMove(aiMove);
-                        boardControl.setBoardVision();
-                        updateBoard();
-                    });
-                }
-            }).start();
+//            new Thread(() -> {
+//                long startTime = System.nanoTime();
+//                Move aiMove = ai.findBestMove(false, 4);
+//                long endTime = System.nanoTime();
+//                double duration = (endTime - startTime) / 1000000;
+//                System.out.println("Duration " + duration +"ms");
+//                if (aiMove != null) {
+//                    SwingUtilities.invokeLater(() -> {
+//                        boardControl.makeMove(aiMove, boardControl);
+//                        boardControl.setBoardVision();
+//                        updateBoard();
+//                    });
+//                }
+//            }).start();
         }
         selectedRow = -1;
         selectedCol = -1;

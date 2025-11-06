@@ -12,9 +12,113 @@ public class AIOld {
         this.board = board;
     }
 
+    int[][] whitePawnHeatMap = {
+            {0, 0, 0, 0, 0, 0, 0, 0},
+            {30, 30, 30, 30, 30, 30, 30, 30},
+            {10, 10, 20, 25, 25, 20, 10, 10},
+            {0, 0, 10, 20, 20, 10, 0, 0},
+            {0, 0, 0, 10, 10, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0}
+    };
+    int[][] blackPawnHeatMap = {
+            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 10, 10, 0, 0, 0},
+            {0, 0, 10, 20, 20, 10, 0, 0},
+            {10, 10, 20, 25, 25, 20, 10, 10},
+            {30, 30, 30, 30, 30, 30, 30, 30},
+            {0, 0, 0, 0, 0, 0, 0, 0}
+    };
+
+    int[][] whiteKnightPST = {
+
+            {29, 30, 30, 30, 30, 30, 30, 29,},
+            {30, 30, 30, 30, 30, 30, 30, 30,},
+            {25, 30, 32, 32, 32, 32, 30, 25,},
+            {30, 30, 32, 32, 32, 32, 30, 30,},
+            {30, 30, 32, 32, 32, 32, 30, 30,},
+            {30, 30, 32, 32, 32, 32, 30, 30,},
+            {30, 30, 30, 30, 30, 30, 30, 30,},
+            {29, 31, 30, 30, 30, 30, 31, 29}
+    };
+    int[][]blackKnightPST = {
+
+            {29, 31, 30, 30, 30, 30, 31, 29},
+            {30, 30, 30, 30, 30, 30, 30, 30,},
+            {30, 30, 32, 32, 32, 32, 30, 30,},
+            {30, 30, 32, 32, 32, 32, 30, 30,},
+            {30, 30, 32, 32, 32, 32, 30, 30,},
+            {25, 30, 32, 32, 32, 32, 30, 25,},
+            {30, 30, 30, 30, 30, 30, 30, 30,},
+            {29, 30, 30, 30, 30, 30, 30, 29,},
+    };
+    int[][] whiteRookPST = {
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+            {52, 52, 52, 52, 52, 52, 52, 52,},
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+            {50, 50, 50, 51, 51, 50, 50, 50,},
+    };
+    int[][] blackRookPST = {
+            {50, 50, 50, 51, 51, 50, 50, 50,},
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+            {52, 52, 52, 52, 52, 52, 52, 52,},
+            {50, 50, 50, 50, 50, 50, 50, 50,},
+    };
+    int[][] whiteBishopPST = {
+            {-20, -10, -10, -10, -10, -10, -10, -20},
+            {-10,   0,   0,   0,   0,   0,   0, -10},
+            {-10,   0,   5,  10,  10,   5,   0, -10},
+            {-10,   5,   5,  10,  10,   5,   5, -10},
+            {-10,   0,  10,  10,  10,  10,   0, -10},
+            {-10,  10,  10,  10,  10,  10,  10, -10},
+            {-10,   5,   0,   0,   0,   0,   5, -10},
+            {-20, -10, -10, -10, -10, -10, -10, -20}
+    };
+    int[][] blackBishopPST = {
+            {-20, -10, -10, -10, -10, -10, -10, -20},
+            {-10,   5,   0,   0,   0,   0,   5, -10},
+            {-10,  10,  10,  10,  10,  10, 10, -10},
+            {-10,   0,  10,  10,  10,  10,  0, -10},
+            {-10,   5,   5,   10,  10,   5,   5, -10},
+            {-10,   0,   5,  10,   10,   5,   0, -10},
+            {-10,   0,   0,   0,   0,   0,   0, -10},
+            {-20, -10, -10, -10, -10, -10, -10, -20}
+    };
+    int[][] blackQueenPST = {
+            {-20, -10, -10,  -5,  -5, -10, -10, -20},
+            {-10,   0,   0,   0,   0,   0,   0, -10},
+            {-10,   0,   5,   5,   5,   5,   0, -10},
+            { -5,   0,   5,   5,   5,   5,   0,  -5},
+            {  0,   0,   5,   5,   5,   5,   0,  -5},
+            {-10,   5,   5,   5,   5,   5,   0, -10},
+            {-10,   0,   0,   0,   0,   0,   0, -10},
+            {-20, -10, -10,  -5,  -5, -10, -10, -20}
+    };
+    int[][] whiteQueenPST = {
+            {-20, -10, -10,  -5,  -5, -10, -10, -20},
+            {-10,   0,   0,   0,   0,   0,   0, -10},
+            {-10,   0,   5,   5,   5,   5,   0, -10},
+            { -5,   0,   5,   5,   5,   5,   0,  -5},
+            {  0,   0,   5,   5,   5,   5,   0,  -5},
+            {-10,   5,   5,   5,   5,   5,   0, -10},
+            {-10,   0,   5,   0,  0,   0,   0, -10},
+            {-20, -10, -10,  -5,  -5, -10, -10, -20}
+    };
+
     // Basic evaluation by material
-    public int evaluateBoard(ArrayList<Move> legalMoves, boolean isWhite) {
-        int score = 0;
+    public double evaluateBoard() {
+        double score = 0;
         int pieceCount = 0;
         Pieces[][] boardArray = board.getBoard();
         for (int row = 0; row < 8; row++) {
@@ -22,34 +126,57 @@ public class AIOld {
                 Pieces piece = boardArray[row][col];
                 if (piece == null) continue;
                 pieceCount++;
-                String pieceName = piece.getClass().getSimpleName();
-                boolean centralControl = col >= 2 && col <= 6 && row >= 2 && row <= 6 && !pieceName.contains("King");
+                String pieceName = piece.getName();
                 if (pieceName.contains("White")) {
                     score += piece.getPieceValue();
-//                    if (centralControl) {
-//                            score += 10;
-//                    }
-//                    if (pieceCount < 8){
-//                        if (pieceName.contains("King")) {
-//                            if (row >= 2 && row <= 6 &&
-//                            col >= 2 && col <= 6) {
-//                                score += 10;
-//                            }
-//                        }
-//                    }
+                    if (pieceName.contains("Pawn")){
+                        score += whitePawnHeatMap[row][col];
+                    }
+                    if (pieceName.contains("Knight")){
+                        score += whiteKnightPST[row][col];
+                    }
+                    if (pieceName.contains("Rook")){
+                        score += whiteRookPST[row][col];
+                    }
+                    if (pieceName.contains("Bishop")){
+                        score += whiteBishopPST[row][col];
+                    }
+                    if (pieceName.contains("Queen")){
+                        score += whiteQueenPST[row][col];
+                    }
+                    if (pieceCount < 8){
+                        if (pieceName.contains("King")) {
+                            if (row >= 2 && row <= 6 &&
+                                    col >= 2 && col <= 6) {
+                                score += 10;
+                            }
+                        }
+                    }
                 } else if (pieceName.contains("Black")) {
                     score -= piece.getPieceValue();
-//                    if (centralControl){
-//                        score -= 10;
-//                    }
-//                    if  (pieceCount < 8){
-//                        if (pieceName.contains("King")) {
-//                            if (row >= 2 && row <= 6 &&
-//                                    col >= 2 && col <= 6) {
-//                                score -= 10;
-//                            }
-//                        }
-//                    }
+                    if (pieceName.contains("Pawn")){
+                        score -= blackPawnHeatMap[row][col];
+                    }
+                    if (pieceName.contains("Knight")){
+                        score -= blackKnightPST[row][col];
+                    }
+                    if (pieceName.contains("Rook")){
+                        score -= blackRookPST[row][col];
+                    }
+                    if (pieceName.contains("Bishop")){
+                        score -= blackBishopPST[row][col];
+                    }
+                    if (pieceName.contains("Queen")){
+                        score -= blackQueenPST[row][col];
+                    }
+                    if  (pieceCount < 8){
+                        if (pieceName.contains("King")) {
+                            if (row >= 2 && row <= 6 &&
+                                    col >= 2 && col <= 6) {
+                                score -= 10;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -58,7 +185,7 @@ public class AIOld {
     //Find best move based on eval function, set if you are white, and the depth you want the ai to go
     public Move findBestMove(boolean isWhite, int depth) {
         //Generate the full list of legal moves
-        int bestScore = isWhite ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+        double bestScore = isWhite ? Integer.MIN_VALUE : Integer.MAX_VALUE;
         ArrayList<Move> legalMoves = board.generateAllLegalMoves(board);
         if (isWhite && legalMoves.isEmpty()) {
             System.out.println("Game Over");
@@ -71,18 +198,18 @@ public class AIOld {
         //Loop through legal moves
         for (Move move : legalMoves) {
             // make move and store caputred piece
-            Pieces captured = board.makeMove(move);
-            int score;
+            Pieces captured = board.makeMove(move, board);
+            double score;
             if (depth > 1) {
                 // Use minimax to generate the score of the position after that move
                 score = this.minimax(!isWhite, depth - 1, Integer.MIN_VALUE, Integer.MAX_VALUE);
             } else {
                 //Reached base case for depth, return the score.
-                score = evaluateBoard(legalMoves, isWhite);
+                score = evaluateBoard();
             }
 
             // undo moves
-            board.undoMove(move, captured);
+            board.undoMove(move, captured, board);
 
             if (isWhite && score > bestScore) {
                 bestScore = score;
@@ -97,12 +224,12 @@ public class AIOld {
 
     // Minimax helper
     int counter = 0;
-    private int minimax(boolean isWhite, int depth, int alpha, int beta) {
+    private double minimax(boolean isWhite, int depth, double alpha, double beta) {
         //generate legal moves, initialize score to low/high
         ArrayList<Move> legalMoves = board.generateAllLegalMoves(board);
         legalMoves = orderMoves(legalMoves, isWhite);
-        if (depth == 0) return evaluateBoard(legalMoves, isWhite);
-        int bestScore = isWhite ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+        if (depth == 0) return evaluateBoard();
+        double bestScore = isWhite ? Integer.MIN_VALUE : Integer.MAX_VALUE;
         //begin looping through those legal moves
         if (legalMoves.isEmpty()) {
             if (isWhite) {
@@ -113,9 +240,9 @@ public class AIOld {
             return 0;
         }
         for (Move move : legalMoves) {
-            Pieces captured = board.makeMove(move);
-            int score = minimax(!isWhite, depth - 1, alpha, beta);
-            board.undoMove(move, captured);
+            Pieces captured = board.makeMove(move, board);
+            double score = minimax(!isWhite, depth - 1, alpha, beta);
+            board.undoMove(move, captured, board);
             //alpha beta pruning. If the beta move is worse than the previous worst, it snips the branch off
             counter++;
             System.out.println("Count of searchers: " + counter );
@@ -142,11 +269,11 @@ public class AIOld {
             if(capturedPieceType != null){
                 moveScoreGuess = 10 * capturedPieceType.getPieceValue() - movePieceType.getPieceValue();
             }
-            if (movePieceType.getClass().getSimpleName().contains("Pawn") &&
+            if (movePieceType.getName().contains("Pawn") &&
                     (move.toRow == 0 || move.toRow == 7)) {
-                    moveScoreGuess += 900;
+                moveScoreGuess += 900;
             }
-            Pieces tempCaptured = board.makeMove(move);
+            Pieces tempCaptured = board.makeMove(move, board);
             if (isWhite) {
                 if (board.isBlackInCheck()) moveScoreGuess += 50;
                 if (board.isWhiteInCheck()) moveScoreGuess -= 80;
@@ -156,7 +283,7 @@ public class AIOld {
             }
             if (move.toCol >= 3 && move.toCol <= 5 && move.toRow >= 3 && move.toRow <= 5) moveScoreGuess += 100;
 
-            board.undoMove(move, tempCaptured);
+            board.undoMove(move, tempCaptured, board);
             move.setHeuristicValue(moveScoreGuess);
         }
         unorderedMoves.sort(Comparator.comparingInt(Move::getHeuristicValue).reversed());

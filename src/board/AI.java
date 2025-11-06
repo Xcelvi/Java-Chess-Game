@@ -2,6 +2,7 @@ package board;
 
 import pieces.Pieces;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 
 public class AI {
@@ -116,7 +117,7 @@ public class AI {
     };
 
     // Basic evaluation by material
-    public double evaluateBoard(ArrayList<Move> legalMoves, boolean isWhite) {
+    public double evaluateBoard() {
         double score = 0;
         int pieceCount = 0;
         Pieces[][] boardArray = board.getBoard();
@@ -125,7 +126,7 @@ public class AI {
                 Pieces piece = boardArray[row][col];
                 if (piece == null) continue;
                 pieceCount++;
-                String pieceName = piece.getClass().getSimpleName();
+                String pieceName = piece.getName();
                 if (pieceName.contains("White")) {
                     score += piece.getPieceValue();
                     if (pieceName.contains("Pawn")){
@@ -197,18 +198,18 @@ public class AI {
         //Loop through legal moves
         for (Move move : legalMoves) {
             // make move and store caputred piece
-            Pieces captured = board.makeMove(move);
+            Pieces captured = board.makeMove(move, board);
             double score;
             if (depth > 1) {
                 // Use minimax to generate the score of the position after that move
                 score = this.minimax(!isWhite, depth - 1, Integer.MIN_VALUE, Integer.MAX_VALUE);
             } else {
                 //Reached base case for depth, return the score.
-                score = evaluateBoard(legalMoves, isWhite);
+                score = evaluateBoard();
             }
 
             // undo moves
-            board.undoMove(move, captured);
+            board.undoMove(move, captured, board);
 
             if (isWhite && score > bestScore) {
                 bestScore = score;
@@ -227,7 +228,7 @@ public class AI {
         //generate legal moves, initialize score to low/high
         ArrayList<Move> legalMoves = board.generateAllLegalMoves(board);
         legalMoves = orderMoves(legalMoves, isWhite);
-        if (depth == 0) return evaluateBoard(legalMoves, isWhite);
+        if (depth == 0) return evaluateBoard();
         double bestScore = isWhite ? Integer.MIN_VALUE : Integer.MAX_VALUE;
         //begin looping through those legal moves
         if (legalMoves.isEmpty()) {
@@ -239,9 +240,9 @@ public class AI {
             return 0;
         }
         for (Move move : legalMoves) {
-            Pieces captured = board.makeMove(move);
+            Pieces captured = board.makeMove(move, board);
             double score = minimax(!isWhite, depth - 1, alpha, beta);
-            board.undoMove(move, captured);
+            board.undoMove(move, captured, board);
             //alpha beta pruning. If the beta move is worse than the previous worst, it snips the branch off
             counter++;
             System.out.println("Count of searchers: " + counter );
@@ -268,11 +269,11 @@ public class AI {
             if(capturedPieceType != null){
                 moveScoreGuess = 10 * capturedPieceType.getPieceValue() - movePieceType.getPieceValue();
             }
-            if (movePieceType.getClass().getSimpleName().contains("Pawn") &&
+            if (movePieceType.getName().contains("Pawn") &&
                     (move.toRow == 0 || move.toRow == 7)) {
                     moveScoreGuess += 900;
             }
-            Pieces tempCaptured = board.makeMove(move);
+            Pieces tempCaptured = board.makeMove(move, board);
             if (isWhite) {
                 if (board.isBlackInCheck()) moveScoreGuess += 50;
                 if (board.isWhiteInCheck()) moveScoreGuess -= 80;
@@ -282,7 +283,7 @@ public class AI {
             }
             if (move.toCol >= 3 && move.toCol <= 5 && move.toRow >= 3 && move.toRow <= 5) moveScoreGuess += 100;
 
-            board.undoMove(move, tempCaptured);
+            board.undoMove(move, tempCaptured, board);
             move.setHeuristicValue(moveScoreGuess);
         }
         unorderedMoves.sort(Comparator.comparingInt(Move::getHeuristicValue).reversed());

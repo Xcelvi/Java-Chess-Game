@@ -43,7 +43,7 @@ public class RunGame {
                 Move aiMove = ai.findBestMove(false, 3);
 
                 if (aiMove != null) {
-                    board.makeMove(aiMove);
+                    board.makeMove(aiMove, board);
                     board.setBoardVision();
                     SwingUtilities.invokeLater(chessGUI::updateBoard);
                     board.printBoard();

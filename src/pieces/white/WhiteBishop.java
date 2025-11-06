@@ -9,13 +9,13 @@ import java.util.ArrayList;
 public class WhiteBishop extends Pieces implements Vision {
     public WhiteBishop(int col, int row, Pieces[][] board) {
         super(col, row, board);
+        this.name = "WhiteBishop";
+        this.pieceValue = 330;
     }
-    int pieceValue = 330;
     @Override
     public boolean isValidMove(int targetCol, int targetRow) {
         return diagonalMoveWhite(targetCol, targetRow);
     }
-
     @Override
     public ArrayList<String> getPieceFullVision() {
         ArrayList<String> pieceVision = new ArrayList<>();
@@ -45,9 +45,5 @@ public class WhiteBishop extends Pieces implements Vision {
         }
         setPieceVision(pieceVision);
         return pieceVision;
-    }
-    @Override
-    public int getPieceValue() {
-        return pieceValue;
     }
 }

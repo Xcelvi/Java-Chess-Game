@@ -8,13 +8,14 @@ import java.util.ArrayList;
 public class WhiteRook extends Pieces implements Vision {
     public WhiteRook(int col, int row, Pieces[][] board) {
         super(col, row, board);
+        this.name = "WhiteRook";
+        this.pieceValue = 500;
     }
     ArrayList<String> pieceVision = new ArrayList<>();
     @Override
     public boolean isValidMove(int targetCol, int targetRow) {
         return horizontalVerticalMoveWhite(targetCol, targetRow);
     }
-    int pieceValue = 500;
     @Override
     public ArrayList<String> getPieceFullVision() {
         ArrayList<String> pieceVision = new ArrayList<>();
@@ -46,8 +47,5 @@ public class WhiteRook extends Pieces implements Vision {
         setPieceVision(pieceVision);
         return pieceVision;
     }
-    @Override
-    public int getPieceValue() {
-        return pieceValue;
-    }
+
 }

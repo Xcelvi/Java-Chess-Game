@@ -13,7 +13,7 @@ public abstract class Pieces extends BoardControl {
     protected boolean hasMoved;
     protected Pieces[][] board;
     protected int pieceValue;
-
+    protected String name;
 
     public Pieces(int col, int row, Pieces[][] board) {
         this.col = col;
@@ -210,5 +210,8 @@ public abstract class Pieces extends BoardControl {
     }
     public int getPieceValue(){
         return pieceValue;
+    }
+    public String getName(){
+        return name;
     }
 }

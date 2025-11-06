@@ -13,6 +13,7 @@ public class BoardControl extends ChessBoard {
         super();
     }
     Pieces[][] board = getBoard();
+    private ArrayList<Pieces> allPieces = new ArrayList<>();
     public void initializeBoard() {
         // initialize pawns
         board[1][0] = new BlackPawn(0, 1, board, this);
@@ -54,44 +55,28 @@ public class BoardControl extends ChessBoard {
         board[7][4] = new WhiteKing(4,7,board, this);
         generateAllLegalMoves(this);
         printBoard();
-    }
-
-    public int setBoardVision(){
-        Pieces[][] board = getBoard();
-        int boardVision = 0;
         for (Pieces[] pieces : board) {
-            for (int col = 0; col < board.length; col++) {
-                if (pieces[col] != null) {
-                    Pieces piece = pieces[col];
-                    if (piece instanceof Vision) {
-                        //this is correct
-                        ((Vision) piece).getPieceFullVision();
-                        ArrayList<String> pieceVision = pieces[col].getPieceFullVision();
-                        if (piece.getClass().getSimpleName().contains("Black")) {
-                            boardVision -= pieceVision.size();
-                        }
-                        else if (piece.getClass().getSimpleName().contains("White")) {
-                            boardVision += pieceVision.size();
-                        }
-                    }
+            for (Pieces piece : pieces) {
+                if (piece != null) {
+                    allPieces.add(piece);
                 }
             }
         }
-        return boardVision;
+    }
+
+    public void setBoardVision(){
+        for  (Pieces piece : allPieces) {
+                    ((Vision) piece).getPieceFullVision();
+        }
     }
 
     public boolean isWhiteInCheck(){
-        Pieces[][] board = getBoard();
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (board[i][j] != null) {
-                    ArrayList<String> pieceVision = board[i][j].getPieceFullVision();
-                    if (board[i][j].getClass().getSimpleName().contains("Black")) {
-                        for (String vision : pieceVision) {
-                            if (vision != null && vision.contains("WhiteKing")) {
-                                return true;
-                            }
-                        }
+            for  (Pieces piece : allPieces) {
+                ArrayList<String> pieceVision = piece.getPieceFullVision();
+                if (piece.getName().contains("Black")) {
+                    for (String vision : pieceVision) {
+                        if (vision != null && vision.contains("WhiteKing")) {
+                            return true;
                     }
                 }
             }
@@ -99,17 +84,12 @@ public class BoardControl extends ChessBoard {
         return false;
     }
     public boolean isBlackInCheck(){
-        Pieces[][] board = getBoard();
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (board[i][j] != null) {
-                    ArrayList<String> pieceVision = board[i][j].getPieceFullVision();
-                    if (board[i][j].getClass().getSimpleName().contains("White")) {
-                        for (String vision : pieceVision) {
-                            if  (vision !=null && vision.contains("BlackKing")) {
-                                return true;
-                            }
-                        }
+        for  (Pieces piece : allPieces) {
+            ArrayList<String> pieceVision = piece.getPieceFullVision();
+                if (piece.getName().contains("White")) {
+                    for (String vision : pieceVision) {
+                        if  (vision !=null && vision.contains("BlackKing")) {
+                            return true;
                     }
                 }
             }
@@ -120,7 +100,7 @@ public class BoardControl extends ChessBoard {
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
                 if (board[i][j] != null) {
-                    System.out.print(board[i][j].getClass().getSimpleName() + " ");
+                    System.out.print(board[i][j].getName() + " ");
                 }else if(board[i][j] == null){
                     System.out.print("---------- ");
                 }
@@ -128,25 +108,7 @@ public class BoardControl extends ChessBoard {
             System.out.println();
         }
     }
-    public boolean isWhiteInCheck(Pieces[][] board, int originalCol, int originalRow, int targetCol, int targetRow) {
-        Pieces[][] boardCopy = board.clone();
-        for (int i = 0; i < board.length; i++) {
-            boardCopy[i] = board[i].clone(); // clones the row array
-        }
-        BoardControl boardControl = new BoardControl();
-        boardCopy[originalRow][originalCol] = null;
-        boardCopy[targetRow][targetCol] = new WhiteKing(targetCol, targetRow, boardCopy, boardControl);
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (boardCopy[i][j] != null && boardCopy[i][j].getClass().getSimpleName().contains("Black")) {
-                    ArrayList<String> pieceVision = boardCopy[i][j].getPieceFullVision();
-                    if (pieceVision.contains("WhiteKing")) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+    public ArrayList<Pieces> getPieces(){
+        return allPieces;
     }
-
 }

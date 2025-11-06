@@ -8,8 +8,9 @@ import java.util.ArrayList;
 public class BlackKnight extends Pieces implements Vision {
     public BlackKnight(int col, int row, Pieces[][] board) {
         super(col, row, board);
+        this.name = "BlackKnight";
+        this.pieceValue = 300;
     }
-    int pieceValue = 300;
     @Override
     public boolean isValidMove(int targetCol, int targetRow){
         int colLocation = getCol();
@@ -57,8 +58,5 @@ public class BlackKnight extends Pieces implements Vision {
         setPieceVision(pieceVision);
         return pieceVision;
     }
-    @Override
-    public int getPieceValue() {
-        return pieceValue;
-    }
+
 }

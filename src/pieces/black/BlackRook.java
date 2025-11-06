@@ -9,9 +9,9 @@ public class BlackRook extends Pieces implements Vision {
     public ArrayList<String> pieceVision = new ArrayList<>();
     public BlackRook(int col, int row, Pieces[][] board) {
         super(col, row, board);
+        this.name = "BlackRook";
+        this.pieceValue = 500;
     }
-
-    int pieceValue = 500;
 
     @Override
     public boolean isValidMove(int targetCol, int targetRow) {
@@ -51,9 +51,5 @@ public class BlackRook extends Pieces implements Vision {
         }
         setPieceVision(pieceVision);
         return pieceVision;
-    }
-    @Override
-    public int getPieceValue() {
-        return pieceValue;
     }
 }

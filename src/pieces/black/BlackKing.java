@@ -11,9 +11,10 @@ public class BlackKing extends Pieces implements Vision {
     public BlackKing(int col, int row, Pieces[][] board, BoardControl chessBoard) {
         super(col, row, board);
         this.chessBoard = chessBoard;
+        this.name =  "BlackKing";
+        this.pieceValue = 9000;
     }
     BoardControl chessBoard;
-    int pieceValue = 9000;
     @Override
     public boolean isValidMove(int targetCol, int targetRow){
         int colLocation = getCol();
@@ -46,7 +47,7 @@ public class BlackKing extends Pieces implements Vision {
                         if (board[0][i] != null){
                             return false;
                         }
-                        if (chessBoard.isWhiteInCheck(board, colLocation, rowLocation, i, targetRow)){
+                        if (chessBoard.isBlackInCheck()){
                             return false;
                         }
                     }
@@ -60,7 +61,7 @@ public class BlackKing extends Pieces implements Vision {
                     if (board[0][5] != null || board[0][6] != null){
                         return false;
                     }
-                    return !chessBoard.isWhiteInCheck(board, colLocation, rowLocation, 5, 0) && !chessBoard.isWhiteInCheck(board, colLocation, rowLocation, 6, 0);
+                    return !chessBoard.isBlackInCheck() && !chessBoard.isBlackInCheck();
                 }
             }
         }
@@ -100,9 +101,5 @@ public class BlackKing extends Pieces implements Vision {
         }
         setPieceVision(pieceVision);
         return pieceVision;
-    }
-    @Override
-    public int getPieceValue() {
-        return pieceValue;
     }
 }

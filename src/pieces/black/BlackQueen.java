@@ -8,8 +8,9 @@ import java.util.ArrayList;
 public class BlackQueen extends Pieces implements Vision {
     public BlackQueen(int col, int row, Pieces[][] board) {
         super(col, row, board);
+        this.name = "BlackQueen";
+        this.pieceValue = 1000;
     }
-    int pieceValue = 1000;
     @Override
     public boolean isValidMove(int targetCol, int targetRow){
         int colLocation = getCol();
@@ -75,8 +76,5 @@ public class BlackQueen extends Pieces implements Vision {
         setPieceVision(pieceVision);
         return pieceVision;
     }
-    @Override
-    public int getPieceValue() {
-        return pieceValue;
-    }
+
 }

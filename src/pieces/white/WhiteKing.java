@@ -10,8 +10,9 @@ public class WhiteKing extends Pieces implements Vision {
     public WhiteKing(int col, int row, Pieces[][] board,  BoardControl chessBoard) {
         super(col, row, board);
         this.chessBoard = chessBoard;
+        this.name = "WhiteKing";
+        this.pieceValue = 9000;
     }
-    int pieceValue = 9000;
     BoardControl chessBoard;
     boolean hasMoved = false;
     @Override
@@ -43,7 +44,7 @@ public class WhiteKing extends Pieces implements Vision {
                         if (board[7][i] != null){
                             return false;
                         }
-                        if (chessBoard.isWhiteInCheck(board, colLocation, rowLocation, i, targetRow)){
+                        if (chessBoard.isWhiteInCheck()){
                             return false;
                         }
                     }
@@ -57,7 +58,7 @@ public class WhiteKing extends Pieces implements Vision {
                         if (board[7][5] != null || board[7][6] != null){
                             return false;
                         }
-                    return !chessBoard.isWhiteInCheck(board, colLocation, rowLocation, 5, 7) && !chessBoard.isWhiteInCheck(board, colLocation, rowLocation, 6, 7);
+                    return !chessBoard.isWhiteInCheck() && !chessBoard.isWhiteInCheck();
                 }
             }
         }
@@ -97,9 +98,5 @@ public class WhiteKing extends Pieces implements Vision {
         }
         setPieceVision(pieceVision);
         return pieceVision;
-    }
-    @Override
-    public int getPieceValue() {
-        return pieceValue;
     }
 }

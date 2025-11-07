@@ -13,6 +13,7 @@ public class ChessBoard {
     int turn = 1;
     //takes input and updates the chess board
     ArrayList<String> moveLog = new ArrayList<>();
+    // FIX CASTLING THROUGH CHECK, AND EN PASSANT
     public void movePiece(int colPiece, int rowPiece, int colLocation, int rowLocation, BoardControl boardControl) {
         if (!isMoveLegal(colPiece, rowPiece, colLocation, rowLocation, boardControl)) {
             return;
@@ -72,11 +73,12 @@ public class ChessBoard {
             }
 
             turn++;
+            boardControl.getPieces().remove(board[rowLocation][colLocation]);
             board[rowLocation][colLocation] = piece;
             board[rowPiece][colPiece] = null;
             board[rowLocation][colLocation].setCol(colLocation);
             board[rowLocation][colLocation].setRow(rowLocation);
-            board[rowLocation][colLocation].getPieceVisionSquares(board[rowLocation][colLocation]);
+            board[rowLocation][colLocation].getPieceFullVision();
             //log the moves
             moveLog.add(board[rowLocation][colLocation].getName() + colPiece + rowPiece + colLocation + rowLocation);
             setMoveLog(moveLog);
@@ -98,17 +100,19 @@ public class ChessBoard {
             System.out.println("Invalid move, whites turn");
             return false;
         }
-
+        ArrayList<Pieces> allPieces = boardControl.getPieces();
+        ArrayList<Pieces> allPiecesCopy = new ArrayList<>(allPieces);
         if (piece.isValidMove(colLocation, rowLocation)) {
             Pieces temp = board[rowLocation][colLocation];
             board[rowLocation][colLocation] = board[rowPiece][colPiece];
             board[rowPiece][colPiece] = null;
-
-            if (boardControl.isWhiteInCheck() && turn % 2 == white) {
+            allPiecesCopy.remove(piece);
+            //FIX TAKING AND NOT TAKING BACK
+            if (boardControl.isWhiteInCheck(allPiecesCopy) && turn % 2 == white) {
                 board[rowPiece][colPiece] = board[rowLocation][colLocation];
                 board[rowLocation][colLocation] = temp;
                 return false;
-            } else if (boardControl.isBlackInCheck() && turn % 2 == black) {
+            } else if (boardControl.isBlackInCheck(allPiecesCopy) && turn % 2 == black) {
                 board[rowPiece][colPiece] = board[rowLocation][colLocation];
                 board[rowLocation][colLocation] = temp;
                 return false;
@@ -143,9 +147,9 @@ public class ChessBoard {
                         int targetCol = col + blackPawnMove[0];
                         int targetRow = row + blackPawnMove[1];
                         if (isMoveLegal(col, row, targetCol, targetRow, boardControl))
-                            legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
+                            legalMoves.add(new Move(col, row, targetCol, targetRow, piece, board[targetRow][targetCol]));
                     }
-                } else {
+                } else if (isWhiteTurn) {
                     int[][] whitePawnMoves = {
                             {0, -1},
                             {0, -2},
@@ -154,7 +158,7 @@ public class ChessBoard {
                         int targetCol = col + whitePawnMove[0];
                         int targetRow = row + whitePawnMove[1];
                         if (isMoveLegal(col, row, targetCol, targetRow, boardControl))
-                            legalMoves.add(new Move(col, row, targetCol, targetRow, board[row][col], board[targetRow][targetCol]));
+                            legalMoves.add(new Move(col, row, targetCol, targetRow, piece, board[targetRow][targetCol]));
                     }
                 }
             }
@@ -168,7 +172,7 @@ public class ChessBoard {
             for (int pieceSquare : pieceVisionSquare) {
                 int targetRow = pieceSquare % 10;
                 int targetCol = pieceSquare / 10;
-                if (isMoveLegal(col, row, targetCol, targetRow, boardControl))
+                if (isMoveLegal(piece.getCol(), piece.getRow(), targetCol, targetRow, boardControl))
                     legalMoves.add(new Move(col, row, targetCol, targetRow, piece, board[targetRow][targetCol]));
             }
         }
@@ -236,11 +240,5 @@ public class ChessBoard {
     }
     public int getTurn() {
         return turn;
-    }
-    public void increaseTurn() {
-        turn++;
-    }
-    public void decreaseTurn() {
-        turn--;
     }
 }

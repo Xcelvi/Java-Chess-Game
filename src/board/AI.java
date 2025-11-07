@@ -119,13 +119,11 @@ public class AI {
     // Basic evaluation by material
     public double evaluateBoard() {
         double score = 0;
-        int pieceCount = 0;
-        Pieces[][] boardArray = board.getBoard();
         ArrayList<Pieces> allPieces = board.getPieces();
+        int pieceCount = allPieces.size();
         for (Pieces piece : allPieces) {
                 int col = piece.getCol();
                 int row = piece.getRow();
-                pieceCount++;
                 String pieceName = piece.getName();
                 if (pieceName.contains("White")) {
                     score += piece.getPieceValue();

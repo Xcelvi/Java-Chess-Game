@@ -83,17 +83,44 @@ public class BoardControl extends ChessBoard {
         }
         return false;
     }
-    public boolean isBlackInCheck(){
-        for  (Pieces piece : allPieces) {
+    public boolean isBlackInCheck() {
+        for (Pieces piece : allPieces) {
             ArrayList<String> pieceVision = piece.getPieceFullVision();
-                if (piece.getName().contains("White")) {
-                    for (String vision : pieceVision) {
-                        if  (vision !=null && vision.contains("BlackKing")) {
-                            return true;
+            if (piece.getName().contains("White")) {
+                for (String vision : pieceVision) {
+                    if (vision != null && vision.contains("BlackKing")) {
+                        return true;
                     }
                 }
             }
         }
+        return false;
+    }
+    public boolean isWhiteInCheck(ArrayList<Pieces> pieces){
+        for  (Pieces piece : pieces) {
+            ArrayList<String> pieceVision = piece.getPieceFullVision();
+            if (piece.getName().contains("Black")) {
+                for (String vision : pieceVision) {
+                    if (vision != null && vision.contains("WhiteKing")) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    public boolean isBlackInCheck(ArrayList<Pieces> pieces){
+        for  (Pieces piece : pieces) {
+            ArrayList<String> pieceVision = piece.getPieceFullVision();
+            if (piece.getName().contains("White")) {
+                for (String vision : pieceVision) {
+                    if  (vision !=null && vision.contains("BlackKing")) {
+                        return true;
+                    }
+                }
+            }
+        }
+
         return false;
     }
     public void printBoard() {

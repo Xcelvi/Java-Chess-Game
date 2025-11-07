@@ -108,7 +108,7 @@ public class ChessGUI {
 //          Run AI move on a separate thread
             new Thread(() -> {
                 long startTime = System.nanoTime();
-                Move aiMove = ai.findBestMove(false, 4);
+                Move aiMove = ai.findBestMove(false, 2);
                 long endTime = System.nanoTime();
                 double duration = (endTime - startTime) / 1000000;
                 System.out.println("Duration " + duration +"ms");

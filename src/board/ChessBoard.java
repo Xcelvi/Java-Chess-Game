@@ -106,8 +106,7 @@ public class ChessBoard {
             Pieces temp = board[rowLocation][colLocation];
             board[rowLocation][colLocation] = board[rowPiece][colPiece];
             board[rowPiece][colPiece] = null;
-            allPiecesCopy.remove(piece);
-            //FIX TAKING AND NOT TAKING BACK
+            allPiecesCopy.remove(temp);
             if (boardControl.isWhiteInCheck(allPiecesCopy) && turn % 2 == white) {
                 board[rowPiece][colPiece] = board[rowLocation][colLocation];
                 board[rowLocation][colLocation] = temp;

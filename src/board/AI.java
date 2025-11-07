@@ -187,7 +187,7 @@ public class AI {
         if (isWhite && legalMoves.isEmpty()) {
             System.out.println("Game Over");
             bestScore = Integer.MAX_VALUE;
-        } else if(!isWhite && legalMoves.isEmpty()) {
+        } else if (!isWhite && legalMoves.isEmpty()) {
             bestScore = Integer.MIN_VALUE;
             System.out.println("Game Over");
         }
@@ -198,8 +198,17 @@ public class AI {
             Pieces captured = board.makeMove(move, board);
             double score;
             if (depth > 1) {
-                // Use minimax to generate the score of the position after that move
-                score = this.minimax(!isWhite, depth - 1, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                try {
+                    MinimaxThread1 minimax1 = new MinimaxThread1(!isWhite, depth - 1, Integer.MIN_VALUE, Integer.MAX_VALUE, board);
+                    Thread runningThread1 = new Thread(minimax1);
+                    runningThread1.setName("Minimax 1");
+                    runningThread1.start();
+                    score = minimax1.getScore();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+//                 Use minimax to generate the score of the position after that move
+//                score = this.minimax(!isWhite, depth - 1, Integer.MIN_VALUE, Integer.MAX_VALUE);
             } else {
                 //Reached base case for depth, return the score.
                 score = evaluateBoard();
@@ -216,12 +225,11 @@ public class AI {
                 bestMove = move;
             }
         }
-        return bestMove;
+            return bestMove;
     }
-
     // Minimax helper
     int counter = 0;
-    private double minimax(boolean isWhite, int depth, double alpha, double beta) {
+    protected double minimax(boolean isWhite, int depth, double alpha, double beta) {
         //generate legal moves, initialize score to low/high
         ArrayList<Move> legalMoves = board.generateAllLegalMoves(board);
         legalMoves = orderMoves(legalMoves, isWhite);

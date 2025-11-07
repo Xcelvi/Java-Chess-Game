@@ -138,4 +138,22 @@ public class BoardControl extends ChessBoard {
     public ArrayList<Pieces> getPieces(){
         return allPieces;
     }
+    public BoardControl deepCopy() {
+        BoardControl copy = new BoardControl();
+        copy.board = new Pieces[8][8];
+
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                if (this.board[row][col] != null) {
+                    copy.board[row][col] = this.board[row][col].clone(); // make sure Pieces implements clone
+                }
+            }
+        }
+
+        copy.allPieces = new ArrayList<>();
+        for (Pieces p : this.getPieces()) {
+            copy.allPieces.add(p.clone());
+        }
+        return copy;
+    }
 }

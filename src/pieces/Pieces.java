@@ -214,4 +214,14 @@ public abstract class Pieces extends BoardControl {
     public String getName(){
         return name;
     }
+    @Override
+    public Pieces clone() {
+        return new Pieces(this.col, this.row, this.board) {
+            @Override
+            public boolean isValidMove(int targetCol, int targetRow) {
+                return false;
+            }
+        };
+    }
+
 }
